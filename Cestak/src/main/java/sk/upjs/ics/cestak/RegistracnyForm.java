@@ -29,6 +29,7 @@ public class RegistracnyForm extends JFrame {
     private JButton btnZrusit = new JButton("Zrušiť");
 
     // Labely
+    private JLabel lblText = new JLabel("Registrácia nového užívateľa.");
     private JLabel lblLogin = new JLabel("Login:");
     private JLabel lblHeslo = new JLabel("Heslo:");
     private JLabel lblHeslo2 = new JLabel("Heslo:"); // Zopakujte heslo hint
@@ -57,7 +58,10 @@ public class RegistracnyForm extends JFrame {
     // Konštruktor
     public RegistracnyForm() throws HeadlessException {
         setLayout(new MigLayout("", "[fill, grow][fill, grow]")); // NASTAVIŤ LAYOUT !!!
-
+        
+        // Úvodný text k prihlasovaniu
+        add(lblText, "wrap");
+        
         // Prihlasovacie údaje
         add(lblLogin);
         add(txtLogin, "wrap");
