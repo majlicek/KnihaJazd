@@ -47,28 +47,30 @@ public class RegistracnyForm extends JFrame {
     private JTextField txtHeslo2 = new JTextField();
     private JTextField txtMeno = new JTextField();
     private JTextField txtPriezvisko = new JTextField();
-    private JTextField txtDatumNarodenia = new JTextField();
     private JTextField txtAdresa = new JTextField();
     private JTextField txtEmail = new JTextField();
     private JTextField txtTel = new JTextField();
 
     // Combobox
     private JComboBox comboPohlavie = new JComboBox();
+    private JComboBox comboDen = new JComboBox();
+    private JComboBox comboMesiac = new JComboBox();
+    private JComboBox comboRok = new JComboBox();
 
     // Konštruktor
     public RegistracnyForm() throws HeadlessException {
-        setLayout(new MigLayout("", "[fill, grow][fill, grow]")); // NASTAVIŤ LAYOUT !!!
-        
+        setLayout(new MigLayout("", "[fill, grow][fill, grow][fill,grow]")); // NASTAVIŤ LAYOUT !!!
+
         // Úvodný text k prihlasovaniu
         add(lblText, "wrap");
-        
+
         // Prihlasovacie údaje
         add(lblLogin);
         add(txtLogin, "wrap");
-        txtLogin.setToolTipText("Prihlasovacie meno");        
+        txtLogin.setToolTipText("Prihlasovacie meno");
         add(lblHeslo);
         add(txtHeslo, "wrap");
-        txtHeslo.setToolTipText("Zadajte heslo");        
+        txtHeslo.setToolTipText("Zadajte heslo");
         add(lblHeslo2);
         add(txtHeslo2, "wrap");
         txtHeslo2.setToolTipText("Zopakujte heslo");
@@ -81,18 +83,25 @@ public class RegistracnyForm extends JFrame {
         add(lblPohlavie);
         add(comboPohlavie, "wrap");
         comboPohlavie.addItem("muž");
-        comboPohlavie.addItem("žena");        
+        comboPohlavie.addItem("žena");
         add(lblDatumNarodenia);
-        add(txtDatumNarodenia, "wrap");
-        txtDatumNarodenia.setToolTipText("DD/MM/RRRR");
+        add(comboDen);
+        generujDen();
+        comboDen.setSelectedItem(null);
+        add(comboMesiac);
+        generujMesiac();
+        comboMesiac.setSelectedItem(null);
+        add(comboRok, "wrap");
+        generujRok();
+        comboRok.setSelectedItem(null);
 
         // Kontaktné údaje
         add(lblAdresa);
         add(txtAdresa, "wrap");
-        txtAdresa.setToolTipText("ulica/PSČ/mesto/krajina");        
+        txtAdresa.setToolTipText("ulica/PSČ/mesto/krajina");
         add(lblEmail);
         add(txtEmail, "wrap");
-        txtEmail.setToolTipText("mailto@server.com");        
+        txtEmail.setToolTipText("mailto@server.com");
         add(lblTel);
         add(txtTel, "wrap");
 
@@ -127,6 +136,27 @@ public class RegistracnyForm extends JFrame {
     // Akcia pre registráciu.
     private void btnRegistrovatActionPerformed(ActionEvent e) {
         // kód
+    }
+
+    // Generuje dni pre dátum narodenia.
+    private void generujDen() {
+        for (int i = 1; i <= 31; i++) {
+            comboDen.addItem(new Integer(i));
+        }
+    }
+    
+    // Generuje mesiac pre dátum narodenia.
+    private void generujMesiac() {
+        for (int i = 1; i <= 12; i++) {
+            comboMesiac.addItem(new Integer(i));
+        }
+    }
+    
+    // Generuje rok pre dátum narodenia.
+    private void generujRok() {
+        for (int i = 1900; i <= 2050; i++) {
+            comboRok.addItem(new Integer(i));
+        }
     }
 
     // Main - RegistracnyForm 
