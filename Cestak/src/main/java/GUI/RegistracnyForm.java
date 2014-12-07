@@ -29,8 +29,7 @@ public class RegistracnyForm extends JFrame {
     private JButton btnRegistrovat = new JButton("Registrovať");
     private JButton btnZrusit = new JButton("Zrušiť");
 
-    // Labely
-    private JLabel lblText = new JLabel("Registrácia nového užívateľa.");
+    // Labely    
     private JLabel lblLogin = new JLabel("Login:");
     private JLabel lblHeslo = new JLabel("Heslo:");
     private JLabel lblHeslo2 = new JLabel("Heslo:"); // Zopakujte heslo hint
@@ -60,17 +59,15 @@ public class RegistracnyForm extends JFrame {
 
     // Konštruktor
     public RegistracnyForm() throws HeadlessException {
-        setLayout(new MigLayout("", "[fill, grow][fill, grow][fill,grow]")); // NASTAVIŤ LAYOUT !!!
+        setLayout(new MigLayout("", "[fill, grow][fill, grow][fill,grow]", "[][][][][][][][][][][][]"));
 
-        // Úvodný text k prihlasovaniu
-        add(lblText, "wrap");
         nastavPrihlasovacieUdajeGUI();
         nastavOsobneUdajeGUI();
         nastavDatumNarodeniaGUI();
         nastavKontaktInfoGUI();
 
         // Tlačidlo "Registrovať"
-        add(btnRegistrovat);
+        add(btnRegistrovat, "tag ok");
         // Akcia pre stlačenie tlačidla registrovať.
         btnRegistrovat.addActionListener(new ActionListener() {
             @Override
@@ -82,7 +79,7 @@ public class RegistracnyForm extends JFrame {
         });
 
         // Tlačídlo "Zrušiť"
-        add(btnZrusit);
+        add(btnZrusit, "tag cancel");
         // Akcia pre stlačenie tlačidla zrušiť.
         btnZrusit.addActionListener(new ActionListener() {
             @Override
@@ -92,7 +89,7 @@ public class RegistracnyForm extends JFrame {
             }
         });
 
-        setPreferredSize(new Dimension(500, 500));
+        setPreferredSize(new Dimension(500, 310));
         setResizable(false); // ZMENIŤ NA FALSE !!!
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();

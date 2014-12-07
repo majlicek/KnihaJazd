@@ -11,7 +11,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JSeparator;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import net.miginfocom.swing.MigLayout;
@@ -22,6 +24,7 @@ import net.miginfocom.swing.MigLayout;
  * @author Matej Perejda
  */
 public class PrihlasovaciForm extends JFrame {
+
     private static final Component CENTER_SCREEN = null;
 
     // Tlačidlá
@@ -35,22 +38,22 @@ public class PrihlasovaciForm extends JFrame {
     // Labely
     private JLabel lblLogin = new JLabel("Login:");
     private JLabel lblHeslo = new JLabel("Heslo:");
-    private JLabel lblTitulka = new JLabel("Kniha jázd");
+    private JLabel lblTitulka = new JLabel("Kniha jázd", SwingConstants.CENTER);
 
+   //private JSeparator sep
     // Konštruktor
     public PrihlasovaciForm() throws HeadlessException {
         // NASTAVIŤ LAYOUT !!!
         setLayout(new MigLayout("", "[fill, grow][fill, grow]", "[][][][]"));
 
-        //add(lblTitulka, "dock center, span 2, wrap");        
-        add(lblTitulka, "wrap");
+        add(lblTitulka, "wrap, span 3");
         add(lblLogin);
         add(txtLogin, "wrap");
         add(lblHeslo);
         add(txtHeslo, "wrap");
 
         // Tlačidlo "Prihlásiť"
-            add(btnPrihlasit);
+        add(btnPrihlasit);
         // Akcia pre stlačenie tlačídla prihlásiť.
         btnPrihlasit.addActionListener(new ActionListener() {
             @Override
@@ -67,13 +70,12 @@ public class PrihlasovaciForm extends JFrame {
         btnRegistrovat.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Prechod do RegistracnyForm
-                // btnRegistrovatActionPerformed(e);
-                System.out.println("Registrujem...");
+                btnRegistrovatActionPerformed(e);
+                //System.out.println("Registrujem...");
             }
         });
 
-        setPreferredSize(new Dimension(350, 500));
+        setPreferredSize(new Dimension(350, 130));
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();

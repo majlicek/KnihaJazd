@@ -44,7 +44,7 @@ public class PridatAutoForm extends JFrame {
     private JLabel lblVykon = new JLabel("Výkon (kW):");
     private JLabel lblPalivo = new JLabel("Palivo:");
     private JLabel lblFarba = new JLabel("Farba:");
-    private JLabel lblFarbaIna = new JLabel("Iná");
+    private JLabel lblFarbaIna = new JLabel("Iná:");
     private JLabel lblKlimatizacia = new JLabel("Klimatizácia:");
 
     // Textové polia
@@ -63,7 +63,7 @@ public class PridatAutoForm extends JFrame {
     private JComboBox comboKlimatizacia = new JComboBox();
 
     public PridatAutoForm() throws HeadlessException, FileNotFoundException {
-        setLayout(new MigLayout("", "[fill, grow][fill, grow][fill, grow]"));
+        setLayout(new MigLayout("", "[fill, grow][fill, grow][fill, grow]", "[][][][][][][][][][nogrid]"));
 
         nastavZnackuGUI();
         add(lblModel);
@@ -80,7 +80,7 @@ public class PridatAutoForm extends JFrame {
         nastavKlimatizaciuGUI();
 
         // Tlačidlo Uložiť"
-        add(btnUlozit);
+        add(btnUlozit, "tag ok");
         // Akcia pre stlačenie tlačidla uložiť
         btnUlozit.addActionListener(new ActionListener() {
             @Override
@@ -92,7 +92,7 @@ public class PridatAutoForm extends JFrame {
         });
 
         // Tlačídlo "Zrušiť"
-        add(btnZrusit);
+        add(btnZrusit, "tag cancel");
         // Akcia pre stlačenie tlačidla zrušiť.
         btnZrusit.addActionListener(new ActionListener() {
             @Override
@@ -102,7 +102,7 @@ public class PridatAutoForm extends JFrame {
             }
         });
 
-        setPreferredSize(new Dimension(500, 500));
+        setPreferredSize(new Dimension(500, 280));
         setResizable(false); // ZMENIŤ NA FALSE !!!
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
