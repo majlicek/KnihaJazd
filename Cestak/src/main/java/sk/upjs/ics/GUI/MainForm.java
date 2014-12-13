@@ -66,6 +66,53 @@ public class MainForm extends JFrame {
         add(btnVymazatAuto);
         add(btnUpravitUzivatela, "wrap");
 
+        //akcie pre tlacidla
+        btnNovaCesta.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnNovaCestaActionPerformed(e);
+            }
+
+        });
+
+        btnVymazatCestu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnVymazatCestuActionPerformed(e);
+            }
+
+        });
+        btnPridatAuto.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnPridatAutoActionPerformed(e);
+            }
+
+        });
+
+        btnUpravitAuto.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnUpravitAutoActionPerformed(e);
+            }
+
+        });
+
+        btnVymazatAuto.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnVymazatAutoActionPerformed(e);
+            }
+        });
+
+        btnUpravitUzivatela.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnUpravitUzivatelaActionPerformed(e);
+            }
+
+        });
+
         // Prázdny panel 1
         panPanel.setPreferredSize(new Dimension(700, 30));
         add(panPanel, "wrap");
@@ -141,6 +188,30 @@ public class MainForm extends JFrame {
 
         JScrollPane scrollPane = new JScrollPane(tabJazdy);
         add(scrollPane, "wrap, span 6");
+    }
+
+    private void btnNovaCestaActionPerformed(ActionEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void btnVymazatCestuActionPerformed(ActionEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void btnPridatAutoActionPerformed(ActionEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void btnVymazatAutoActionPerformed(ActionEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void btnUpravitUzivatelaActionPerformed(ActionEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void btnUpravitAutoActionPerformed(ActionEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     // Main - MainForm
