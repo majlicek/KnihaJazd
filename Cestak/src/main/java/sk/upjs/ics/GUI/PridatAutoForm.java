@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import net.miginfocom.swing.MigLayout;
+import sk.upjs.ics.cestak.Login;
 
 /**
  * PridatAuto okno. Beta verzia
@@ -68,6 +69,13 @@ public class PridatAutoForm extends JFrame {
     private JComboBox comboPalivo = new JComboBox();
     private JComboBox comboFarba = new JComboBox();
     private JComboBox comboKlimatizacia = new JComboBox();
+
+    private Login login;
+
+    public PridatAutoForm(Login login) throws HeadlessException, FileNotFoundException {
+        this();
+        this.login = login;
+    }
 
     public PridatAutoForm() throws HeadlessException, FileNotFoundException {
         setLayout(new MigLayout("", "[fill, grow][fill, grow][fill, grow][fill, grow]", "[][][][][][][][][][][][][][nogrid]"));
