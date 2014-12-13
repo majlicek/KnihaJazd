@@ -1,6 +1,7 @@
 package sk.upjs.ics.GUI;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
@@ -17,6 +18,10 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import net.miginfocom.swing.MigLayout;
+import sk.upjs.ics.cestak.DaoFactory;
+import sk.upjs.ics.cestak.Login;
+import sk.upjs.ics.cestak.Pouzivatel;
+import sk.upjs.ics.cestak.PrihlasenieDAO;
 
 /**
  * Registračné okno (Register screen) Beta verzia
@@ -42,6 +47,7 @@ public class RegistracnyForm extends JFrame {
     private JLabel lblAdresa = new JLabel("Adresa:");
     private JLabel lblEmail = new JLabel("E-mail:");
     private JLabel lblTel = new JLabel("Tel.:");
+    private JLabel lblWarn = new JLabel("Nieco je zle");
 
     // Textove polia
     private JTextField txtLogin = new JTextField();
@@ -59,14 +65,22 @@ public class RegistracnyForm extends JFrame {
     private JComboBox comboMesiac = new JComboBox();
     private JComboBox comboRok = new JComboBox();
 
+    private PrihlasenieDAO prihlasenieDao = DaoFactory.INSTANCE.prihlasenieDao();
+    
+    private Pouzivatel pouzivatel;
+    private Login login;
+    
     // Konštruktor
     public RegistracnyForm() throws HeadlessException {
-        setLayout(new MigLayout("", "[fill, grow][fill,grow][][]", "[][][][][][][nogrid][][][][nogrid]"));
+        setLayout(new MigLayout("", "[fill, grow][fill,grow][][]", "[][][][][][][nogrid][][][][][nogrid]"));
 
         nastavPrihlasovacieUdajeGUI();
         nastavOsobneUdajeGUI();
         nastavDatumNarodeniaGUI();
         nastavKontaktInfoGUI();
+        add(lblWarn);
+        lblWarn.setVisible(false); // Nastaviť na TRUE, ak zadané zlé meno alebo heslo.
+        lblWarn.setForeground(Color.RED);
 
         // Tlačidlo "Registrovať"
         add(btnRegistrovat, "tag ok");
@@ -75,7 +89,7 @@ public class RegistracnyForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Zaregistrovať
-                // btnRegistrovatActionPerformed(e);
+                btnRegistrovatActionPerformed(e);
                 System.out.println("Registrujem...");
             }
         });
@@ -86,7 +100,7 @@ public class RegistracnyForm extends JFrame {
         btnZrusit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                dispose();
                 setDefaultCloseOperation(EXIT_ON_CLOSE);
             }
         });
@@ -96,7 +110,7 @@ public class RegistracnyForm extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
     }
-
+    
     // Nastavenie pre kontaktné údaje.
     private void nastavKontaktInfoGUI() {
         add(lblAdresa);
@@ -170,7 +184,39 @@ public class RegistracnyForm extends JFrame {
 
     // Akcia pre registráciu.
     private void btnRegistrovatActionPerformed(ActionEvent e) {
-        // kód
+        if (!String.valueOf(txtHeslo2.getPassword()).equals(String.valueOf(txtHeslo.getPassword()))) {
+           lblWarn.setVisible(true);
+           return ;
+        }
+        lblWarn.setVisible(false);
+
+        pouzivatel = new Pouzivatel();
+        pouzivatel.setMeno(txtMeno.getText());
+        pouzivatel.setPriezvisko(txtPriezvisko.getText());
+        pouzivatel.setAdresa(txtAdresa.getText());
+        pouzivatel.setPohlavie((String)comboPohlavie.getSelectedItem());
+        StringBuilder sb = new StringBuilder();
+        sb.append(comboRok.getSelectedItem());
+        sb.append("-");
+        sb.append(comboMesiac.getSelectedItem());
+        sb.append("-");
+        sb.append(comboDen.getSelectedItem());
+        pouzivatel.setDatum(sb.toString());
+        pouzivatel.setEmail(txtEmail.getText());
+        pouzivatel.setTel(txtTel.getText());
+        
+        login = new Login();
+        login.setLogin(txtLogin.getText());
+        login.setHeslo(String.valueOf(txtHeslo2.getPassword()));
+        if (prihlasenieDao.verifyOnlyLogin(login)) {
+            return;
+            //trba doplnit login sa pozuiva
+        }
+        
+        prihlasenieDao.savePouzivatela(pouzivatel);
+        login.setId(pouzivatel.getId());
+        prihlasenieDao.saveLogin(login);
+        dispose();
     }
 
     // Generuje dni pre dátum narodenia.

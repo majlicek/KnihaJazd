@@ -16,6 +16,10 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import net.miginfocom.swing.MigLayout;
+import sk.upjs.ics.cestak.DaoFactory;
+import sk.upjs.ics.cestak.Login;
+import sk.upjs.ics.cestak.Pouzivatel;
+import sk.upjs.ics.cestak.PrihlasenieDAO;
 
 /**
  * Prihlasovacia obrazovka (Login screen) Beta verzia
@@ -40,6 +44,9 @@ public class PrihlasovaciForm extends JFrame {
     private JLabel lblTitulka = new JLabel("Vitajte v knihe jázd !", SwingConstants.CENTER);
     private JLabel lblWarning = new JLabel("Zlé meno alebo heslo!", SwingConstants.RIGHT); 
 
+    private PrihlasenieDAO prihlasenieDao = DaoFactory.INSTANCE.prihlasenieDao();
+    private Login login;
+    
     // Konštruktor
     public PrihlasovaciForm() throws HeadlessException {
         // NASTAVIŤ LAYOUT !!!
@@ -61,7 +68,7 @@ public class PrihlasovaciForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Prechod do MainWindow
-                // btnPrihlasitActionPerformed(e);
+                btnPrihlasitActionPerformed(e);
                 System.out.println("Prihlasujem...");
             }
         });
@@ -72,7 +79,7 @@ public class PrihlasovaciForm extends JFrame {
         btnRegistrovat.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //btnRegistrovatActionPerformed(e);
+                btnRegistrovatActionPerformed(e);
                 System.out.println("Registrujem...");
             }
         });
@@ -85,12 +92,25 @@ public class PrihlasovaciForm extends JFrame {
 
     // Akcia pre prihlásenie.
     private void btnPrihlasitActionPerformed(ActionEvent event) {
-        // kód
+        login = new Login();
+        login.setLogin(txtLogin.getText());
+        login.setHeslo(String.valueOf(txtHeslo.getPassword()));
+        login = prihlasenieDao.verifyLogin(login);
+        if (login != null) {
+            dispose();
+            HlavnyForm hlavnyform = new HlavnyForm(login);
+            hlavnyform.setVisible(true);
+        } else {
+            lblWarning.setVisible(true);
+        }
     }
 
     // Akcia pre registrovanie.
     private void btnRegistrovatActionPerformed(ActionEvent event) {
-        // kód
+        RegistracnyForm registrujPouzivatela;
+        registrujPouzivatela = new RegistracnyForm();
+        registrujPouzivatela.setVisible(true);
+        
     }
 
     // Main - PrihlasovaciForm
