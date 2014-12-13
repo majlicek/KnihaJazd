@@ -16,6 +16,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 import net.miginfocom.swing.MigLayout;
+import sk.upjs.ics.cestak.Login;
 
 /**
  * MainForm
@@ -48,6 +49,10 @@ public class MainForm extends JFrame {
     private JPanel panPanel = new JPanel();
     private JPanel panPanel2 = new JPanel();
     private JPanel panPanel3 = new JPanel();
+
+    public MainForm(Login login) {
+        // Kod
+    }
 
     public MainForm() {
         setLayout(new MigLayout("", "[fill][fill][fill][fill][fill][fill]", "[][][nogrid][][][][nogrid]"));
