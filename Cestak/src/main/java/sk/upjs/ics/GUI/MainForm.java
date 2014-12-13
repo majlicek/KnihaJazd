@@ -158,6 +158,8 @@ public class MainForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // otvorí PridatAutoForm
+                PridatAutoForm pridatAutoForm = new PridatAutoForm(login);
+                pridatAutoForm.setVisible(true);                
             }
         });
 
