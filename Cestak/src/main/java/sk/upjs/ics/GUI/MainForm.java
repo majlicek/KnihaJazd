@@ -1,4 +1,4 @@
-package GUI;
+package sk.upjs.ics.GUI;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import java.awt.Component;
