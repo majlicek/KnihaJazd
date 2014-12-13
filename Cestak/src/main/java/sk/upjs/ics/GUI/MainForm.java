@@ -4,6 +4,8 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -87,6 +89,13 @@ public class MainForm extends JFrame {
 
         // Tlacidlo koniec
         add(btnKoniec, "tag cancel, span 1");
+        // Akcia pre stlačenie tlačidla zrušiť.
+        btnKoniec.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
 
         // Nastavenia
         setPreferredSize(new Dimension(700, 500));
