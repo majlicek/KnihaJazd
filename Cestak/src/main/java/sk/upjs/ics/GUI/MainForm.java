@@ -107,8 +107,6 @@ public class MainForm extends JFrame {
     // Nastavenie tabuľky
     public void setJTable() {
         // Stĺpce upraviť podľa potreby.
-        // PRIDAŤ PODMIENKU, KTORÉ NÁZVY STĹPCOV SA MAJÚ APLIKOVAŤ
-        // PRI PRIDÁVANÍ AUTA, RESP. PRI PRIDÁVANÍ JAZDY !!!
         String[] columnNames = {"EČV", "Značka", "Model", "Farba"};
 
         // Testovacie data. 
