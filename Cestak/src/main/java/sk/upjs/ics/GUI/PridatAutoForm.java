@@ -1,4 +1,4 @@
-package sk.upjs.ics.GUI;
+package GUI;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import java.awt.Component;
@@ -11,7 +11,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
@@ -96,6 +95,7 @@ public class PridatAutoForm extends JFrame {
         nastavKlimatizaciuGUI();
         nastavFarbuGUI();
 
+        /* ******************** AKCIE ************************ */
         // Tlačidlo Uložiť"
         add(btnUlozit, "tag ok");
         // Akcia pre stlačenie tlačidla uložiť
@@ -117,6 +117,7 @@ public class PridatAutoForm extends JFrame {
                 dispose();
             }
         });
+        /* ******************** AKCIE ************************ */
 
         setPreferredSize(new Dimension(500, 380));
         setResizable(false); // ZMENIŤ NA FALSE !!!

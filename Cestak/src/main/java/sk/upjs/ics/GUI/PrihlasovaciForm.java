@@ -1,4 +1,4 @@
-package sk.upjs.ics.GUI;
+package GUI;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import java.awt.Color;
@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -18,7 +19,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 import net.miginfocom.swing.MigLayout;
 import sk.upjs.ics.cestak.DaoFactory;
 import sk.upjs.ics.cestak.Login;
-import sk.upjs.ics.cestak.Pouzivatel;
 import sk.upjs.ics.cestak.PrihlasenieDAO;
 
 /**
@@ -42,11 +42,11 @@ public class PrihlasovaciForm extends JFrame {
     private JLabel lblLogin = new JLabel("Login:");
     private JLabel lblHeslo = new JLabel("Heslo:");
     private JLabel lblTitulka = new JLabel("Vitajte v knihe jázd !", SwingConstants.CENTER);
-    private JLabel lblWarning = new JLabel("Zlé meno alebo heslo!", SwingConstants.RIGHT); 
+    private JLabel lblWarning = new JLabel("Zlé meno alebo heslo!", SwingConstants.RIGHT);
 
     private PrihlasenieDAO prihlasenieDao = DaoFactory.INSTANCE.prihlasenieDao();
     private Login login;
-    
+
     // Konštruktor
     public PrihlasovaciForm() throws HeadlessException {
         // NASTAVIŤ LAYOUT !!!
@@ -61,6 +61,7 @@ public class PrihlasovaciForm extends JFrame {
         lblWarning.setVisible(false); // Nastaviť na TRUE, ak zadané zlé meno alebo heslo.
         lblWarning.setForeground(Color.RED);
 
+        /* ******************** AKCIE ************************ */
         // Tlačidlo "Prihlásiť"
         add(btnPrihlasit);
         // Akcia pre stlačenie tlačídla prihlásiť.
@@ -68,7 +69,7 @@ public class PrihlasovaciForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Prechod do MainWindow
-                btnPrihlasitActionPerformed(e);
+                // btnPrihlasitActionPerformed(e);
                 System.out.println("Prihlasujem...");
             }
         });
@@ -79,10 +80,11 @@ public class PrihlasovaciForm extends JFrame {
         btnRegistrovat.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                btnRegistrovatActionPerformed(e);
+                //btnRegistrovatActionPerformed(e);
                 System.out.println("Registrujem...");
             }
         });
+        /* ******************** AKCIE ************************ */
 
         setPreferredSize(new Dimension(350, 150));
         setResizable(false);
@@ -107,10 +109,7 @@ public class PrihlasovaciForm extends JFrame {
 
     // Akcia pre registrovanie.
     private void btnRegistrovatActionPerformed(ActionEvent event) {
-        RegistracnyForm registrujPouzivatela;
-        registrujPouzivatela = new RegistracnyForm();
-        registrujPouzivatela.setVisible(true);
-        
+        // kód
     }
 
     // Main - PrihlasovaciForm

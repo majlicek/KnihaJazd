@@ -1,7 +1,6 @@
-package sk.upjs.ics.GUI;
+package GUI;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
@@ -12,7 +11,6 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
@@ -66,22 +64,20 @@ public class RegistracnyForm extends JFrame {
     private JComboBox comboRok = new JComboBox();
 
     private PrihlasenieDAO prihlasenieDao = DaoFactory.INSTANCE.prihlasenieDao();
-    
+
     private Pouzivatel pouzivatel;
     private Login login;
-    
+
     // Konštruktor
     public RegistracnyForm() throws HeadlessException {
-        setLayout(new MigLayout("", "[fill, grow][fill,grow][][]", "[][][][][][][nogrid][][][][][nogrid]"));
+        setLayout(new MigLayout("", "[fill, grow][fill,grow][][]", "[][][][][][][nogrid][][][][nogrid]"));
 
         nastavPrihlasovacieUdajeGUI();
         nastavOsobneUdajeGUI();
         nastavDatumNarodeniaGUI();
         nastavKontaktInfoGUI();
-        add(lblWarn);
-        lblWarn.setVisible(false); // Nastaviť na TRUE, ak zadané zlé meno alebo heslo.
-        lblWarn.setForeground(Color.RED);
 
+        /* ******************** AKCIE ************************ */
         // Tlačidlo "Registrovať"
         add(btnRegistrovat, "tag ok");
         // Akcia pre stlačenie tlačidla registrovať.
@@ -89,7 +85,7 @@ public class RegistracnyForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Zaregistrovať
-                btnRegistrovatActionPerformed(e);
+                // btnRegistrovatActionPerformed(e);
                 System.out.println("Registrujem...");
             }
         });
@@ -100,16 +96,17 @@ public class RegistracnyForm extends JFrame {
         btnZrusit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();               
+                dispose();
             }
         });
+        /* ******************** AKCIE ************************ */
 
         setPreferredSize(new Dimension(313, 310));
         setResizable(false); // ZMENIŤ NA FALSE !!!
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
     }
-    
+
     // Nastavenie pre kontaktné údaje.
     private void nastavKontaktInfoGUI() {
         add(lblAdresa);
@@ -184,8 +181,8 @@ public class RegistracnyForm extends JFrame {
     // Akcia pre registráciu.
     private void btnRegistrovatActionPerformed(ActionEvent e) {
         if (!String.valueOf(txtHeslo2.getPassword()).equals(String.valueOf(txtHeslo.getPassword()))) {
-           lblWarn.setVisible(true);
-           return ;
+            lblWarn.setVisible(true);
+            return;
         }
         lblWarn.setVisible(false);
 
@@ -193,7 +190,7 @@ public class RegistracnyForm extends JFrame {
         pouzivatel.setMeno(txtMeno.getText());
         pouzivatel.setPriezvisko(txtPriezvisko.getText());
         pouzivatel.setAdresa(txtAdresa.getText());
-        pouzivatel.setPohlavie((String)comboPohlavie.getSelectedItem());
+        pouzivatel.setPohlavie((String) comboPohlavie.getSelectedItem());
         StringBuilder sb = new StringBuilder();
         sb.append(comboRok.getSelectedItem());
         sb.append("-");
@@ -203,7 +200,7 @@ public class RegistracnyForm extends JFrame {
         pouzivatel.setDatum(sb.toString());
         pouzivatel.setEmail(txtEmail.getText());
         pouzivatel.setTel(txtTel.getText());
-        
+
         login = new Login();
         login.setLogin(txtLogin.getText());
         login.setHeslo(String.valueOf(txtHeslo2.getPassword()));
@@ -211,7 +208,7 @@ public class RegistracnyForm extends JFrame {
             return;
             //trba doplnit login sa pozuiva
         }
-        
+
         prihlasenieDao.savePouzivatela(pouzivatel);
         login.setId(pouzivatel.getId());
         prihlasenieDao.saveLogin(login);
