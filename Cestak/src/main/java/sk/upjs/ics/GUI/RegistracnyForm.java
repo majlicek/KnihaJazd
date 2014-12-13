@@ -1,4 +1,4 @@
-package GUI;
+package sk.upjs.ics.GUI;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import java.awt.Component;
@@ -85,7 +85,7 @@ public class RegistracnyForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Zaregistrovať
-                // btnRegistrovatActionPerformed(e);
+                btnRegistrovatActionPerformed(e);
                 System.out.println("Registrujem...");
             }
         });

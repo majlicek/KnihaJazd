@@ -1,4 +1,4 @@
-package GUI;
+package sk.upjs.ics.GUI;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import java.awt.Color;
@@ -69,7 +69,7 @@ public class PrihlasovaciForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Prechod do MainWindow
-                // btnPrihlasitActionPerformed(e);
+                btnPrihlasitActionPerformed(e);
                 System.out.println("Prihlasujem...");
             }
         });
@@ -80,7 +80,7 @@ public class PrihlasovaciForm extends JFrame {
         btnRegistrovat.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //btnRegistrovatActionPerformed(e);
+                btnRegistrovatActionPerformed(e);
                 System.out.println("Registrujem...");
             }
         });
@@ -109,7 +109,9 @@ public class PrihlasovaciForm extends JFrame {
 
     // Akcia pre registrovanie.
     private void btnRegistrovatActionPerformed(ActionEvent event) {
-        // kód
+        RegistracnyForm registrujPouzivatela;
+        registrujPouzivatela = new RegistracnyForm();
+        registrujPouzivatela.setVisible(true);
     }
 
     // Main - PrihlasovaciForm
