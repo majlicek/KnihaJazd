@@ -110,6 +110,9 @@ public class PrihlasovaciForm extends JFrame {
     // Akcia pre registrovanie.
     private void btnRegistrovatActionPerformed(ActionEvent event) {
         // kód
+        RegistracnyForm registrujPouzivatela;
+        registrujPouzivatela = new RegistracnyForm();
+        registrujPouzivatela.setVisible(true);
     }
 
     // Main - PrihlasovaciForm
