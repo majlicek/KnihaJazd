@@ -1,4 +1,4 @@
-package sk.upjs.ics.GUI;
+package GUI;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import java.awt.BorderLayout;
@@ -51,13 +51,13 @@ public class MainForm extends JFrame {
     private JPanel panPanel = new JPanel();
     private JPanel panPanel2 = new JPanel();
     private JPanel panPanel3 = new JPanel();
-
+    
     public MainForm(Login login) {
         // Kod
     }
 
     public MainForm() {
-        setLayout(new MigLayout("", "[fill][fill][fill][fill][fill][fill]", "[][][nogrid][][][][nogrid]"));
+        setLayout(new MigLayout("", "[fill, grow][fill][fill][fill][fill][fill]", "[][][][][][][nogrid]"));
         // Vrchny panel s tlacidlami
         add(btnNovaCesta);
         add(btnVymazatCestu);
@@ -72,9 +72,10 @@ public class MainForm extends JFrame {
 
         // Label a combo
         add(lblJazdy);
-        add(comboCesty, "wrap, gapleft 47");
-        comboCesty.addItem("Cesta 1");
-        comboCesty.addItem("Cesta 2");
+        add(comboCesty, "wrap, span 5");
+        comboCesty.addItem("Košice - Prešov; 15.10.2014");
+        comboCesty.addItem("Bratislava - Zvolen; 05.07.2008");
+        comboCesty.setSelectedItem(null);
 
         // Prazdny panel 2
         panPanel2.setPreferredSize(new Dimension(700, 10));
