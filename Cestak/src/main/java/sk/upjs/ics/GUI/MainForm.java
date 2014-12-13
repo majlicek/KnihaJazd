@@ -1,7 +1,6 @@
 package GUI;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -16,7 +15,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.table.DefaultTableModel;
 import net.miginfocom.swing.MigLayout;
 import sk.upjs.ics.cestak.Login;
 
@@ -51,7 +49,7 @@ public class MainForm extends JFrame {
     private JPanel panPanel = new JPanel();
     private JPanel panPanel2 = new JPanel();
     private JPanel panPanel3 = new JPanel();
-    
+
     public MainForm(Login login) {
         // Kod
     }
@@ -88,6 +86,55 @@ public class MainForm extends JFrame {
         panPanel3.setPreferredSize(new Dimension(700, 10));
         add(panPanel3, "wrap");
 
+        /* ******************** AKCIE ************************ */
+        // Akcia pre pridanie novej cesty.
+        btnNovaCesta.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // otvorí PridatCestuForm
+            }
+        });
+
+        // Akcia pre vymazanie vyznacenej cesty.
+        btnVymazatCestu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // otvorí upozornenie, či naozaj chceme vymazať túto cestu.
+            }
+        });
+
+        // Akcia pre pridanie noveho auta.
+        btnPridatAuto.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // otvorí PridatAutoForm
+            }
+        });
+
+        // Akcia pre pridanie novej cesty.
+        btnUpravitAuto.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // otvorí PridatCestuForm s vydolovanými dátami z databázy
+            }
+        });
+
+        // Akcia pre pridanie novej cesty.
+        btnVymazatAuto.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // otvorí upozornenie, či naozaj chceme vymazať vyznačené auto
+            }
+        });
+
+        // Akcia pre pridanie novej cesty.
+        btnUpravitUzivatela.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // otvorí RegistracnyForm s vydolovanými dátami z databázy
+            }
+        });
+
         // Tlacidlo koniec
         add(btnKoniec, "tag cancel, span 1");
         // Akcia pre stlačenie tlačidla zrušiť.
@@ -97,6 +144,7 @@ public class MainForm extends JFrame {
                 dispose();
             }
         });
+        /* ******************** AKCIE ************************ */
 
         // Nastavenia
         setPreferredSize(new Dimension(700, 500));

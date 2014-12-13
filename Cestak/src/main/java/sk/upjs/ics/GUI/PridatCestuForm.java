@@ -1,10 +1,9 @@
-package sk.upjs.ics.GUI;
+package GUI;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.PopupMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -12,7 +11,6 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -88,7 +86,7 @@ public class PridatCestuForm extends JFrame {
         add(txtPoznamka, "wrap, span 4");
         txtPoznamka.setToolTipText("Poznámka k jazde");
 
-        // Tlačidlá
+        /* ******************** AKCIE ************************ */
         add(btnUlozit, "tag ok");
         // Akcia pre stlačenie tlačidla uložiť
         btnUlozit.addActionListener(new ActionListener() {
@@ -108,6 +106,7 @@ public class PridatCestuForm extends JFrame {
                 dispose();
             }
         });
+        /* ******************** AKCIE ************************ */
 
         // Nastavenia
         setPreferredSize(new Dimension(500, 285));
