@@ -100,8 +100,7 @@ public class RegistracnyForm extends JFrame {
         btnZrusit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
-                setDefaultCloseOperation(EXIT_ON_CLOSE);
+                dispose();               
             }
         });
 

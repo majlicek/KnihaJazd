@@ -114,8 +114,7 @@ public class PridatAutoForm extends JFrame {
         btnZrusit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-                setDefaultCloseOperation(EXIT_ON_CLOSE);
+                dispose();
             }
         });
 
