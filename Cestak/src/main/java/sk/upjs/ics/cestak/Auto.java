@@ -29,6 +29,8 @@ public class Auto {
     private String klima;
     
     private String farba;
+    
+    private String vykon;
 
     /**
      * @return the znacka
@@ -196,5 +198,19 @@ public class Auto {
      */
     public void setFarba(String farba) {
         this.farba = farba;
+    }
+
+    /**
+     * @return the vykon
+     */
+    public String getVykon() {
+        return vykon;
+    }
+
+    /**
+     * @param vykon the vykon to set
+     */
+    public void setVykon(String vykon) {
+        this.vykon = vykon;
     }
 }

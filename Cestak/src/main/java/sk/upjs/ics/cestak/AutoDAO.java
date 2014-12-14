@@ -10,7 +10,7 @@ public interface AutoDAO {
 
     List<Auto> zoznamPodlaPouzivatela(Login login);
 
-    void saveAuto(Auto auto);
+    void saveAuto(Login login, Auto auto);
 
     void vymazAuto(Auto auto);
 }

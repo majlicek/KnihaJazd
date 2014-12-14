@@ -20,6 +20,8 @@ import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import net.miginfocom.swing.MigLayout;
+import sk.upjs.ics.cestak.AutoDAO;
+import sk.upjs.ics.cestak.DaoFactory;
 import sk.upjs.ics.cestak.Login;
 
 /**
@@ -55,6 +57,8 @@ public class MainForm extends JFrame {
     private JPanel panPanel3 = new JPanel();
 
     private Login login;
+
+    private AutoDAO autoDao = DaoFactory.INSTANCE.autoDao();
 
     public MainForm(Login login) {
         this();
@@ -123,7 +127,7 @@ public class MainForm extends JFrame {
                 } catch (FileNotFoundException ex) {
                     System.err.println("Nenacitany subor.");
                 }
-                pridatAutoForm.setVisible(true);
+                pridatAutoForm.setVisible(true);               
             }
         });
 

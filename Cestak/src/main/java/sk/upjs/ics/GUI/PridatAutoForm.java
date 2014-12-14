@@ -19,6 +19,9 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import net.miginfocom.swing.MigLayout;
+import sk.upjs.ics.cestak.Auto;
+import sk.upjs.ics.cestak.AutoDAO;
+import sk.upjs.ics.cestak.DaoFactory;
 import sk.upjs.ics.cestak.Login;
 
 /**
@@ -70,7 +73,8 @@ public class PridatAutoForm extends JFrame {
     private JComboBox comboFarba = new JComboBox();
     private JComboBox comboKlimatizacia = new JComboBox();
 
-    private Login login;
+    private Login login;    
+    private AutoDAO autoDao = DaoFactory.INSTANCE.autoDao();
 
     public PridatAutoForm(Login login) throws HeadlessException, FileNotFoundException {
         this();
@@ -111,7 +115,7 @@ public class PridatAutoForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Zaregistrovať
-                // btnUlozitActionPerformed(e);
+                btnUlozitActionPerformed(e);
                 System.out.println("Ukladam...");
             }
         });
@@ -214,8 +218,25 @@ public class PridatAutoForm extends JFrame {
     }
 
     // Akcia pre uloženie auta.
-    private void btnUlozitActionPerformed(ActionEvent e) {
-        // kód
+    private void btnUlozitActionPerformed(ActionEvent e) {      
+        Auto auto = new Auto();
+        auto.setZnacka((String) comboZnacka.getSelectedItem());
+        auto.setModel(txtModel.getText());
+        auto.setSpz(txtECV.getText());
+        auto.setRok_vyr(txtRokVyroby.getText());
+        auto.setStav_tach(txtStavTachometra.getText());
+        auto.setVykon(txtVykon.getText());
+        auto.setSpotreba_mesto(txtSpotrebaMesto.getText());
+        auto.setSpotreba_mimo(txtSpotrebaMimo.getText());
+        auto.setSpotreba_avg(txtSpotrebaKomb.getText());
+        auto.setPalivo((String) comboPalivo.getSelectedItem());
+        auto.setPrevodovka((String) comboPrevodovka.getSelectedItem());
+        auto.setKlima((String) comboKlimatizacia.getSelectedItem());
+        auto.setFarba((String) comboFarba.getSelectedItem());
+        //auto.setFarba(txtFarbaIna.getText());
+        
+        autoDao.saveAuto(login, auto);
+        dispose();
     }
 
     // Main - PridatAutoForm
