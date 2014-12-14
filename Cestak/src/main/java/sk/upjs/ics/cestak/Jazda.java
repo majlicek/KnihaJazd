@@ -14,10 +14,16 @@ public class Jazda {
     private int idPouzivatel;
 
     private String vyjazd;
+    
+    private String cas_odchod;
 
     private String prijazd;
+    
+    private String cas_prichod;
 
     private String prejdeneKilometre;
+    
+    private int poc_stav_km;
 
     private double cerpaniePHM;
 
@@ -95,5 +101,47 @@ public class Jazda {
 
     public void setDatum(String datum) {
         this.datum = datum;
+    }
+
+    /**
+     * @return the poc_stav_km
+     */
+    public int getPoc_stav_km() {
+        return poc_stav_km;
+    }
+
+    /**
+     * @param poc_stav_km the poc_stav_km to set
+     */
+    public void setPoc_stav_km(int poc_stav_km) {
+        this.poc_stav_km = poc_stav_km;
+    }
+
+    /**
+     * @return the cas_odchod
+     */
+    public String getCas_odchod() {
+        return cas_odchod;
+    }
+
+    /**
+     * @param cas_odchod the cas_odchod to set
+     */
+    public void setCas_odchod(String cas_odchod) {
+        this.cas_odchod = cas_odchod;
+    }
+
+    /**
+     * @return the cas_prichod
+     */
+    public String getCas_prichod() {
+        return cas_prichod;
+    }
+
+    /**
+     * @param cas_prichod the cas_prichod to set
+     */
+    public void setCas_prichod(String cas_prichod) {
+        this.cas_prichod = cas_prichod;
     }
 }
