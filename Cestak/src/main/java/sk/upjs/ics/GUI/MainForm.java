@@ -46,7 +46,7 @@ public class MainForm extends JFrame {
     private JButton btnUpravitAuto = new JButton("Upraviť auto");
     private JButton btnVymazatAuto = new JButton("Vymazať auto");
     private JButton btnUpravitUzivatela = new JButton("Upraviť profil");
-    private JButton btnOdhlasit = new JButton("Koniec");
+    private JButton btnOdhlasit = new JButton("Odhlásiť");
 
     // Comboboxy
     private JComboBox comboAuta = new JComboBox();
@@ -185,11 +185,13 @@ public class MainForm extends JFrame {
     private void btnPridatJazduActionPerformed(ActionEvent e) {
         PridatCestuForm pridatCestuForm = null;
         pridatCestuForm = new PridatCestuForm(login, selectedAuto, this);
+        pridatCestuForm.setTitle("Kniha jázd - pridanie nového záznamu");
+        pridatCestuForm.setLocationRelativeTo(CENTER_SCREEN);
         pridatCestuForm.setVisible(true);
-        
+
 //        obnovCestu();
     }
-    
+
     // Akcia pre pridanie auta
     private void btnPridatAutoActionPerformed(ActionEvent e) {
         PridatAutoForm pridatAutoForm = null;
