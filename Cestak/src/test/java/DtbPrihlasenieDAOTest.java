@@ -17,7 +17,6 @@ import sk.upjs.ics.cestak.PrihlasenieDAO;
 public class DtbPrihlasenieDAOTest {
 
     private BeanPropertyRowMapper<Login> mapovac = new BeanPropertyRowMapper<>(Login.class);
-    private DtbPrihlasenieDAO dtbPrihlasenieDAO;
    
     private PrihlasenieDAO prihlasenieDao = DaoFactory.INSTANCE.prihlasenieDao();
     private Login login;
@@ -25,7 +24,6 @@ public class DtbPrihlasenieDAOTest {
 
     @Before
     public void setUp() {
-        dtbPrihlasenieDAO = new DtbPrihlasenieDAO();
         login = new Login();
     }
 
@@ -34,7 +32,7 @@ public class DtbPrihlasenieDAOTest {
         login.setId(9);
         login.setLogin("matej");
         login.setHeslo("matej");
-        boolean jePrihlaseny = dtbPrihlasenieDAO.verifyOnlyLogin(login);
+        boolean jePrihlaseny = prihlasenieDao.verifyOnlyLogin(login);
 
         assertTrue(jePrihlaseny);
     }
