@@ -123,18 +123,12 @@ public class MainForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // otvorí PridatAutoForm
-                PridatAutoForm pridatAutoForm = null;
-                try {
-                    pridatAutoForm = new PridatAutoForm(login);
-                } catch (HeadlessException ex) {
-                    System.err.println(ex);
-                } catch (FileNotFoundException ex) {
-                    System.err.println("Nenacitany subor.");
-                }
-                pridatAutoForm.setVisible(true); 
-                obnovAuta();
+                btnPridatAutoActionPerformed(e);
+                
             }
         });
+        
+        
         
         comboAuta.addActionListener(new ActionListener() {
             @Override
@@ -156,7 +150,7 @@ public class MainForm extends JFrame {
         btnVymazatAuto.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // otvorí upozornenie, či naozaj chceme vymazať vyznačené auto
+                autoDao.vymazAuto(selectedAuto);
             }
         });
 
@@ -248,4 +242,16 @@ public class MainForm extends JFrame {
         }
         
     }
+    private void btnPridatAutoActionPerformed(ActionEvent e) {
+                PridatAutoForm pridatAutoForm = null;
+                try {
+                    pridatAutoForm = new PridatAutoForm(login, this);
+                } catch (HeadlessException ex) {
+                    System.err.println(ex);
+                } catch (FileNotFoundException ex) {
+                    System.err.println("Nenacitany subor.");
+                }
+                pridatAutoForm.setVisible(true); 
+                obnovAuta();
+            }
 }

@@ -3,6 +3,7 @@ package sk.upjs.ics.GUI;
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JLabel;
@@ -29,7 +31,7 @@ import sk.upjs.ics.cestak.Login;
  *
  * @author Matej Perejda
  */
-public class PridatAutoForm extends JFrame {
+public class PridatAutoForm extends JDialog {
 
     private static final Component CENTER_SCREEN = null;
 
@@ -76,12 +78,24 @@ public class PridatAutoForm extends JFrame {
     private Login login;    
     private AutoDAO autoDao = DaoFactory.INSTANCE.autoDao();
 
-    public PridatAutoForm(Login login) throws HeadlessException, FileNotFoundException {
-        this();
+//    public PridatAutoForm(Login login) throws HeadlessException, FileNotFoundException {
+//        this();
+//        this.login = login;
+//    }
+    
+    public PridatAutoForm(Login login, Frame parent) throws HeadlessException, FileNotFoundException{
+        this(parent, true);
         this.login = login;
+        
+    }
+    
+    private PridatAutoForm(Frame parent) throws HeadlessException, FileNotFoundException{
+        this(new Login(), parent);
     }
 
-    public PridatAutoForm() throws HeadlessException, FileNotFoundException {
+
+    private PridatAutoForm(Frame parent, boolean modal) throws HeadlessException, FileNotFoundException {
+        super(parent, modal);
         setLayout(new MigLayout("", "[fill, grow][fill, grow][fill, grow][fill, grow]", "[][][][][][][][][][][][][][nogrid]"));
 
         nastavZnackuGUI();
@@ -133,7 +147,7 @@ public class PridatAutoForm extends JFrame {
 
         setPreferredSize(new Dimension(500, 380));
         setResizable(false); // ZMENIŤ NA FALSE !!!
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         pack();
     }
 
@@ -243,7 +257,7 @@ public class PridatAutoForm extends JFrame {
     public static void main(String args[]) throws UnsupportedLookAndFeelException, HeadlessException, FileNotFoundException {
         UIManager.setLookAndFeel(new WindowsLookAndFeel());
 
-        PridatAutoForm pridatAutoForm = new PridatAutoForm();
+        PridatAutoForm pridatAutoForm = new PridatAutoForm(new javax.swing.JFrame(), true);
         pridatAutoForm.setVisible(true);
         pridatAutoForm.setTitle("Kniha jázd - pridanie vozidla");
         pridatAutoForm.setLocationRelativeTo(CENTER_SCREEN);
