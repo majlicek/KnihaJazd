@@ -4,24 +4,30 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Frame;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import net.miginfocom.swing.MigLayout;
+import sk.upjs.ics.cestak.DaoFactory;
+import sk.upjs.ics.cestak.JazdaDAO;
+import sk.upjs.ics.cestak.Login;
 
 /**
  * PridatCestuForm Beta verzia
  *
  * @author Matej Perejda
  */
-public class PridatCestuForm extends JFrame {
+public class PridatCestuForm extends JDialog {
 
     private static final Component CENTER_SCREEN = null;
 
@@ -59,7 +65,20 @@ public class PridatCestuForm extends JFrame {
     private JButton btnUlozit = new JButton("Uložiť");
     private JButton btnZrusit = new JButton("Zrušiť");
 
-    public PridatCestuForm() {
+    private Login login;
+    private JazdaDAO jazdaDao = DaoFactory.INSTANCE.jazdaDao();
+
+    public PridatCestuForm(Login login, Frame parent) throws HeadlessException, FileNotFoundException {
+        this(parent, true);
+        this.login = login;
+    }
+
+    private PridatCestuForm(Frame parent) throws HeadlessException, FileNotFoundException {
+        this(new Login(), parent);
+    }
+
+    public PridatCestuForm(Frame parent, boolean modal) {
+        super(parent, modal);
         setLayout(new MigLayout("", "[fill][fill, grow][fill, grow][fill,grow][fill,grow]", "[][][][][][][][][][][nogrid]"));
 
         nastavDatumGUI();
@@ -113,7 +132,6 @@ public class PridatCestuForm extends JFrame {
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
-
     }
 
     // Nastaví dátum jazdy pre GUI.
@@ -194,7 +212,7 @@ public class PridatCestuForm extends JFrame {
     public static void main(String arg[]) throws UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel(new WindowsLookAndFeel());
 
-        PridatCestuForm pridatCestuForm = new PridatCestuForm();
+        PridatCestuForm pridatCestuForm = new PridatCestuForm(new javax.swing.JFrame(), true);
         pridatCestuForm.setVisible(true);
         pridatCestuForm.setTitle("Kniha jázd - pridanie nového záznamu");
         pridatCestuForm.setLocationRelativeTo(CENTER_SCREEN);

@@ -14,8 +14,6 @@ import java.util.Scanner;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
-import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
@@ -77,16 +75,10 @@ public class PridatAutoForm extends JDialog {
 
     private Login login;    
     private AutoDAO autoDao = DaoFactory.INSTANCE.autoDao();
-
-//    public PridatAutoForm(Login login) throws HeadlessException, FileNotFoundException {
-//        this();
-//        this.login = login;
-//    }
     
     public PridatAutoForm(Login login, Frame parent) throws HeadlessException, FileNotFoundException{
         this(parent, true);
-        this.login = login;
-        
+        this.login = login;        
     }
     
     private PridatAutoForm(Frame parent) throws HeadlessException, FileNotFoundException{

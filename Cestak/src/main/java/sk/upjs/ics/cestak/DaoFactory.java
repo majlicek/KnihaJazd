@@ -18,8 +18,10 @@ public enum DaoFactory {
     INSTANCE;
 
     private PrihlasenieDAO prihlasenieDao;
-    
+
     private AutoDAO autoDao;
+
+    private JazdaDAO jazdaDao;
 
     private JdbcTemplate jdbcTemplate;
 
@@ -52,6 +54,13 @@ public enum DaoFactory {
             this.autoDao = new DtbAutoDAO(jdbcTemplate());
         }
         return this.autoDao;
+    }
+
+    public JazdaDAO jazdaDao() {
+        if (this.jazdaDao == null) {
+            this.jazdaDao = new DtbJazdaDAO(jdbcTemplate());
+        }
+        return this.jazdaDao;
     }
 
 }
