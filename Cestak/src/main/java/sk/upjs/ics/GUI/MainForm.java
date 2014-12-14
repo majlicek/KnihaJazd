@@ -3,8 +3,12 @@ package sk.upjs.ics.GUI;
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -49,7 +53,7 @@ public class MainForm extends JFrame {
     private JPanel panPanel = new JPanel();
     private JPanel panPanel2 = new JPanel();
     private JPanel panPanel3 = new JPanel();
-    
+
     private Login login;
 
     public MainForm(Login login) {
@@ -66,53 +70,6 @@ public class MainForm extends JFrame {
         add(btnUpravitAuto);
         add(btnVymazatAuto);
         add(btnUpravitUzivatela, "wrap");
-
-        //akcie pre tlacidla
-        btnNovaCesta.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                btnNovaCestaActionPerformed(e);
-            }
-
-        });
-
-        btnVymazatCestu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                btnVymazatCestuActionPerformed(e);
-            }
-
-        });
-        btnPridatAuto.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                btnPridatAutoActionPerformed(e);
-            }
-
-        });
-
-        btnUpravitAuto.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                btnUpravitAutoActionPerformed(e);
-            }
-
-        });
-
-        btnVymazatAuto.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                btnVymazatAutoActionPerformed(e);
-            }
-        });
-
-        btnUpravitUzivatela.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                btnUpravitUzivatelaActionPerformed(e);
-            }
-
-        });
 
         // Prázdny panel 1
         panPanel.setPreferredSize(new Dimension(700, 30));
@@ -158,8 +115,15 @@ public class MainForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // otvorí PridatAutoForm
-                PridatAutoForm pridatAutoForm = new PridatAutoForm(login);
-                pridatAutoForm.setVisible(true);                
+                PridatAutoForm pridatAutoForm = null;
+                try {
+                    pridatAutoForm = new PridatAutoForm(login);
+                } catch (HeadlessException ex) {
+                    System.err.println(ex);
+                } catch (FileNotFoundException ex) {
+                    System.err.println("Nenacitany subor.");
+                }
+                pridatAutoForm.setVisible(true);
             }
         });
 
@@ -242,30 +206,6 @@ public class MainForm extends JFrame {
 
         JScrollPane scrollPane = new JScrollPane(tabJazdy);
         add(scrollPane, "wrap, span 6");
-    }
-
-    private void btnNovaCestaActionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private void btnVymazatCestuActionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private void btnPridatAutoActionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private void btnVymazatAutoActionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private void btnUpravitUzivatelaActionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private void btnUpravitAutoActionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     // Main - MainForm
