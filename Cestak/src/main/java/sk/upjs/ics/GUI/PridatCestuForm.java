@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import net.miginfocom.swing.MigLayout;
+import sk.upjs.ics.cestak.Auto;
 import sk.upjs.ics.cestak.DaoFactory;
 import sk.upjs.ics.cestak.JazdaDAO;
 import sk.upjs.ics.cestak.Login;
@@ -66,15 +67,20 @@ public class PridatCestuForm extends JDialog {
     private JButton btnZrusit = new JButton("Zrušiť");
 
     private Login login;
+    
+    private Auto auto;
+    
     private JazdaDAO jazdaDao = DaoFactory.INSTANCE.jazdaDao();
 
-    public PridatCestuForm(Login login, Frame parent) throws HeadlessException, FileNotFoundException {
+    public PridatCestuForm(Login login, Auto auto,Frame parent) {
         this(parent, true);
+        this.auto = auto;
         this.login = login;
     }
 
-    private PridatCestuForm(Frame parent) throws HeadlessException, FileNotFoundException {
-        this(new Login(), parent);
+    private PridatCestuForm(Frame parent) {
+        this(new Login(), new Auto(), parent);
+        
     }
 
     public PridatCestuForm(Frame parent, boolean modal) {
@@ -130,7 +136,7 @@ public class PridatCestuForm extends JDialog {
         // Nastavenia
         setPreferredSize(new Dimension(500, 285));
         setResizable(false);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         pack();
     }
 
@@ -138,7 +144,7 @@ public class PridatCestuForm extends JDialog {
     private void nastavDatumGUI() {
         add(lblDatum);
         add(txtDatum, "wrap");
-        txtDatum.setText("DD.MM.RRRR");
+        txtDatum.setText("RRRR-MM-DD");
     }
 
     // Nastaví cieľ cesty pre GUI

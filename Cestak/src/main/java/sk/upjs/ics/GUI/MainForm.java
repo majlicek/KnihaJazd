@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -107,6 +109,7 @@ public class MainForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // otvorí PridatCestuForm
+                btnPridatJazduActionPerformed(e);
             }
         });
 
@@ -178,6 +181,15 @@ public class MainForm extends JFrame {
         pack();
     }
 
+    // Akcia pre pridanie cesty
+    private void btnPridatJazduActionPerformed(ActionEvent e) {
+        PridatCestuForm pridatCestuForm = null;
+        pridatCestuForm = new PridatCestuForm(login, selectedAuto, this);
+        pridatCestuForm.setVisible(true);
+        
+//        obnovCestu();
+    }
+    
     // Akcia pre pridanie auta
     private void btnPridatAutoActionPerformed(ActionEvent e) {
         PridatAutoForm pridatAutoForm = null;
