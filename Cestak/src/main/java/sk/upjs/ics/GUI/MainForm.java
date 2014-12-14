@@ -8,8 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -20,11 +18,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListCellRenderer;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import net.miginfocom.swing.MigLayout;
 import sk.upjs.ics.cestak.Auto;
 import sk.upjs.ics.cestak.AutoDAO;
+import sk.upjs.ics.cestak.AutoListCellRenderer;
 import sk.upjs.ics.cestak.DaoFactory;
 import sk.upjs.ics.cestak.Login;
 
@@ -61,12 +61,15 @@ public class MainForm extends JFrame {
     private JPanel panPanel3 = new JPanel();
 
     private Login login;
+    private Auto selectedAuto;
 
     private AutoDAO autoDao = DaoFactory.INSTANCE.autoDao();
-
+    private ListCellRenderer autoListCellRenderer = new AutoListCellRenderer();
+    
     public MainForm(Login login) {
         this();
         this.login = login;
+        obnovAuta();
     }
 
     public MainForm() {
@@ -86,9 +89,6 @@ public class MainForm extends JFrame {
         // Label a combo
         add(lblJazdy);
         add(comboAuta, "wrap, span 5");
-        comboAuta.setModel(getAutaModel());
-       
-        comboAuta.setSelectedItem(null);
 
         // Prazdny panel 2
         panPanel2.setPreferredSize(new Dimension(700, 10));
@@ -131,7 +131,16 @@ public class MainForm extends JFrame {
                 } catch (FileNotFoundException ex) {
                     System.err.println("Nenacitany subor.");
                 }
-                pridatAutoForm.setVisible(true);               
+                pridatAutoForm.setVisible(true); 
+                obnovAuta();
+            }
+        });
+        
+        comboAuta.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                selectedAuto = (Auto) comboAuta.getSelectedItem();
+                System.out.println(selectedAuto.getSpz());
             }
         });
 
@@ -228,6 +237,12 @@ public class MainForm extends JFrame {
 
     private ComboBoxModel getAutaModel() {
         List<Auto> auto = autoDao.zoznamPodlaPouzivatela(login);
+        System.out.println(login.getId());
         return new DefaultComboBoxModel(auto.toArray());
+    }
+
+    public void obnovAuta() {
+        comboAuta.setModel(getAutaModel());
+        comboAuta.setRenderer(autoListCellRenderer);
     }
 }

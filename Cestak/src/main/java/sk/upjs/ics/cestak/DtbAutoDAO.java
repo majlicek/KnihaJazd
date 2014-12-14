@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 /**
@@ -16,20 +15,19 @@ public class DtbAutoDAO implements AutoDAO {
 
     private JdbcTemplate jdbcTemplate;
 
-    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-
     public DtbAutoDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(this.jdbcTemplate);
     }
 
-    private BeanPropertyRowMapper<Login> mapovac
-            = new BeanPropertyRowMapper<>(Login.class);
+    private BeanPropertyRowMapper<Auto> mapovac
+            = new BeanPropertyRowMapper<>(Auto.class);
 
     @Override
     public List<Auto> zoznamPodlaPouzivatela(Login login) {
-        String sql = "SELECT SPZ, znacka, model, farba FROM Auto WHERE idPouzivatel = ?";
-        return jdbcTemplate.query(sql, new AutoRowMapper(), login.getId());
+        String sql = "SELECT * FROM Auto WHERE idPouzivatel = ?";
+        List<Auto> s = jdbcTemplate.query(sql, mapovac, login.getId());
+         
+        return s;
     }
 
     @Override
@@ -40,7 +38,7 @@ public class DtbAutoDAO implements AutoDAO {
         into.put("SPZ", auto.getSpz());
         into.put("rok_vyroby", auto.getRok_vyr());
         into.put("stav_tachometra", auto.getStav_tach());
-        into.put("vykon", auto.getStav_tach());
+        into.put("vykon", auto.getVykon());
         into.put("spotreba_mesto", auto.getSpotreba_mesto());
         into.put("spotreba_mimo", auto.getSpotreba_mimo());
         into.put("avg_spotreba", auto.getSpotreba_avg());
@@ -63,7 +61,8 @@ public class DtbAutoDAO implements AutoDAO {
 
     @Override
     public void vymazAuto(Auto auto) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        jdbcTemplate.update("DELETE FROM Auto WHERE SPZ = ?", 
+                auto.getSpz());
     }
 
 }
