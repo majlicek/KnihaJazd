@@ -259,7 +259,6 @@ public class MainForm extends JFrame {
 
     private ComboBoxModel getAutaModel() {
         List<Auto> auto = autoDao.zoznamPodlaPouzivatela(login);
-        selectedAuto = auto.get(0);
         if (!auto.isEmpty()) {
             selectedAuto = auto.get(0);
             System.out.println(login.getId());
