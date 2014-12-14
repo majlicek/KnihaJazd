@@ -24,15 +24,15 @@ public class DtbJazdaDAO implements JazdaDAO {
             = new BeanPropertyRowMapper<>(Jazda.class);
 
     @Override
-    public List<Jazda> zoznamPodlaAut(Auto auto) {
-        String sql = "SELECT * FROM Jazda WHERE idPouzivatel = ?";
-        List<Jazda> s = jdbcTemplate.query(sql, mapovac, auto.getIdPouzivatela());
+    public List<Jazda> zoznamPodlaAut(Auto auto, Login login) {
+        String sql = "SELECT * FROM Jazda WHERE idPouzivatel = ? AND SPZ = ?";
+        List<Jazda> s = jdbcTemplate.query(sql, mapovac, login.getId(), auto.getSpz()); 
 
         return s;
     }
 
     @Override
-    public void saveJazda(Auto auto, Jazda jazda) {
+    public void saveJazda(Jazda jazda) {
         Map into = new HashMap();
         into.put("datum", jazda.getDatum());
         into.put("vyjazd", jazda.getVyjazd());
@@ -45,15 +45,11 @@ public class DtbJazdaDAO implements JazdaDAO {
 
         insert.setTableName("Jazda");
         insert.execute(into);
-
-        // ? Neviem ako ? 
-        //String sql = "INSERT INTO PouzivatelAuto(`idPouzivatel`, `SPZ`) VALUES(?, ?)";
-        //jdbcTemplate.update(sql, jazda.getIdJazda(), auto.getSpz());
     }
 
     @Override
-    public void vymazJazda(Auto auto, Jazda jazda) {
+    public void vymazJazda(Jazda jazda) {
         jdbcTemplate.update("DELETE FROM Jazda WHERE SPZ = ?",
-                auto.getSpz());
+                jazda.getIdJazda());
     }
 }

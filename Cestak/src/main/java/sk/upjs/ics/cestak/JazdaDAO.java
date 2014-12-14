@@ -9,9 +9,9 @@ import java.util.List;
  */
 public interface JazdaDAO {
 
-    List<Jazda> zoznamPodlaAut(Auto auto);
+    List<Jazda> zoznamPodlaAut(Auto auto, Login login);
 
-    void saveJazda(Auto auto, Jazda jazda);
+    void saveJazda(Jazda jazda);
 
-    void vymazJazda(Auto auto, Jazda jazda);
+    void vymazJazda(Jazda jazda);
 }
