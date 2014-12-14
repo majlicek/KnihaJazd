@@ -186,10 +186,10 @@ public class MainForm extends JFrame {
         PridatCestuForm pridatCestuForm = null;
         pridatCestuForm = new PridatCestuForm(login, selectedAuto, this);
         pridatCestuForm.setVisible(true);
-        
+
 //        obnovCestu();
     }
-    
+
     // Akcia pre pridanie auta
     private void btnPridatAutoActionPerformed(ActionEvent e) {
         PridatAutoForm pridatAutoForm = null;
@@ -256,7 +256,11 @@ public class MainForm extends JFrame {
 
     private ComboBoxModel getAutaModel() {
         List<Auto> auto = autoDao.zoznamPodlaPouzivatela(login);
-        System.out.println(login.getId());
+        selectedAuto = auto.get(0);
+        if (!auto.isEmpty()) {
+            selectedAuto = auto.get(0);
+            System.out.println(login.getId());
+        }
         return new DefaultComboBoxModel(auto.toArray());
     }
 

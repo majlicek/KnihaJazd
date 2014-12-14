@@ -64,6 +64,7 @@ public class PrihlasovaciForm extends JFrame {
         /* ******************** AKCIE ************************ */
         // Tlačidlo "Prihlásiť"
         add(btnPrihlasit);
+        getRootPane().setDefaultButton(btnPrihlasit);
         // Akcia pre stlačenie tlačídla prihlásiť.
         btnPrihlasit.addActionListener(new ActionListener() {
             @Override

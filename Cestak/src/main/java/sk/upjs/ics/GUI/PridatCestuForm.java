@@ -20,6 +20,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import net.miginfocom.swing.MigLayout;
 import sk.upjs.ics.cestak.Auto;
 import sk.upjs.ics.cestak.DaoFactory;
+import sk.upjs.ics.cestak.Jazda;
 import sk.upjs.ics.cestak.JazdaDAO;
 import sk.upjs.ics.cestak.Login;
 
@@ -67,7 +68,7 @@ public class PridatCestuForm extends JDialog {
     private JButton btnZrusit = new JButton("Zrušiť");
 
     private Login login;
-    
+    private Jazda jazda;
     private Auto auto;
     
     private JazdaDAO jazdaDao = DaoFactory.INSTANCE.jazdaDao();
@@ -118,7 +119,7 @@ public class PridatCestuForm extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Ulozit
-                // btnUlozitActionPerformed(e);
+                btnUlozitActionPerformed(e);
                 System.out.println("Ukladam...");
             }
         });
@@ -144,7 +145,7 @@ public class PridatCestuForm extends JDialog {
     private void nastavDatumGUI() {
         add(lblDatum);
         add(txtDatum, "wrap");
-        txtDatum.setText("RRRR-MM-DD");
+        txtDatum.setText("2014-02-15");
     }
 
     // Nastaví cieľ cesty pre GUI
@@ -212,6 +213,28 @@ public class PridatCestuForm extends JDialog {
         }
         comboOdchodMinuta.setSelectedItem(null);
         comboPrichodMinuta.setSelectedItem(null);
+    }
+    
+    private void btnUlozitActionPerformed(ActionEvent e) {
+        jazda = new Jazda();
+        jazda.setVyjazd(txtOdkial.getText());
+        jazda.setPrijazd(txtKam.getText());
+        jazda.setSPZ(auto.getSpz());
+        jazda.setPrejdeneKilometre(txtNajazdene.getText());
+        jazda.setCerpaniePHM(Double.parseDouble(txtPHM.getText()));
+        jazda.setDatum(txtDatum.getText());
+        jazda.setPoc_stav_km(Integer.parseInt(txtPociatokKm.getText()));
+        String h = (String) comboOdchodHodina.getSelectedItem();
+        String m = (String) comboOdchodMinuta.getSelectedItem();
+        jazda.setCas_odchod(h+":"+m);
+        h = (String) comboPrichodHodina.getSelectedItem();
+        m = (String) comboPrichodHodina.getSelectedItem();
+        jazda.setCas_prichod(h+":"+m);
+        jazda.setPoznamka(txtPoznamka.getText());
+        jazda.setIdPouzivatel(login.getId());
+        
+        jazdaDao.saveJazda(jazda);
+        dispose();
     }
 
     // Main - PridatCestuForm
