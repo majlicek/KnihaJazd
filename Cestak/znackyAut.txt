@@ -59,7 +59,7 @@ MG
 MicroCar
 Mini
 Mitsubishi
-Moskvič
+Moskvic
 Multicar
 Nissan
 Oldsmobile
@@ -76,7 +76,7 @@ Saab
 Santana
 Seat
 Shelby
-Škoda
+Skoda
 Smart
 SsangYong
 Subaru
