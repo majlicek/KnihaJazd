@@ -65,7 +65,7 @@ public class MainForm extends JFrame {
 
     private AutoDAO autoDao = DaoFactory.INSTANCE.autoDao();
     private ListCellRenderer autoListCellRenderer = new AutoListCellRenderer();
-    
+
     public MainForm(Login login) {
         this();
         this.login = login;
@@ -131,11 +131,13 @@ public class MainForm extends JFrame {
                 } catch (FileNotFoundException ex) {
                     System.err.println("Nenacitany subor.");
                 }
-                pridatAutoForm.setVisible(true); 
+                pridatAutoForm.setVisible(true);
                 obnovAuta();
             }
+            
         });
-        
+
+        // Práca s vybraným autom.
         comboAuta.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -225,6 +227,20 @@ public class MainForm extends JFrame {
         add(scrollPane, "wrap, span 6");
     }
 
+    private ComboBoxModel getAutaModel() {
+        List<Auto> auto = autoDao.zoznamPodlaPouzivatela(login);
+        System.out.println(login.getId());
+        return new DefaultComboBoxModel(auto.toArray());
+    }
+
+    // Obnoví zoznam aút v comboboxe
+    public void obnovAuta() {
+        comboAuta.setModel(getAutaModel());
+        //comboAuta.revalidate(); // pridane
+        //comboAuta.repaint(); // pridane
+        comboAuta.setRenderer(autoListCellRenderer);
+    }
+
     // Main - MainForm
     public static void main(String args[]) throws UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel(new WindowsLookAndFeel());
@@ -235,14 +251,4 @@ public class MainForm extends JFrame {
         mainForm.setLocationRelativeTo(CENTER_SCREEN);
     }
 
-    private ComboBoxModel getAutaModel() {
-        List<Auto> auto = autoDao.zoznamPodlaPouzivatela(login);
-        System.out.println(login.getId());
-        return new DefaultComboBoxModel(auto.toArray());
-    }
-
-    public void obnovAuta() {
-        comboAuta.setModel(getAutaModel());
-        comboAuta.setRenderer(autoListCellRenderer);
-    }
 }
