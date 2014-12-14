@@ -5,33 +5,33 @@ package sk.upjs.ics.cestak;
  * @author Majlo
  */
 public class Auto {
-    
+
     private String znacka;
-    
+
     private String model;
-            
+
     private String spz;
-            
+
     private String rok_vyr;
-            
+
     private long stav_tach;
-            
+
     private double spotreba_avg;
 
     private double spotreba_mesto;
-            
-    private double spotreba_mimo;    
-            
-    private String palivo;        
-            
+
+    private double spotreba_mimo;
+
+    private String palivo;
+
     private String prevodovka;
-    
+
     private String klima;
-    
+
     private String farba;
-    
+
     private double vykon;
-    
+
     private long idPouzivatela;
 
     /**

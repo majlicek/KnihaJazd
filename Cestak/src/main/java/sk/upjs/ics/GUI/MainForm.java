@@ -44,7 +44,7 @@ public class MainForm extends JFrame {
     private JButton btnUpravitAuto = new JButton("Upraviť auto");
     private JButton btnVymazatAuto = new JButton("Vymazať auto");
     private JButton btnUpravitUzivatela = new JButton("Upraviť profil");
-    private JButton btnKoniec = new JButton("Koniec");
+    private JButton btnOdhlasit = new JButton("Koniec");
 
     // Comboboxy
     private JComboBox comboAuta = new JComboBox();
@@ -65,7 +65,7 @@ public class MainForm extends JFrame {
 
     private AutoDAO autoDao = DaoFactory.INSTANCE.autoDao();
     private ListCellRenderer autoListCellRenderer = new AutoListCellRenderer();
-    
+
     public MainForm(Login login) {
         this();
         this.login = login;
@@ -124,12 +124,10 @@ public class MainForm extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // otvorí PridatAutoForm
                 btnPridatAutoActionPerformed(e);
-                
+
             }
         });
-        
-        
-        
+
         comboAuta.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -162,22 +160,47 @@ public class MainForm extends JFrame {
             }
         });
 
-        // Tlacidlo koniec
-        add(btnKoniec, "tag cancel, span 1");
+        // Tlacidlo Odhlasit
+        add(btnOdhlasit, "tag cancel, span 1");
         // Akcia pre stlačenie tlačidla zrušiť.
-        btnKoniec.addActionListener(new ActionListener() {
+        btnOdhlasit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
+                btnOdhlasitActionPerformed(e);
             }
         });
-        /* ******************** AKCIE ************************ */
 
+        /* ******************** AKCIE ************************ */
         // Nastavenia
         setPreferredSize(new Dimension(700, 500));
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
+    }
+
+    // Akcia pre pridanie auta
+    private void btnPridatAutoActionPerformed(ActionEvent e) {
+        PridatAutoForm pridatAutoForm = null;
+        try {
+            pridatAutoForm = new PridatAutoForm(login, this);
+            pridatAutoForm.setTitle("Kniha jázd - pridanie vozidla");
+            pridatAutoForm.setLocationRelativeTo(CENTER_SCREEN);
+        } catch (HeadlessException ex) {
+            System.err.println(ex);
+        } catch (FileNotFoundException ex) {
+            System.err.println("Nenacitany subor.");
+        }
+        pridatAutoForm.setVisible(true);
+        obnovAuta();
+    }
+
+    // Akcia pre odhlásenie
+    private void btnOdhlasitActionPerformed(ActionEvent e) {
+        dispose();
+        PrihlasovaciForm prihlasovaciForm = new PrihlasovaciForm();
+        prihlasovaciForm.setTitle("Kniha jázd - prihlásenie");
+        prihlasovaciForm.setLocationRelativeTo(CENTER_SCREEN);
+        prihlasovaciForm.setVisible(true);
     }
 
     // Nastavenie tabuľky
@@ -219,6 +242,21 @@ public class MainForm extends JFrame {
         add(scrollPane, "wrap, span 6");
     }
 
+    private ComboBoxModel getAutaModel() {
+        List<Auto> auto = autoDao.zoznamPodlaPouzivatela(login);
+        System.out.println(login.getId());
+        return new DefaultComboBoxModel(auto.toArray());
+    }
+
+    // Obnovenie áut v comboboxe
+    public void obnovAuta() {
+        comboAuta.setModel(getAutaModel());
+        if (getAutaModel().getSize() != 0) {
+            comboAuta.setRenderer(autoListCellRenderer);
+        }
+
+    }
+
     // Main - MainForm
     public static void main(String args[]) throws UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel(new WindowsLookAndFeel());
@@ -228,30 +266,4 @@ public class MainForm extends JFrame {
         mainForm.setTitle("Kniha jázd - hlavné okno");
         mainForm.setLocationRelativeTo(CENTER_SCREEN);
     }
-
-    private ComboBoxModel getAutaModel() {
-        List<Auto> auto = autoDao.zoznamPodlaPouzivatela(login);
-        System.out.println(login.getId());
-        return new DefaultComboBoxModel(auto.toArray());
-    }
-
-    public void obnovAuta() {
-        comboAuta.setModel(getAutaModel());
-        if (getAutaModel().getSize()!=0) {
-            comboAuta.setRenderer(autoListCellRenderer);
-        }
-        
-    }
-    private void btnPridatAutoActionPerformed(ActionEvent e) {
-                PridatAutoForm pridatAutoForm = null;
-                try {
-                    pridatAutoForm = new PridatAutoForm(login, this);
-                } catch (HeadlessException ex) {
-                    System.err.println(ex);
-                } catch (FileNotFoundException ex) {
-                    System.err.println("Nenacitany subor.");
-                }
-                pridatAutoForm.setVisible(true); 
-                obnovAuta();
-            }
 }
