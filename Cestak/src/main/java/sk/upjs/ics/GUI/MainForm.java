@@ -187,6 +187,7 @@ public class MainForm extends JFrame {
         pridatCestuForm = new PridatCestuForm(login, selectedAuto, this);
         pridatCestuForm.setTitle("Kniha jázd - pridanie nového záznamu");
         pridatCestuForm.setLocationRelativeTo(CENTER_SCREEN);
+        // nastavenie
         pridatCestuForm.setVisible(true);
 
 //        obnovCestu();
