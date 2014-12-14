@@ -7,8 +7,11 @@ import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -20,6 +23,7 @@ import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import net.miginfocom.swing.MigLayout;
+import sk.upjs.ics.cestak.Auto;
 import sk.upjs.ics.cestak.AutoDAO;
 import sk.upjs.ics.cestak.DaoFactory;
 import sk.upjs.ics.cestak.Login;
@@ -43,7 +47,7 @@ public class MainForm extends JFrame {
     private JButton btnKoniec = new JButton("Koniec");
 
     // Comboboxy
-    private JComboBox comboCesty = new JComboBox();
+    private JComboBox comboAuta = new JComboBox();
 
     // Labely
     private JLabel lblJazdy = new JLabel("Aktuálny zoznam jázd:");
@@ -81,10 +85,10 @@ public class MainForm extends JFrame {
 
         // Label a combo
         add(lblJazdy);
-        add(comboCesty, "wrap, span 5");
-        comboCesty.addItem("Košice - Prešov; 15.10.2014");
-        comboCesty.addItem("Bratislava - Zvolen; 05.07.2008");
-        comboCesty.setSelectedItem(null);
+        add(comboAuta, "wrap, span 5");
+        comboAuta.setModel(getAutaModel());
+       
+        comboAuta.setSelectedItem(null);
 
         // Prazdny panel 2
         panPanel2.setPreferredSize(new Dimension(700, 10));
@@ -220,5 +224,10 @@ public class MainForm extends JFrame {
         mainForm.setVisible(true);
         mainForm.setTitle("Kniha jázd - hlavné okno");
         mainForm.setLocationRelativeTo(CENTER_SCREEN);
+    }
+
+    private ComboBoxModel getAutaModel() {
+        List<Auto> auto = autoDao.zoznamPodlaPouzivatela(login);
+        return new DefaultComboBoxModel(auto.toArray());
     }
 }

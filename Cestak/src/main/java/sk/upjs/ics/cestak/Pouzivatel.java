@@ -10,7 +10,7 @@ package sk.upjs.ics.cestak;
  * @author Majlo
  */
 public class Pouzivatel {
-    private long id;
+    private int idPouzivatel;
     
     private String meno;
     
@@ -29,15 +29,15 @@ public class Pouzivatel {
     /**
      * @return the id
      */
-    public long getId() {
-        return id;
+    public int getId() {
+        return idPouzivatel;
     }
 
     /**
-     * @param id the id to set
+     * @param idPouzivatel the id to set
      */
-    public void setId(long id) {
-        this.id = id;
+    public void setId(int idPouzivatel) {
+        this.idPouzivatel = idPouzivatel;
     }
 
     /**

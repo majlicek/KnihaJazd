@@ -100,6 +100,7 @@ public class PrihlasovaciForm extends JFrame {
         login = prihlasenieDao.verifyLogin(login);
         if (login != null) {
             dispose();
+            System.out.println(login.getId());
             MainForm mainForm = new MainForm(login);
             mainForm.setVisible(true);
         } else {

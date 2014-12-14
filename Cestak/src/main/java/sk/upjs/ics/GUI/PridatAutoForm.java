@@ -224,11 +224,11 @@ public class PridatAutoForm extends JFrame {
         auto.setModel(txtModel.getText());
         auto.setSpz(txtECV.getText());
         auto.setRok_vyr(txtRokVyroby.getText());
-        auto.setStav_tach(txtStavTachometra.getText());
-        auto.setVykon(txtVykon.getText());
-        auto.setSpotreba_mesto(txtSpotrebaMesto.getText());
-        auto.setSpotreba_mimo(txtSpotrebaMimo.getText());
-        auto.setSpotreba_avg(txtSpotrebaKomb.getText());
+        auto.setStav_tach(Integer.parseInt(txtStavTachometra.getText()));
+        auto.setVykon(Double.parseDouble(txtVykon.getText()));
+        auto.setSpotreba_mesto(Integer.parseInt(txtSpotrebaMesto.getText()));
+        auto.setSpotreba_mimo(Double.parseDouble(txtSpotrebaMimo.getText()));
+        auto.setSpotreba_avg(Double.parseDouble(txtSpotrebaKomb.getText()));
         auto.setPalivo((String) comboPalivo.getSelectedItem());
         auto.setPrevodovka((String) comboPrevodovka.getSelectedItem());
         auto.setKlima((String) comboKlimatizacia.getSelectedItem());

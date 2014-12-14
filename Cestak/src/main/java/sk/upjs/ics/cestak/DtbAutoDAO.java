@@ -28,12 +28,13 @@ public class DtbAutoDAO implements AutoDAO {
 
     @Override
     public List<Auto> zoznamPodlaPouzivatela(Login login) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        String sql = "SELECT SPZ, znacka, model, farba FROM Auto WHERE idPouzivatel = ?";
+        return jdbcTemplate.query(sql, new AutoRowMapper(), login.getId());
     }
 
     @Override
     public void saveAuto(Login login, Auto auto) {
-        Map<String, Object> into = new HashMap<String, Object>();
+        Map into = new HashMap();
         into.put("znacka", auto.getZnacka());
         into.put("model", auto.getModel());
         into.put("SPZ", auto.getSpz());
@@ -51,6 +52,7 @@ public class DtbAutoDAO implements AutoDAO {
 
         SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
 
+        
         //insert.setGeneratedKeyName("idPouzivatel");
         insert.setTableName("Auto");
         insert.execute(into);

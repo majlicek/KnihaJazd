@@ -1,6 +1,7 @@
 package sk.upjs.ics.cestak;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -43,7 +44,7 @@ public class DtbPrihlasenieDAO implements PrihlasenieDAO {
 
         insert.setTableName("Pouzivatel");
         Number id = insert.executeAndReturnKey(into);
-        pouzivatel.setId(id.longValue());
+        pouzivatel.setId(id.intValue());
         return pouzivatel;
     }
     @Override
@@ -55,9 +56,9 @@ public class DtbPrihlasenieDAO implements PrihlasenieDAO {
     @Override
     public Login verifyLogin(Login login) {
 //        int hash = login.getHeslo().hashCode();
-        String sql = "SELECT * FROM Login WHERE login = ? AND heslo = ?";
-        try {
-            return jdbcTemplate.queryForObject(sql, mapovac, login.getLogin(), login.getHeslo());
+        String sql = "SELECT l.idPouzivatel AS id, l.login, l.heslo FROM Login AS l WHERE l.login = ? AND l.heslo = ?";
+        try {            
+            return jdbcTemplate.queryForObject(sql, mapovac, login.getLogin(), login.getHeslo());          
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
