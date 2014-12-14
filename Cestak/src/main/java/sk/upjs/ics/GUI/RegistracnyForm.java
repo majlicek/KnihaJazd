@@ -102,8 +102,7 @@ public class RegistracnyForm extends JFrame {
         /* ******************** AKCIE ************************ */
 
         setPreferredSize(new Dimension(313, 310));
-        setResizable(false); // ZMENIŤ NA FALSE !!!
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setResizable(false); 
         pack();
     }
 

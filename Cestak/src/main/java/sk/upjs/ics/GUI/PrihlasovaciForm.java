@@ -102,6 +102,8 @@ public class PrihlasovaciForm extends JFrame {
             dispose();
             System.out.println(login.getId());
             MainForm mainForm = new MainForm(login);
+            mainForm.setTitle("Kniha jázd - hlavné okno");
+            mainForm.setLocationRelativeTo(CENTER_SCREEN);
             mainForm.setVisible(true);
         } else {
             lblWarning.setVisible(true);
@@ -112,6 +114,8 @@ public class PrihlasovaciForm extends JFrame {
     private void btnRegistrovatActionPerformed(ActionEvent event) {
         RegistracnyForm registrujPouzivatela;
         registrujPouzivatela = new RegistracnyForm();
+        registrujPouzivatela.setTitle("Kniha jázd - registrácia užívateľa");
+        registrujPouzivatela.setLocationRelativeTo(CENTER_SCREEN);
         registrujPouzivatela.setVisible(true);
     }
 
