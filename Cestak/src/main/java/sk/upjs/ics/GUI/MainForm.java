@@ -243,6 +243,9 @@ public class MainForm extends JFrame {
 
     public void obnovAuta() {
         comboAuta.setModel(getAutaModel());
-        comboAuta.setRenderer(autoListCellRenderer);
+        if (getAutaModel().getSize()!=0) {
+            comboAuta.setRenderer(autoListCellRenderer);
+        }
+        
     }
 }
