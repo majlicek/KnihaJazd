@@ -24,6 +24,11 @@ public class DtbPrihlasenieDAO implements PrihlasenieDAO {
         this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(this.jdbcTemplate);
     }
 
+    // Prazdny konstruktor pre JUnitTest
+    public DtbPrihlasenieDAO() {
+
+    }
+
     private BeanPropertyRowMapper<Login> mapovac
             = new BeanPropertyRowMapper<>(Login.class);
 
@@ -37,7 +42,7 @@ public class DtbPrihlasenieDAO implements PrihlasenieDAO {
         into.put("adresa", pouzivatel.getAdresa());
         into.put("email", pouzivatel.getEmail());
         into.put("tel", pouzivatel.getTel());
-        
+
         SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
 
         insert.setGeneratedKeyName("idPouzivatel");
@@ -47,18 +52,19 @@ public class DtbPrihlasenieDAO implements PrihlasenieDAO {
         pouzivatel.setId(id.intValue());
         return pouzivatel;
     }
+
     @Override
     public void saveLogin(Login login) {
         String sql = "INSERT INTO Login(`idPouzivatel`, `login`, `heslo`) VALUES(?, ?, ?)";
-        jdbcTemplate.update(sql,login.getId(), login.getLogin(), login.getHeslo());
+        jdbcTemplate.update(sql, login.getId(), login.getLogin(), login.getHeslo());
     }
 
     @Override
     public Login verifyLogin(Login login) {
 //        int hash = login.getHeslo().hashCode();
         String sql = "SELECT l.idPouzivatel AS id, l.login, l.heslo FROM Login AS l WHERE l.login = ? AND l.heslo = ?";
-        try {            
-            return jdbcTemplate.queryForObject(sql, mapovac, login.getLogin(), login.getHeslo());          
+        try {
+            return jdbcTemplate.queryForObject(sql, mapovac, login.getLogin(), login.getHeslo());
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
