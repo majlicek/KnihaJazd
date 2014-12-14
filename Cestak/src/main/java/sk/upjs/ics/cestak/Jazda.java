@@ -30,6 +30,8 @@ public class Jazda {
     private double cenaPHM;
 
     private String datum;
+    
+    private String poznamka;
 
     public int getIdJazda() {
         return idJazda;
@@ -143,5 +145,19 @@ public class Jazda {
      */
     public void setCas_prichod(String cas_prichod) {
         this.cas_prichod = cas_prichod;
+    }
+
+    /**
+     * @return the poznamka
+     */
+    public String getPoznamka() {
+        return poznamka;
+    }
+
+    /**
+     * @param poznamka the poznamka to set
+     */
+    public void setPoznamka(String poznamka) {
+        this.poznamka = poznamka;
     }
 }
