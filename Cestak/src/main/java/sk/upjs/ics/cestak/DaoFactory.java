@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sk.upjs.ics.cestak;
 
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
@@ -53,5 +48,4 @@ public enum DaoFactory {
         }
         return this.autoDao;
     }
-
 }

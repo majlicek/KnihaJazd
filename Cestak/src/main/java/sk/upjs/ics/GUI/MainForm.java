@@ -134,7 +134,7 @@ public class MainForm extends JFrame {
                 pridatAutoForm.setVisible(true);
                 obnovAuta();
             }
-            
+
         });
 
         // Práca s vybraným autom.
@@ -250,5 +250,4 @@ public class MainForm extends JFrame {
         mainForm.setTitle("Kniha jázd - hlavné okno");
         mainForm.setLocationRelativeTo(CENTER_SCREEN);
     }
-
 }
