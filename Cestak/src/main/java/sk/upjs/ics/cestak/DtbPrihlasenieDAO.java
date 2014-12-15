@@ -1,7 +1,6 @@
 package sk.upjs.ics.cestak;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;

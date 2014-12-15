@@ -3,7 +3,6 @@ package sk.upjs.ics.cestak;
 import java.util.List;
 
 /**
- * SKONTROLOVAT !
  *
  * @author Matej Perejda
  */

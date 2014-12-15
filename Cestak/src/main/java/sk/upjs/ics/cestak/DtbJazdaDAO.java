@@ -8,9 +8,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 /**
- * SKONTROLOVAT !
+ * 
  *
- * @author Matej
+ * @author Majlo
  */
 public class DtbJazdaDAO implements JazdaDAO {
 

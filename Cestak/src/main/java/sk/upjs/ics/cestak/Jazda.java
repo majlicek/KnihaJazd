@@ -1,8 +1,7 @@
 package sk.upjs.ics.cestak;
 
 /**
- * SKONTROLOVAT ! 
- * 
+ *  
  * @author Matej Perejda
  */
 public class Jazda {
