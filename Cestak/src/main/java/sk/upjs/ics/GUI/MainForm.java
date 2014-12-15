@@ -147,8 +147,10 @@ public class MainForm extends JFrame {
         comboAuta.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                
                 selectedAuto = (Auto) comboAuta.getSelectedItem();
                 obnovJazdy();
+                System.out.println(selectedAuto.getSpz());
             }
         });
 
