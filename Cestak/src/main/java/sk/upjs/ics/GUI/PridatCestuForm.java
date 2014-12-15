@@ -145,7 +145,7 @@ public class PridatCestuForm extends JDialog {
     private void nastavDatumGUI() {
         add(lblDatum);
         add(txtDatum, "wrap");
-        txtDatum.setText("2014-02-15");
+        txtDatum.setText("RRRR-MM-DD");
     }
 
     // Nastaví cieľ cesty pre GUI

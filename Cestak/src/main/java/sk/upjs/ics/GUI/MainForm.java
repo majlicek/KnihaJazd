@@ -165,6 +165,7 @@ public class MainForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 autoDao.vymazAuto(selectedAuto);
+                obnovAuta();
             }
         });
 

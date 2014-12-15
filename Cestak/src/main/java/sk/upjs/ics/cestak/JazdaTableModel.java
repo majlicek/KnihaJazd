@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package sk.upjs.ics.cestak;
 
 import java.util.List;
@@ -25,7 +21,7 @@ public class JazdaTableModel extends AbstractTableModel {
         String.class
     };
     
-    private static final String[] NAZVY_STLPCOV = { "Odkial", "Kam", "PrejdeneKM" , "cerpanie PHM", "Datum"};
+    private static final String[] NAZVY_STLPCOV = { "Odkiaľ", "Kam", "Prejdené km" , "Čerpanie PHM", "Dátum"};
 
     private JazdaDAO jazdaDao = DaoFactory.INSTANCE.jazdaDao();
 
