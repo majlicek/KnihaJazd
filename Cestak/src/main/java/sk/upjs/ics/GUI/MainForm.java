@@ -23,11 +23,16 @@ import javax.swing.JTable;
 import javax.swing.ListCellRenderer;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import net.miginfocom.swing.MigLayout;
 import sk.upjs.ics.cestak.Auto;
 import sk.upjs.ics.cestak.AutoDAO;
 import sk.upjs.ics.cestak.AutoListCellRenderer;
 import sk.upjs.ics.cestak.DaoFactory;
+import sk.upjs.ics.cestak.Jazda;
+import sk.upjs.ics.cestak.JazdaDAO;
+import sk.upjs.ics.cestak.JazdaTableModel;
 import sk.upjs.ics.cestak.Login;
 
 /**
@@ -66,12 +71,15 @@ public class MainForm extends JFrame {
     private Auto selectedAuto;
 
     private AutoDAO autoDao = DaoFactory.INSTANCE.autoDao();
+    private JazdaDAO jazdaDao = DaoFactory.INSTANCE.jazdaDao();
     private ListCellRenderer autoListCellRenderer = new AutoListCellRenderer();
+    private JazdaTableModel jazdaTableModel = new JazdaTableModel();
 
     public MainForm(Login login) {
         this();
         this.login = login;
         obnovAuta();
+        obnovJazdy();
     }
 
     public MainForm() {
@@ -103,6 +111,8 @@ public class MainForm extends JFrame {
         panPanel3.setPreferredSize(new Dimension(700, 10));
         add(panPanel3, "wrap");
 
+        btnVymazatCestu.setEnabled(false);
+        btnUpravitUzivatela.setEnabled(false);
         /* ******************** AKCIE ************************ */
         // Akcia pre pridanie novej cesty.
         btnNovaCesta.addActionListener(new ActionListener() {
@@ -117,7 +127,11 @@ public class MainForm extends JFrame {
         btnVymazatCestu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // otvorí upozornenie, či naozaj chceme vymazať túto cestu.
+                int vybranyRiadok = tabJazdy.getSelectedRow();
+                int vybratyIndexVModeli = tabJazdy.convertRowIndexToModel(vybranyRiadok);
+                Jazda jazda = jazdaTableModel.dajPodlaCislaRiadku(vybratyIndexVModeli);
+                jazdaDao.vymazJazda(jazda);
+                obnovJazdy();
             }
         });
 
@@ -127,7 +141,6 @@ public class MainForm extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // otvorí PridatAutoForm
                 btnPridatAutoActionPerformed(e);
-
             }
         });
 
@@ -135,7 +148,7 @@ public class MainForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 selectedAuto = (Auto) comboAuta.getSelectedItem();
-                System.out.println(selectedAuto.getSpz());
+                obnovJazdy();
             }
         });
 
@@ -161,6 +174,14 @@ public class MainForm extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // otvorí RegistracnyForm s vydolovanými dátami z databázy
             }
+        });
+
+        tabJazdy.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                tabJazdySelectionValueChanged(e);
+            }
+
         });
 
         // Tlacidlo Odhlasit
@@ -190,7 +211,7 @@ public class MainForm extends JFrame {
         // nastavenie
         pridatCestuForm.setVisible(true);
 
-//        obnovCestu();
+        obnovJazdy();
     }
 
     // Akcia pre pridanie auta
@@ -207,6 +228,7 @@ public class MainForm extends JFrame {
         }
         pridatAutoForm.setVisible(true);
         obnovAuta();
+        obnovJazdy();
     }
 
     // Akcia pre odhlásenie
@@ -218,37 +240,50 @@ public class MainForm extends JFrame {
         prihlasovaciForm.setVisible(true);
     }
 
+    private void tabJazdySelectionValueChanged(ListSelectionEvent e) {
+        if (!e.getValueIsAdjusting()) {
+            if (!tabJazdy.getSelectionModel().isSelectionEmpty()) {
+                btnVymazatCestu.setEnabled(true);
+                btnUpravitUzivatela.setEnabled(false);
+            } else {
+                btnVymazatCestu.setEnabled(false);
+                btnUpravitUzivatela.setEnabled(false);
+            }
+        }
+    }
+
     // Nastavenie tabuľky
     public void setJTable() {
-        // Stĺpce upraviť podľa potreby.
-        String[] columnNames = {"EČV", "Značka", "Model", "Farba"};
+//        // Stĺpce upraviť podľa potreby.
+//        String[] columnNames = {"EČV", "Značka", "Model", "Farba"};
+//
+//        // Testovacie data. 
+//        // Dolovať dáta z databázy !!!
+//        Object[][] testData = {
+//            {"BL-TR235DS", "BMW", "X5", "čierna"},
+//            {"VT-TR235DS", "Mercedes", "S2", "biela"},
+//            {"KE-TR235DS", "Audi", "R8", "červená"},
+//            {"BL-TR235DS", "BMW", "X5", "čierna"},
+//            {"VT-TR235DS", "Mercedes", "S2", "biela"},
+//            {"KE-TR235DS", "Audi", "R8", "červená"},
+//            {"BL-TR235DS", "BMW", "X5", "čierna"},
+//            {"VT-TR235DS", "Mercedes", "S2", "biela"},
+//            {"KE-TR235DS", "Audi", "R8", "červená"},
+//            {"BL-TR235DS", "BMW", "X5", "čierna"},
+//            {"VT-TR235DS", "Mercedes", "S2", "biela"},
+//            {"KE-TR235DS", "Audi", "R8", "červená"},
+//            {"BL-TR235DS", "BMW", "X5", "čierna"},
+//            {"VT-TR235DS", "Mercedes", "S2", "biela"},
+//            {"KE-TR235DS", "Audi", "R8", "červená"},
+//            {"BL-TR235DS", "BMW", "X5", "čierna"},
+//            {"VT-TR235DS", "Mercedes", "S2", "biela"},
+//            {"KE-TR235DS", "Audi", "R8", "červená"},
+//            {"BL-TR235DS", "BMW", "X5", "čierna"},
+//            {"VT-TR235DS", "Mercedes", "S2", "biela"},
+//            {"KE-TR235DS", "Audi", "R8", "červená"},};
 
-        // Testovacie data. 
-        // Dolovať dáta z databázy !!!
-        Object[][] testData = {
-            {"BL-TR235DS", "BMW", "X5", "čierna"},
-            {"VT-TR235DS", "Mercedes", "S2", "biela"},
-            {"KE-TR235DS", "Audi", "R8", "červená"},
-            {"BL-TR235DS", "BMW", "X5", "čierna"},
-            {"VT-TR235DS", "Mercedes", "S2", "biela"},
-            {"KE-TR235DS", "Audi", "R8", "červená"},
-            {"BL-TR235DS", "BMW", "X5", "čierna"},
-            {"VT-TR235DS", "Mercedes", "S2", "biela"},
-            {"KE-TR235DS", "Audi", "R8", "červená"},
-            {"BL-TR235DS", "BMW", "X5", "čierna"},
-            {"VT-TR235DS", "Mercedes", "S2", "biela"},
-            {"KE-TR235DS", "Audi", "R8", "červená"},
-            {"BL-TR235DS", "BMW", "X5", "čierna"},
-            {"VT-TR235DS", "Mercedes", "S2", "biela"},
-            {"KE-TR235DS", "Audi", "R8", "červená"},
-            {"BL-TR235DS", "BMW", "X5", "čierna"},
-            {"VT-TR235DS", "Mercedes", "S2", "biela"},
-            {"KE-TR235DS", "Audi", "R8", "červená"},
-            {"BL-TR235DS", "BMW", "X5", "čierna"},
-            {"VT-TR235DS", "Mercedes", "S2", "biela"},
-            {"KE-TR235DS", "Audi", "R8", "červená"},};
-
-        tabJazdy = new JTable(testData, columnNames);
+        tabJazdy = new JTable();
+        tabJazdy.setModel(jazdaTableModel);
         tabJazdy.setPreferredScrollableViewportSize(new Dimension(700, 320));
         tabJazdy.setFillsViewportHeight(true);
         add(tabJazdy, "wrap, span 6");
@@ -261,7 +296,6 @@ public class MainForm extends JFrame {
         List<Auto> auto = autoDao.zoznamPodlaPouzivatela(login);
         if (!auto.isEmpty()) {
             selectedAuto = auto.get(0);
-            System.out.println(login.getId());
         }
         return new DefaultComboBoxModel(auto.toArray());
     }
@@ -271,8 +305,21 @@ public class MainForm extends JFrame {
         comboAuta.setModel(getAutaModel());
         if (getAutaModel().getSize() != 0) {
             comboAuta.setRenderer(autoListCellRenderer);
-        }
+            btnUpravitAuto.setEnabled(false);
+            btnVymazatAuto.setEnabled(true);
+            btnNovaCesta.setEnabled(true);
+        } else{
+            btnUpravitAuto.setEnabled(false);
+            btnVymazatAuto.setEnabled(false);
+            btnNovaCesta.setEnabled(false);
+        } 
 
+    }
+
+    private void obnovJazdy() {
+        if (getAutaModel().getSize() != 0) {
+            jazdaTableModel.obnov(selectedAuto, login);
+        }
     }
 
     // Main - MainForm

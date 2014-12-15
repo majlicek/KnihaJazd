@@ -24,9 +24,9 @@ public class Jazda {
     
     private int poc_stav_km;
 
-    private double cerpaniePHM;
+    private Double cerpaniePHM;
 
-    private double cenaPHM;
+    private Double cenaPHM;
 
     private String datum;
     
@@ -80,19 +80,19 @@ public class Jazda {
         this.prejdeneKilometre = prejdeneKilometre;
     }
 
-    public double getCerpaniePHM() {
+    public Double getCerpaniePHM() {
         return cerpaniePHM;
     }
 
-    public void setCerpaniePHM(double cerpaniePHM) {
+    public void setCerpaniePHM(Double cerpaniePHM) {
         this.cerpaniePHM = cerpaniePHM;
     }
 
-    public double getCenaPHM() {
+    public Double getCenaPHM() {
         return cenaPHM;
     }
 
-    public void setCenaPHM(double cenaPHM) {
+    public void setCenaPHM(Double cenaPHM) {
         this.cenaPHM = cenaPHM;
     }
 
