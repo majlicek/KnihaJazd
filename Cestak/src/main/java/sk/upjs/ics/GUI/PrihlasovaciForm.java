@@ -19,6 +19,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import net.miginfocom.swing.MigLayout;
 import sk.upjs.ics.cestak.DaoFactory;
 import sk.upjs.ics.cestak.Login;
+import sk.upjs.ics.cestak.Pouzivatel;
 import sk.upjs.ics.cestak.PrihlasenieDAO;
 
 /**
@@ -103,7 +104,7 @@ public class PrihlasovaciForm extends JFrame {
         if (login != null) {
             dispose();
             System.out.println(login.getId());
-            MainForm mainForm = new MainForm(login);
+            MainForm mainForm = new MainForm(login);                    
             mainForm.setTitle("Kniha jázd - hlavné okno. Používateľ: " + login.getLogin().toString().toUpperCase());
             mainForm.setLocationRelativeTo(CENTER_SCREEN);
             mainForm.setVisible(true);

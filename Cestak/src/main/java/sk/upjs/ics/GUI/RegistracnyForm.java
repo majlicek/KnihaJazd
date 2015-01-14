@@ -42,16 +42,16 @@ public class RegistracnyForm extends JFrame {
     private JButton btnZrusit = new JButton("Zrušiť");
 
     // Labely    
-    private JLabel lblLogin = new JLabel("Login:");
-    private JLabel lblHeslo = new JLabel("Heslo:");
-    private JLabel lblHeslo2 = new JLabel("Heslo:"); // Zopakujte heslo hint
-    private JLabel lblMeno = new JLabel("Meno:");
-    private JLabel lblPriezvisko = new JLabel("Priezvisko:");
-    private JLabel lblPohlavie = new JLabel("Pohlavie:");
-    private JLabel lblDatumNarodenia = new JLabel("Dátum narodenia:");
-    private JLabel lblAdresa = new JLabel("Adresa:");
-    private JLabel lblEmail = new JLabel("E-mail:");
-    private JLabel lblTel = new JLabel("Tel.:");
+    private JLabel lblLogin = new JLabel("Login:*");
+    private JLabel lblHeslo = new JLabel("Heslo:*");
+    private JLabel lblHeslo2 = new JLabel("Heslo:*"); // Zopakujte heslo hint
+    private JLabel lblMeno = new JLabel("Meno:*");
+    private JLabel lblPriezvisko = new JLabel("Priezvisko:*");
+    private JLabel lblPohlavie = new JLabel("Pohlavie:*");
+    private JLabel lblDatumNarodenia = new JLabel("Dátum narodenia:*");
+    private JLabel lblAdresa = new JLabel("Adresa:*");
+    private JLabel lblEmail = new JLabel("E-mail:*");
+    private JLabel lblTel = new JLabel("Tel.:*");
 
     // Textove polia
     private JTextField txtLogin = new JTextField();
@@ -179,16 +179,38 @@ public class RegistracnyForm extends JFrame {
     // Akcia pre registráciu.
     private void btnRegistrovatActionPerformed(ActionEvent e) {
         if (txtLogin.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Nie je vyplnená položka Login (povinný údaj)!", "Login", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Zadajte login (povinný údaj)!", "Login", JOptionPane.ERROR_MESSAGE);
             return;
         } else if (txtHeslo.getPassword().length == 0) {
             JOptionPane.showMessageDialog(this, "Zadajte heslo (povinný údaj)!", "Heslo", JOptionPane.ERROR_MESSAGE);
             return;
         } else if (txtHeslo2.getPassword().length == 0) {
-            JOptionPane.showMessageDialog(this, "Je potrebné zopakovať heslo (povinný údaj)!", "Heslo", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Zapakujte heslo (povinný údaj)!", "Heslo", JOptionPane.ERROR_MESSAGE);
+            return;
+        } else if (txtMeno.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Zadajte meno (povinný údaj)!", "Meno", JOptionPane.ERROR_MESSAGE);
+            return;
+        } else if (txtPriezvisko.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Zadajte priezvisko (povinný údaj)!", "Priezvisko", JOptionPane.ERROR_MESSAGE);
+            return;
+        } else if (comboPohlavie.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(this, "Zadajte pohlavie (povinný údaj)!", "Pohlavie", JOptionPane.ERROR_MESSAGE);
+            return;
+        } else if (comboDen.getSelectedItem() == null || comboMesiac.getSelectedItem() == null || comboRok.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(this, "Zadajte dátum narodenia (povinný údaj)!", "Dát.narodenia", JOptionPane.ERROR_MESSAGE);
+            return;
+        } else if (txtAdresa.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Zadajte adresu (povinný údaj)!", "Adresa", JOptionPane.ERROR_MESSAGE);
+            return;
+        } else if (txtEmail.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Zadajte e-mail (povinný údaj)!", "E-mail", JOptionPane.ERROR_MESSAGE);
+            return;
+        } else if (txtTel.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Zadajte tel.číslo (povinný údaj)!", "Tel.číslo", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
+        // Ak sa heslá pri registrácii nezhodujú.
         if (!String.valueOf(txtHeslo2.getPassword()).equals(String.valueOf(txtHeslo.getPassword()))) {
             JOptionPane.showMessageDialog(this, "Zadané heslá sa nezhodujú!", "Upozornenie", JOptionPane.ERROR_MESSAGE);
             return;
