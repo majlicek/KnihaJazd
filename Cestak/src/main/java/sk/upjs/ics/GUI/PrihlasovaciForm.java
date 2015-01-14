@@ -89,6 +89,7 @@ public class PrihlasovaciForm extends JFrame {
 
         setPreferredSize(new Dimension(350, 150));
         setResizable(false);
+               
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
     }
@@ -103,7 +104,7 @@ public class PrihlasovaciForm extends JFrame {
             dispose();
             System.out.println(login.getId());
             MainForm mainForm = new MainForm(login);
-            mainForm.setTitle("Kniha jázd - hlavné okno");
+            mainForm.setTitle("Kniha jázd - hlavné okno. Používateľ: " + login.getLogin().toString().toUpperCase());
             mainForm.setLocationRelativeTo(CENTER_SCREEN);
             mainForm.setVisible(true);
         } else {
@@ -128,5 +129,5 @@ public class PrihlasovaciForm extends JFrame {
         prihlasovaciForm.setVisible(true);
         prihlasovaciForm.setTitle("Kniha jázd - prihlásenie");
         prihlasovaciForm.setLocationRelativeTo(CENTER_SCREEN);
-    }
+    }    
 }

@@ -51,7 +51,7 @@ public class RegistracnyForm extends JFrame {
     private JLabel lblDatumNarodenia = new JLabel("Dátum narodenia:");
     private JLabel lblAdresa = new JLabel("Adresa:");
     private JLabel lblEmail = new JLabel("E-mail:");
-    private JLabel lblTel = new JLabel("Tel.:");    
+    private JLabel lblTel = new JLabel("Tel.:");
 
     // Textove polia
     private JTextField txtLogin = new JTextField();
@@ -81,8 +81,8 @@ public class RegistracnyForm extends JFrame {
         nastavPrihlasovacieUdajeGUI();
         nastavOsobneUdajeGUI();
         nastavDatumNarodeniaGUI();
-        nastavKontaktInfoGUI();       
-        
+        nastavKontaktInfoGUI();
+
         /* ******************** AKCIE ************************ */
         // Tlačidlo "Registrovať"
         add(btnRegistrovat, "tag ok");
@@ -178,52 +178,63 @@ public class RegistracnyForm extends JFrame {
 
     // Akcia pre registráciu.
     private void btnRegistrovatActionPerformed(ActionEvent e) {
-        if (!String.valueOf(txtHeslo2.getPassword()).equals(String.valueOf(txtHeslo.getPassword()))) { 
+        if (txtLogin.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nie je vyplnená položka Login (povinný údaj)!", "Login", JOptionPane.ERROR_MESSAGE);
+            return;
+        } else if (txtHeslo.getPassword().length == 0) {
+            JOptionPane.showMessageDialog(this, "Zadajte heslo (povinný údaj)!", "Heslo", JOptionPane.ERROR_MESSAGE);
+            return;
+        } else if (txtHeslo2.getPassword().length == 0) {
+            JOptionPane.showMessageDialog(this, "Je potrebné zopakovať heslo (povinný údaj)!", "Heslo", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if (!String.valueOf(txtHeslo2.getPassword()).equals(String.valueOf(txtHeslo.getPassword()))) {
             JOptionPane.showMessageDialog(this, "Zadané heslá sa nezhodujú!", "Upozornenie", JOptionPane.ERROR_MESSAGE);
             return;
-        }       
+        }
 
         pouzivatel = new Pouzivatel();
         pouzivatel.setMeno(txtMeno.getText());
         pouzivatel.setPriezvisko(txtPriezvisko.getText());
         pouzivatel.setAdresa(txtAdresa.getText());
         pouzivatel.setPohlavie((String) comboPohlavie.getSelectedItem());
-        
+
         // Matej
         // Namiesto StringBuildera a append použité Date, Calendar, DateFormat
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Calendar calendar = Calendar.getInstance();
-        
+
         int rok = Integer.parseInt(comboRok.getSelectedItem().toString());
         int mesiac = Integer.parseInt(comboMesiac.getSelectedItem().toString());
         int den = Integer.parseInt(comboDen.getSelectedItem().toString());
-        
+
         calendar.set(Calendar.YEAR, rok);
-        calendar.set(Calendar.MONTH, mesiac-1); // Mesiace sú číslované od 0..11
+        calendar.set(Calendar.MONTH, mesiac - 1); // Mesiace sú číslované od 0..11
         calendar.set(Calendar.DAY_OF_MONTH, den);
-        
+
         Date date = new Date();
-        date = calendar.getTime();      
+        date = calendar.getTime();
         String datum = dateFormat.format(date);
-                
-        pouzivatel.setDatum(datum); 
+
+        pouzivatel.setDatum(datum);
         pouzivatel.setEmail(txtEmail.getText());
         pouzivatel.setTel(txtTel.getText());
 
         login = new Login();
         login.setLogin(txtLogin.getText());
         login.setHeslo(String.valueOf(txtHeslo2.getPassword()));
-           
+
         // Ošetrenie, ak je login už obsadený.
-        if (prihlasenieDao.verifyOnlyLogin(login)) {         
+        if (prihlasenieDao.verifyOnlyLogin(login)) {
             JOptionPane.showMessageDialog(this, "Login '" + login.getLogin().toString() + "' je už obsadený!", "Upozornenie", JOptionPane.ERROR_MESSAGE);
             return;
-        } 
-                   
+        }
+
         prihlasenieDao.savePouzivatela(pouzivatel);
         login.setId(pouzivatel.getId());
         prihlasenieDao.saveLogin(login);
-        JOptionPane.showMessageDialog(this, "Registrácia prebehla úspešne. Teraz sa môžete prihlásiť.", "Úspešná registrácia", JOptionPane.INFORMATION_MESSAGE); 
+        JOptionPane.showMessageDialog(this, "Registrácia prebehla úspešne. Teraz sa môžete prihlásiť.", "Úspešná registrácia", JOptionPane.INFORMATION_MESSAGE);
         dispose();
     }
 
