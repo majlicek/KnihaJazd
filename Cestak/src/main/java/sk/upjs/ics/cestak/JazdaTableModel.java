@@ -4,6 +4,7 @@ package sk.upjs.ics.cestak;
 import java.util.List;
 import java.util.LinkedList;
 import javax.swing.table.AbstractTableModel;
+import sun.awt.SunToolkit;
 
 /**
  *
@@ -26,17 +27,20 @@ public class JazdaTableModel extends AbstractTableModel {
     private JazdaDAO jazdaDao = DaoFactory.INSTANCE.jazdaDao();
 
     private List<Jazda> jazda = new LinkedList<>();
-
+        
+    // Počet riadkov tabuľky JTable.
     @Override
     public int getRowCount() {
         return jazda.size();
     }
 
+    // Počet stĺpcov tabuľky JTable.
     @Override
     public int getColumnCount() {
         return POCET_STLPCOV;
     }
 
+    // Pridaná hodnotu na zadaný riadok, stĺpec JTable.
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Jazda selectedJazda = jazda.get(rowIndex);
@@ -55,21 +59,32 @@ public class JazdaTableModel extends AbstractTableModel {
                 return "!!!";
         }
     }
+    
+    // Meno stĺpca.
     @Override
     public String getColumnName(int column) {
         return NAZVY_STLPCOV[column];
     }
-
+    
+    // Typ stĺpca.
     @Override
     public Class<?> getColumnClass(int columnIndex) {
         return TYPY_STLPCOV[columnIndex];
     }
+    
+    
     public Jazda dajPodlaCislaRiadku(int riadok) {
         return jazda.get(riadok);
     }
-
+    
+    // Obnoví zoznam aút v JTable.
     public void obnov(Auto auto, Login login) {
+        System.out.println("Loading jazdy..."); // Matej
+        this.jazda = jazda; // Matej
+        System.out.println("Obnovujem: " + auto.getSpz().toString() + ", " + login.getLogin().toString()+"\n"); // Matej
         jazda = jazdaDao.zoznamPodlaAut(auto, login);
-        fireTableDataChanged();
-    }
+        
+        //fireTableDataChanged();
+    }  
+    
 }

@@ -78,14 +78,13 @@ public class PridatAutoForm extends JDialog {
     
     public PridatAutoForm(Login login, Frame parent) throws HeadlessException, FileNotFoundException{
         this(parent, true);
-        this.login = login;        
+        this.login = login;  
     }
-    
+        
     private PridatAutoForm(Frame parent) throws HeadlessException, FileNotFoundException{
         this(new Login(), parent);
     }
-
-
+      
     private PridatAutoForm(Frame parent, boolean modal) throws HeadlessException, FileNotFoundException {
         super(parent, modal);
         setLayout(new MigLayout("", "[fill, grow][fill, grow][fill, grow][fill, grow]", "[][][][][][][][][][][][][][nogrid]"));
@@ -138,11 +137,11 @@ public class PridatAutoForm extends JDialog {
         /* ******************** AKCIE ************************ */
 
         setPreferredSize(new Dimension(500, 380));
-        setResizable(false); // ZMENIŤ NA FALSE !!!
+        setResizable(false); // ZMENIŤ NA FALSE !!!             
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         pack();
     }
-
+ 
     // Nastavenie pre klimatizáciu.
     private void nastavKlimatizaciuGUI() {
         add(lblKlimatizacia);

@@ -1,15 +1,18 @@
 package sk.upjs.ics.GUI;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -20,6 +23,10 @@ import sk.upjs.ics.cestak.DaoFactory;
 import sk.upjs.ics.cestak.Login;
 import sk.upjs.ics.cestak.Pouzivatel;
 import sk.upjs.ics.cestak.PrihlasenieDAO;
+import java.util.Date; // Matej
+import java.util.GregorianCalendar;
+import javax.swing.CellEditor;
+import javax.swing.JOptionPane;
 
 /**
  * Registračné okno (Register screen) Beta verzia
@@ -44,8 +51,7 @@ public class RegistracnyForm extends JFrame {
     private JLabel lblDatumNarodenia = new JLabel("Dátum narodenia:");
     private JLabel lblAdresa = new JLabel("Adresa:");
     private JLabel lblEmail = new JLabel("E-mail:");
-    private JLabel lblTel = new JLabel("Tel.:");
-    private JLabel lblWarn = new JLabel("Nieco je zle");
+    private JLabel lblTel = new JLabel("Tel.:");    
 
     // Textove polia
     private JTextField txtLogin = new JTextField();
@@ -75,8 +81,8 @@ public class RegistracnyForm extends JFrame {
         nastavPrihlasovacieUdajeGUI();
         nastavOsobneUdajeGUI();
         nastavDatumNarodeniaGUI();
-        nastavKontaktInfoGUI();
-
+        nastavKontaktInfoGUI();       
+        
         /* ******************** AKCIE ************************ */
         // Tlačidlo "Registrovať"
         add(btnRegistrovat, "tag ok");
@@ -102,7 +108,7 @@ public class RegistracnyForm extends JFrame {
         /* ******************** AKCIE ************************ */
 
         setPreferredSize(new Dimension(313, 310));
-        setResizable(false); 
+        setResizable(false);
         pack();
     }
 
@@ -121,18 +127,22 @@ public class RegistracnyForm extends JFrame {
     // Nastavenie pre dátum narodenia.
     private void nastavDatumNarodeniaGUI() {
         add(lblDatumNarodenia);
+
+        // Combobox - deň
         add(comboDen);
         comboDen.setToolTipText("Deň");
         comboDen.setMaximumSize(new Dimension(40, 30));
         generujDen();
         comboDen.setSelectedItem(null);
 
+        // Combobox - mesiac
         add(comboMesiac);
         comboMesiac.setToolTipText("Mesiac");
         comboMesiac.setMaximumSize(new Dimension(40, 30));
         generujMesiac();
         comboMesiac.setSelectedItem(null);
 
+        // Combobox - rok
         add(comboRok, "wrap");
         comboRok.setToolTipText("Rok");
         comboRok.setMaximumSize(new Dimension(55, 30));
@@ -140,17 +150,6 @@ public class RegistracnyForm extends JFrame {
         comboRok.setSelectedItem(null);
     }
 
-    // Metóda, ktorá skontroluje, či nebol náhodou zvolený dátum 29.2. / 30.2. / 31.2
-    // Neviem, kde ju aplikovať
-    /*private void skontrolujSpravnostDatumu() {
-     String mesiac = comboMesiac.getSelectedItem().toString();
-     String den = comboDen.getSelectedItem().toString();
-
-     if (mesiac.equals(2) && (den.equals(29) || den.equals(30) || den.equals(31))) {
-     JOptionPane.showMessageDialog(CENTER_SCREEN, "Mesiac február nemá " + den + " dní !", "Varovanie !", JOptionPane.ERROR_MESSAGE);
-     }
-
-     }*/
     // Nastavenie pre osobne údaje.
     private void nastavOsobneUdajeGUI() {
         add(lblMeno);
@@ -179,38 +178,52 @@ public class RegistracnyForm extends JFrame {
 
     // Akcia pre registráciu.
     private void btnRegistrovatActionPerformed(ActionEvent e) {
-        if (!String.valueOf(txtHeslo2.getPassword()).equals(String.valueOf(txtHeslo.getPassword()))) {
-            lblWarn.setVisible(true);
+        if (!String.valueOf(txtHeslo2.getPassword()).equals(String.valueOf(txtHeslo.getPassword()))) { 
+            JOptionPane.showMessageDialog(this, "Zadané heslá sa nezhodujú!", "Upozornenie", JOptionPane.ERROR_MESSAGE);
             return;
-        }
-        lblWarn.setVisible(false);
+        }       
 
         pouzivatel = new Pouzivatel();
         pouzivatel.setMeno(txtMeno.getText());
         pouzivatel.setPriezvisko(txtPriezvisko.getText());
         pouzivatel.setAdresa(txtAdresa.getText());
         pouzivatel.setPohlavie((String) comboPohlavie.getSelectedItem());
-        StringBuilder sb = new StringBuilder();
-        sb.append(comboRok.getSelectedItem());
-        sb.append("-");
-        sb.append(comboMesiac.getSelectedItem());
-        sb.append("-");
-        sb.append(comboDen.getSelectedItem());
-        pouzivatel.setDatum(sb.toString());
+        
+        // Matej
+        // Namiesto StringBuildera a append použité Date, Calendar, DateFormat
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar = Calendar.getInstance();
+        
+        int rok = Integer.parseInt(comboRok.getSelectedItem().toString());
+        int mesiac = Integer.parseInt(comboMesiac.getSelectedItem().toString());
+        int den = Integer.parseInt(comboDen.getSelectedItem().toString());
+        
+        calendar.set(Calendar.YEAR, rok);
+        calendar.set(Calendar.MONTH, mesiac-1); // Mesiace sú číslované od 0..11
+        calendar.set(Calendar.DAY_OF_MONTH, den);
+        
+        Date date = new Date();
+        date = calendar.getTime();      
+        String datum = dateFormat.format(date);
+                
+        pouzivatel.setDatum(datum); 
         pouzivatel.setEmail(txtEmail.getText());
         pouzivatel.setTel(txtTel.getText());
 
         login = new Login();
         login.setLogin(txtLogin.getText());
         login.setHeslo(String.valueOf(txtHeslo2.getPassword()));
-        if (prihlasenieDao.verifyOnlyLogin(login)) {
+           
+        // Ošetrenie, ak je login už obsadený.
+        if (prihlasenieDao.verifyOnlyLogin(login)) {         
+            JOptionPane.showMessageDialog(this, "Login '" + login.getLogin().toString() + "' je už obsadený!", "Upozornenie", JOptionPane.ERROR_MESSAGE);
             return;
-            //trba doplnit login sa pozuiva
-        }
-
+        } 
+                   
         prihlasenieDao.savePouzivatela(pouzivatel);
         login.setId(pouzivatel.getId());
         prihlasenieDao.saveLogin(login);
+        JOptionPane.showMessageDialog(this, "Registrácia prebehla úspešne. Teraz sa môžete prihlásiť.", "Úspešná registrácia", JOptionPane.INFORMATION_MESSAGE); 
         dispose();
     }
 
