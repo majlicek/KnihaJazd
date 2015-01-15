@@ -15,7 +15,7 @@ public class AutoListCellRenderer extends DefaultListCellRenderer{
         Auto auto = (Auto) value;
         
         StringBuilder sb =  new StringBuilder();
-        sb.append(auto.getSpz()).append(", ").append(auto.getZnacka()).append(", ").append(auto.getModel());
+        sb.append(auto.getSpz()).append(" |    ").append(auto.getZnacka()).append(" ").append(auto.getModel()).append(", ").append(auto.getVykon() + " kW, ").append(auto.getPalivo()).append(" "+auto.getRok_vyr());
         return super.getListCellRendererComponent(list, sb, index, isSelected, cellHasFocus); //To change body of generated methods, choose Tools | Templates.
     }
     

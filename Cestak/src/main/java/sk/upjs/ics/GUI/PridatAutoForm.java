@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -74,19 +76,59 @@ public class PridatAutoForm extends JDialog {
     private JComboBox comboKlimatizacia = new JComboBox();
 
     private Login login;
+    private Auto auto; // Matej
+
     private AutoDAO autoDao = DaoFactory.INSTANCE.autoDao();
 
-    public PridatAutoForm(Login login, Frame parent) throws HeadlessException, FileNotFoundException {
+    public PridatAutoForm(Login login, Frame parent) {
         this(parent, true);
         this.login = login;
     }
 
-    private PridatAutoForm(Frame parent) throws HeadlessException, FileNotFoundException {
-        this(new Login(), parent);
+    // Matej
+    public PridatAutoForm(Login login, Auto auto, Frame parent) {
+        this(parent, true);
+        this.login = login;
+        this.auto = auto;
     }
 
-    private PridatAutoForm(Frame parent, boolean modal) throws HeadlessException, FileNotFoundException {
+    // Matej
+    private PridatAutoForm(Frame parent) {
+        this(new Login(), new Auto(), parent);
+    }
+
+    // Matej
+    public PridatAutoForm(Auto auto, Frame parent) {
+        this(parent, true);
+        this.auto = auto;
+
+        // DOLOVANIE DAT
+        comboZnacka.setSelectedItem(0);
+        txtModel.setText(auto.getModel());
+        txtECV.setText(auto.getSpz());
+
+        txtRokVyroby.setText(auto.getRok_vyr());
+        txtStavTachometra.setText(Double.toString(auto.getStav_tach()));
+        txtVykon.setText(Double.toString(auto.getVykon()));
+        txtSpotrebaMesto.setText(Double.toString(auto.getSpotreba_mesto()));
+        txtSpotrebaMimo.setText(Double.toString(auto.getSpotreba_mimo()));
+        txtSpotrebaKomb.setText(Double.toString(auto.getSpotreba_avg()));
+
+        //comboPalivo.setSelectedIndex(auto.getZnackaCmbIdx());
+        //comboPrevodovka.setSelectedIndex(auto.getPrevodovkaCmbIdx());
+        //comboKlimatizacia.setSelectedIndex(auto.getKlimatizaciaCmbIdx());
+        //comboFarba.setSelectedIndex(auto.getFarbaCmbIdx());
+    }
+
+    public PridatAutoForm(Frame parent, boolean modal) {
         super(parent, modal);
+        initComponents();
+    }
+
+    @SuppressWarnings("unchecked")
+    private void initComponents() {
+        //private PridatAutoForm(Frame parent, boolean modal) throws HeadlessException, FileNotFoundException {
+        //super(parent, modal);
         setLayout(new MigLayout("", "[fill, grow][fill, grow][fill, grow][fill, grow]", "[][][][][][][][][][][][][][nogrid]"));
 
         nastavZnackuGUI();
@@ -191,11 +233,15 @@ public class PridatAutoForm extends JDialog {
     }
 
     // Nastavenie pre značku.
-    private void nastavZnackuGUI() throws FileNotFoundException {
+    private void nastavZnackuGUI() {
         add(lblZnacka);
         add(comboZnacka);
         comboZnacka.addItem(null);
-        pridajZnackyAutGUI();
+        try {
+            pridajZnackyAutGUI();
+        } catch (FileNotFoundException ex) {
+            System.out.println("Nenašiel sa súbor so značkami áut.");
+        }
         comboZnacka.setSelectedItem(null);
         add(lblZnackaIna);
         add(txtZnackaIna, "wrap");
@@ -211,14 +257,22 @@ public class PridatAutoForm extends JDialog {
     }
 
     // Načíta značky áut z txt súboru.
-    private ArrayList<String> nacitajZnackyAutGUI() throws FileNotFoundException {
+    private ArrayList<String> nacitajZnackyAutGUI() {
         ArrayList<String> zoznam = new ArrayList<>();
-        Scanner scanner = new Scanner(new File("znackyAut.txt"));
+        Scanner scanner = null;
 
-        while (scanner.hasNextLine()) {
-            zoznam.add(scanner.nextLine());
+        try {
+            scanner = new Scanner(new File("znackyAut.txt"));
+            while (scanner.hasNextLine()) {
+                zoznam.add(scanner.nextLine());
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Nenašiel sa súbor so značkami áut.");
+        } finally {
+            if (scanner != null) {
+                scanner.close();
+            }
         }
-        scanner.close();
         return zoznam;
     }
 
@@ -242,6 +296,7 @@ public class PridatAutoForm extends JDialog {
 
         autoDao.saveAuto(login, auto);
         dispose();
+
     }
 
     // Main - PridatAutoForm
