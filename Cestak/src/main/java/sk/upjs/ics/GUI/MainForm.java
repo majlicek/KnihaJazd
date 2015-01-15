@@ -1,11 +1,15 @@
 package sk.upjs.ics.GUI;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
+import static com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabets.table;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
 import java.util.List;
 import javax.swing.ComboBoxModel;
@@ -20,6 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListCellRenderer;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ListSelectionEvent;
@@ -165,7 +170,7 @@ public class MainForm extends JFrame {
         btnUpravitAuto.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                    // otvorí PridatCestuForm s vydolovanými dátami z databázy
+                // otvorí PridatCestuForm s vydolovanými dátami z databázy
                 //  ZATIAĽ NEROBÍ NIČ
                 btnUpravitAutoActionPerformed(e);
 
@@ -221,6 +226,7 @@ public class MainForm extends JFrame {
     }
 
     // Matej
+
     private void btnUpravitAutoActionPerformed(ActionEvent e) {
         // Dokoncit
     }
@@ -258,7 +264,7 @@ public class MainForm extends JFrame {
     private void btnOdhlasitActionPerformed(ActionEvent e) {
         Object[] options = {"ÁNO", "NIE"};
         int n = JOptionPane.showOptionDialog(this, "Skutočne sa chcete odhlásiť ?", "Ohlásenie", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-        
+
         // Ak užívateľ vyberie "ÁNO".
         if (n == 0) {
             dispose();
@@ -292,6 +298,35 @@ public class MainForm extends JFrame {
 
         JScrollPane scrollPane = new JScrollPane(tabJazdy);
         add(scrollPane, "wrap, span 6");
+
+        // Klikanie na polozky v tabuľke.       
+        tabJazdy.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent me) {
+                JTable table = (JTable) me.getSource();
+
+                Point bod = me.getPoint();
+                System.out.println("[" + bod.getX() + ", " + bod.getY() + "]");
+                int riadok = table.rowAtPoint(bod);
+                System.out.println("Riadok: " + riadok);
+
+                // Ak spravíme dvojklik ľavým tlačídlom a zároveň sme s kurzorom na nejakom riadku.
+                if (me.getClickCount() == 2 && riadok != -1 && SwingUtilities.isLeftMouseButton(me)) {
+
+                    // Uložená vyznačená jazda v tabuľke na ktorú aktuálne dvojklikáme.
+                    Jazda vybranaJazda = (Jazda) jazdaTableModel.dajPodlaCislaRiadku(riadok);
+                    System.out.println(vybranaJazda.getVyjazd().toString() + " " + vybranaJazda.getPrijazd().toString());
+                    System.out.println("SPZ jazdy: " + vybranaJazda.getSPZ().toString());
+
+                    // Otvoríme editovacie okno a predvyplníme vydolované dáta.
+                    PridatCestuForm editableCesta = new PridatCestuForm(vybranaJazda, null);
+                    editableCesta.setLocationRelativeTo(CENTER_SCREEN);
+                    editableCesta.setTitle("Kniha jázd - úprava cesty");
+                    editableCesta.setVisible(true);
+
+                    obnovJazdy();
+                }
+            }
+        });
     }
 
     // Uchováva info o aktuálne vyzerajúcom comboboxe.

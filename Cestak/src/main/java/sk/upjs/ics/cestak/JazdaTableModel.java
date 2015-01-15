@@ -22,7 +22,7 @@ public class JazdaTableModel extends AbstractTableModel {
         String.class
     };
     
-    private static final String[] NAZVY_STLPCOV = { "Odkiaľ", "Kam", "Prejdené km" , "Čerpanie PHM", "Dátum"};
+    private static final String[] NAZVY_STLPCOV = { "Odkiaľ", "Kam", "Prejdené (km)" , "Čerpanie PHM", "Dátum"};
 
     private JazdaDAO jazdaDao = DaoFactory.INSTANCE.jazdaDao();
 

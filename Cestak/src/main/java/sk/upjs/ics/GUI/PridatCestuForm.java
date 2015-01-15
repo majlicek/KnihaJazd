@@ -20,6 +20,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import net.miginfocom.swing.MigLayout;
 import sk.upjs.ics.cestak.Auto;
 import sk.upjs.ics.cestak.DaoFactory;
+import sk.upjs.ics.cestak.DtbAutoDAO;
 import sk.upjs.ics.cestak.Jazda;
 import sk.upjs.ics.cestak.JazdaDAO;
 import sk.upjs.ics.cestak.Login;
@@ -70,10 +71,10 @@ public class PridatCestuForm extends JDialog {
     private Login login;
     private Jazda jazda;
     private Auto auto;
-    
+
     private JazdaDAO jazdaDao = DaoFactory.INSTANCE.jazdaDao();
 
-    public PridatCestuForm(Login login, Auto auto,Frame parent) {
+    public PridatCestuForm(Login login, Auto auto, Frame parent) {
         this(parent, true);
         this.auto = auto;
         this.login = login;
@@ -81,11 +82,52 @@ public class PridatCestuForm extends JDialog {
 
     private PridatCestuForm(Frame parent) {
         this(new Login(), new Auto(), parent);
-        
     }
 
+    // Konstruktor pre dolovanie dát do editovacieho okna.
+    public PridatCestuForm(Jazda jazda, Frame parent) {
+        this(parent, true);
+        this.jazda = jazda;
+
+        txtDatum.setText(jazda.getDatum());
+        txtOdkial.setText(jazda.getVyjazd());
+        txtKam.setText(jazda.getPrijazd());
+
+        // Matej
+        // Ak chceme spätne nahadzovať čas v tvare HH:MM do comboboxov, tak 
+        // je ho potrebne najprv rozdeliť na hod a min.
+        String[] odchod = jazda.getCas_odchod().split(":");
+        String[] prichod = jazda.getCas_prichod().split(":");
+        int odchodHod = Integer.parseInt(odchod[0]);
+        int odchodMin = Integer.parseInt(odchod[1]);
+        int prichodHod = Integer.parseInt(prichod[0]);
+        int prichodMin = Integer.parseInt(prichod[1]);
+        System.out.println(odchodHod);
+        System.out.println(odchodMin);
+        System.out.println(prichodHod);
+        System.out.println(prichodMin);
+
+        comboOdchodHodina.setSelectedIndex(odchodHod);
+        comboOdchodMinuta.setSelectedIndex(odchodMin);
+        comboPrichodHodina.setSelectedIndex(prichodHod);
+        comboPrichodMinuta.setSelectedIndex(prichodMin);
+
+        txtPociatokKm.setText(Integer.toString(jazda.getPoc_stav_km()));
+        txtNajazdene.setText(jazda.getPrejdeneKilometre());
+        txtPHM.setText(jazda.getCerpaniePHM().toString());
+        txtPoznamka.setText(jazda.getPoznamka());
+    }
+
+    // Pridany novy konstruktor, kvôli NullPointerException
     public PridatCestuForm(Frame parent, boolean modal) {
         super(parent, modal);
+        initComponents();
+    }
+
+    @SuppressWarnings("unchecked")
+    private void initComponents() {
+        //public PridatCestuForm(Frame parent, boolean modal) {
+        //super(parent, modal);
         setLayout(new MigLayout("", "[fill][fill, grow][fill, grow][fill,grow][fill,grow]", "[][][][][][][][][][][nogrid]"));
 
         nastavDatumGUI();
@@ -214,27 +256,48 @@ public class PridatCestuForm extends JDialog {
         comboOdchodMinuta.setSelectedItem(null);
         comboPrichodMinuta.setSelectedItem(null);
     }
-    
+
     private void btnUlozitActionPerformed(ActionEvent e) {
-        jazda = new Jazda();
-        jazda.setVyjazd(txtOdkial.getText());
-        jazda.setPrijazd(txtKam.getText());
-        jazda.setSPZ(auto.getSpz());
-        jazda.setPrejdeneKilometre(txtNajazdene.getText());
-        jazda.setCerpaniePHM(Double.parseDouble(txtPHM.getText()));
-        jazda.setDatum(txtDatum.getText());
-        jazda.setPoc_stav_km(Integer.parseInt(txtPociatokKm.getText()));
-        String h = (String) comboOdchodHodina.getSelectedItem();
-        String m = (String) comboOdchodMinuta.getSelectedItem();
-        jazda.setCas_odchod(h+":"+m);
-        h = (String) comboPrichodHodina.getSelectedItem();
-        m = (String) comboPrichodHodina.getSelectedItem();
-        jazda.setCas_prichod(h+":"+m);
-        jazda.setPoznamka(txtPoznamka.getText());
-        jazda.setIdPouzivatel(login.getId());
-        
-        jazdaDao.saveJazda(jazda);
-        dispose();
+        if (jazda == null) {                       
+            jazda = new Jazda();
+            jazda.setVyjazd(txtOdkial.getText());
+            jazda.setPrijazd(txtKam.getText());
+            jazda.setSPZ(auto.getSpz()); 
+            jazda.setPrejdeneKilometre(txtNajazdene.getText());
+            jazda.setCerpaniePHM(Double.parseDouble(txtPHM.getText()));
+            jazda.setDatum(txtDatum.getText());
+            jazda.setPoc_stav_km(Integer.parseInt(txtPociatokKm.getText()));
+            String h = (String) comboOdchodHodina.getSelectedItem();
+            String m = (String) comboOdchodMinuta.getSelectedItem();
+            jazda.setCas_odchod(h + ":" + m);
+            h = (String) comboPrichodHodina.getSelectedItem();
+            m = (String) comboPrichodHodina.getSelectedItem();
+            jazda.setCas_prichod(h + ":" + m);
+            jazda.setPoznamka(txtPoznamka.getText());
+            jazda.setIdPouzivatel(login.getId()); 
+
+            jazdaDao.saveJazda(jazda);
+
+            dispose();
+        } else {
+            jazda.setVyjazd(txtOdkial.getText());
+            jazda.setPrijazd(txtKam.getText());
+            jazda.setPrejdeneKilometre(txtNajazdene.getText());
+            jazda.setCerpaniePHM(Double.parseDouble(txtPHM.getText()));
+            jazda.setDatum(txtDatum.getText());
+            jazda.setPoc_stav_km(Integer.parseInt(txtPociatokKm.getText()));
+            String h = (String) comboOdchodHodina.getSelectedItem();
+            String m = (String) comboOdchodMinuta.getSelectedItem();
+            jazda.setCas_odchod(h + ":" + m);
+            h = (String) comboPrichodHodina.getSelectedItem();
+            m = (String) comboPrichodHodina.getSelectedItem();
+            jazda.setCas_prichod(h + ":" + m);
+            jazda.setPoznamka(txtPoznamka.getText());             
+
+            jazdaDao.saveJazda(jazda);
+
+            dispose();
+        }
     }
 
     // Main - PridatCestuForm
