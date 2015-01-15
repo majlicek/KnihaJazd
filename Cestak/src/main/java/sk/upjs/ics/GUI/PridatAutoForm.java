@@ -73,18 +73,18 @@ public class PridatAutoForm extends JDialog {
     private JComboBox comboFarba = new JComboBox();
     private JComboBox comboKlimatizacia = new JComboBox();
 
-    private Login login;    
+    private Login login;
     private AutoDAO autoDao = DaoFactory.INSTANCE.autoDao();
-    
-    public PridatAutoForm(Login login, Frame parent) throws HeadlessException, FileNotFoundException{
+
+    public PridatAutoForm(Login login, Frame parent) throws HeadlessException, FileNotFoundException {
         this(parent, true);
-        this.login = login;  
+        this.login = login;
     }
-        
-    private PridatAutoForm(Frame parent) throws HeadlessException, FileNotFoundException{
+
+    private PridatAutoForm(Frame parent) throws HeadlessException, FileNotFoundException {
         this(new Login(), parent);
     }
-      
+
     private PridatAutoForm(Frame parent, boolean modal) throws HeadlessException, FileNotFoundException {
         super(parent, modal);
         setLayout(new MigLayout("", "[fill, grow][fill, grow][fill, grow][fill, grow]", "[][][][][][][][][][][][][][nogrid]"));
@@ -141,7 +141,7 @@ public class PridatAutoForm extends JDialog {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         pack();
     }
- 
+
     // Nastavenie pre klimatizáciu.
     private void nastavKlimatizaciuGUI() {
         add(lblKlimatizacia);
@@ -223,7 +223,7 @@ public class PridatAutoForm extends JDialog {
     }
 
     // Akcia pre uloženie auta.
-    private void btnUlozitActionPerformed(ActionEvent e) {      
+    private void btnUlozitActionPerformed(ActionEvent e) {
         Auto auto = new Auto();
         auto.setZnacka((String) comboZnacka.getSelectedItem());
         auto.setModel(txtModel.getText());
@@ -239,7 +239,7 @@ public class PridatAutoForm extends JDialog {
         auto.setKlima((String) comboKlimatizacia.getSelectedItem());
         auto.setFarba((String) comboFarba.getSelectedItem());
         //auto.setFarba(txtFarbaIna.getText());
-        
+
         autoDao.saveAuto(login, auto);
         dispose();
     }

@@ -73,7 +73,7 @@ public class DtbJazdaDAO implements JazdaDAO {
                     jazda.getDatum(),
                     jazda.getVyjazd(),
                     jazda.getPrijazd(),
-                    jazda.getSPZ(), // SPZ vracia nullPointerException ?!
+                    jazda.getSPZ(),
                     jazda.getPoc_stav_km(),
                     jazda.getCas_odchod(),
                     jazda.getCas_prichod(),

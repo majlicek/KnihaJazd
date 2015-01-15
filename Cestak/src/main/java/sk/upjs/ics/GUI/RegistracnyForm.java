@@ -1,7 +1,6 @@
 package sk.upjs.ics.GUI;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
@@ -24,8 +23,6 @@ import sk.upjs.ics.cestak.Login;
 import sk.upjs.ics.cestak.Pouzivatel;
 import sk.upjs.ics.cestak.PrihlasenieDAO;
 import java.util.Date; // Matej
-import java.util.GregorianCalendar;
-import javax.swing.CellEditor;
 import javax.swing.JOptionPane;
 
 /**
@@ -209,7 +206,7 @@ public class RegistracnyForm extends JFrame {
             JOptionPane.showMessageDialog(this, "Zadajte tel.číslo (povinný údaj)!", "Tel.číslo", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         // Ak sa heslá pri registrácii nezhodujú.
         if (!String.valueOf(txtHeslo2.getPassword()).equals(String.valueOf(txtHeslo.getPassword()))) {
             JOptionPane.showMessageDialog(this, "Zadané heslá sa nezhodujú!", "Upozornenie", JOptionPane.ERROR_MESSAGE);
