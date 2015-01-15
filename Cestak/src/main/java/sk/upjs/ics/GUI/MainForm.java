@@ -157,7 +157,6 @@ public class MainForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 selectedAuto = (Auto) comboAuta.getSelectedItem();
-                System.out.println("Aktualne vybrate: " + selectedAuto.getZnacka() + " " + selectedAuto.getModel());
                 obnovJazdy();
             }
         });
@@ -222,20 +221,20 @@ public class MainForm extends JFrame {
     // Matej
     // Akcie tlačidla pre úpravu uloženého auta.
     private void btnUpravitAutoActionPerformed(ActionEvent e) throws HeadlessException, FileNotFoundException {
-        System.out.println("Znacka: " + selectedAuto.getZnacka());
-        System.out.println("Model: " + selectedAuto.getModel());
-        System.out.println("SPZ: " + selectedAuto.getSpz());
-        System.out.println("Rok: " + selectedAuto.getRok_vyr()); // vracia null
-        System.out.println("Stav tach.: " + selectedAuto.getStav_tach()); // vracia 0
-        System.out.println("S. avg: " + selectedAuto.getSpotreba_avg()); // vracia 0
-        System.out.println("S. mesto: " + selectedAuto.getSpotreba_mesto());
-        System.out.println("S. mimo: " + selectedAuto.getSpotreba_mimo());
-        System.out.println("Palivo: " + selectedAuto.getPalivo());
-        System.out.println("Prevodovka: " + selectedAuto.getPrevodovka());
-        System.out.println("Klima: " + selectedAuto.getKlima());
-        System.out.println("Farba: " + selectedAuto.getFarba());
-        System.out.println("Vykon: " + selectedAuto.getVykon());
-        System.out.println("Idp: " + selectedAuto.getIdPouzivatela()); // vracia 0
+        /*System.out.println("Znacka: " + selectedAuto.getZnacka());
+         System.out.println("Model: " + selectedAuto.getModel());
+         System.out.println("SPZ: " + selectedAuto.getSpz());
+         System.out.println("Rok: " + selectedAuto.getRok_vyr()); // vracia null
+         System.out.println("Stav tach.: " + selectedAuto.getStav_tach()); // vracia 0
+         System.out.println("S. avg: " + selectedAuto.getSpotreba_avg()); // vracia 0
+         System.out.println("S. mesto: " + selectedAuto.getSpotreba_mesto());
+         System.out.println("S. mimo: " + selectedAuto.getSpotreba_mimo());
+         System.out.println("Palivo: " + selectedAuto.getPalivo());
+         System.out.println("Prevodovka: " + selectedAuto.getPrevodovka());
+         System.out.println("Klima: " + selectedAuto.getKlima());
+         System.out.println("Farba: " + selectedAuto.getFarba());
+         System.out.println("Vykon: " + selectedAuto.getVykon());
+         System.out.println("Idp: " + selectedAuto.getIdPouzivatela()); // vracia 0*/
 
         PridatAutoForm editableAuto = new PridatAutoForm(selectedAuto, null);
         editableAuto.setLocationRelativeTo(CENTER_SCREEN);
@@ -380,7 +379,9 @@ public class MainForm extends JFrame {
         // Ak sa v comboboxe nachádzajú nejaké autá.
         if (getAutaModel().getSize() != 0) {
             selectedAuto = (Auto) comboAuta.getSelectedItem(); // TOTO ZABEZPEČI, KOMPLET REFRESH
+
             jazdaTableModel.obnov(selectedAuto, login);
+            System.out.println("Rok, stav tach, avg, id: " + selectedAuto.getRok_vyr() + " " + selectedAuto.getStav_tach() + " ," + selectedAuto.getSpotreba_avg() + ", " + selectedAuto.getIdPouzivatela());
             jazdaTableModel.fireTableDataChanged(); // Matej
         }
     }
