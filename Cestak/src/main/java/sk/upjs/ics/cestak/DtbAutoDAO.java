@@ -36,12 +36,12 @@ public class DtbAutoDAO implements AutoDAO {
         into.put("znacka", auto.getZnacka());
         into.put("model", auto.getModel());
         into.put("SPZ", auto.getSpz());
-        into.put("rok_vyroby", auto.getRok_vyr());
-        into.put("stav_tachometra", auto.getStav_tach());
+        into.put("rok_vyr", auto.getRok_vyr());
+        into.put("stav_tach", auto.getStav_tach());
         into.put("vykon", auto.getVykon());
         into.put("spotreba_mesto", auto.getSpotreba_mesto());
         into.put("spotreba_mimo", auto.getSpotreba_mimo());
-        into.put("avg_spotreba", auto.getSpotreba_avg());
+        into.put("spotreba_avg", auto.getSpotreba_avg());
         into.put("palivo", auto.getPalivo());
         into.put("prevodovka", auto.getPrevodovka());
         into.put("klima", auto.getKlima());

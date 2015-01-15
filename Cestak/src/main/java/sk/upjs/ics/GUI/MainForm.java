@@ -381,7 +381,7 @@ public class MainForm extends JFrame {
             selectedAuto = (Auto) comboAuta.getSelectedItem(); // TOTO ZABEZPEČI, KOMPLET REFRESH
 
             jazdaTableModel.obnov(selectedAuto, login);
-            System.out.println("Rok, stav tach, avg, id: " + selectedAuto.getRok_vyr() + " " + selectedAuto.getStav_tach() + " ," + selectedAuto.getSpotreba_avg() + ", " + selectedAuto.getIdPouzivatela());
+            System.out.println("Rok, stav tach, avg, id: " + selectedAuto.getRok_vyr() + " " + selectedAuto.getStav_tach() + " ," + selectedAuto.getSpotreba_avg() + ", " + selectedAuto.getIdPouzivatel());
             jazdaTableModel.fireTableDataChanged(); // Matej
         }
     }

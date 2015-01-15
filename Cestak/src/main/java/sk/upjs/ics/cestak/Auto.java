@@ -32,7 +32,7 @@ public class Auto {
 
     private double vykon;
 
-    private long idPouzivatela;
+    private long idPouzivatel;
 
     /**
      * @return the znacka
@@ -219,14 +219,14 @@ public class Auto {
     /**
      * @return the idPouzivatela
      */
-    public long getIdPouzivatela() {
-        return idPouzivatela;
+    public long getIdPouzivatel() {
+        return idPouzivatel;
     }
 
     /**
      * @param idPouzivatela the idPouzivatela to set
      */
-    public void setIdPouzivatela(long idPouzivatela) {
-        this.idPouzivatela = idPouzivatela;
+    public void setIdPouzivatel(long idPouzivatel) {
+        this.idPouzivatel = idPouzivatel;
     }
 }
