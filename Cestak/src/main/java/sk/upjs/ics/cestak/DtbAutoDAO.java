@@ -32,7 +32,8 @@ public class DtbAutoDAO implements AutoDAO {
 
     @Override
     public void saveAuto(Login login, Auto auto) {
-        if (auto.getSpz() == null) { //??? Nehadže novopridane auto, ani nepridá auto do dbs. ???
+        //System.out.println("SPZ: " + auto.getSpz() + ", ID: " + login.getId());
+        if (auto.getSpz().isEmpty()){ //??? Nehadže novopridane auto, ani nepridá auto do dbs. ???
             Map into = new HashMap();
             into.put("znacka", auto.getZnacka());
             into.put("model", auto.getModel());

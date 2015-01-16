@@ -314,6 +314,7 @@ public class PridatAutoForm extends JDialog {
     }
 
     // Main - PridatAutoForm
+
     public static void main(String args[]) throws UnsupportedLookAndFeelException, HeadlessException, FileNotFoundException {
         UIManager.setLookAndFeel(new WindowsLookAndFeel());
 

@@ -226,6 +226,7 @@ public class MainForm extends JFrame {
         editableAuto.setVisible(true);
 
         obnovAuta();
+        obnovJazdy();
     }
 
     // Akcia tlačidla pre pridanie novej cesty. [DONE]
