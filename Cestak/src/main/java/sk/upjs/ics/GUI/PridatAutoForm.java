@@ -11,8 +11,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -80,24 +78,23 @@ public class PridatAutoForm extends JDialog {
 
     private AutoDAO autoDao = DaoFactory.INSTANCE.autoDao();
 
+// ********************** Konštruktory ************************************** 
     public PridatAutoForm(Login login, Frame parent) {
         this(parent, true);
         this.login = login;
     }
 
-    // Matej
     public PridatAutoForm(Login login, Auto auto, Frame parent) {
         this(parent, true);
         this.login = login;
         this.auto = auto;
     }
 
-    // Matej
     private PridatAutoForm(Frame parent) {
         this(new Login(), new Auto(), parent);
     }
 
-    // Matej
+    // PRACUJEM !
     public PridatAutoForm(Auto auto, Frame parent) {
         this(parent, true);
         this.auto = auto;
@@ -127,8 +124,6 @@ public class PridatAutoForm extends JDialog {
 
     @SuppressWarnings("unchecked")
     private void initComponents() {
-        //private PridatAutoForm(Frame parent, boolean modal) throws HeadlessException, FileNotFoundException {
-        //super(parent, modal);
         setLayout(new MigLayout("", "[fill, grow][fill, grow][fill, grow][fill, grow]", "[][][][][][][][][][][][][][nogrid]"));
 
         nastavZnackuGUI();
@@ -154,8 +149,7 @@ public class PridatAutoForm extends JDialog {
         nastavKlimatizaciuGUI();
         nastavFarbuGUI();
 
-        /* ******************** AKCIE ************************ */
-        // Tlačidlo Uložiť"
+        // Tlačidlo ULOŽIŤ.
         add(btnUlozit, "tag ok");
         // Akcia pre stlačenie tlačidla uložiť
         btnUlozit.addActionListener(new ActionListener() {
@@ -167,7 +161,7 @@ public class PridatAutoForm extends JDialog {
             }
         });
 
-        // Tlačídlo "Zrušiť"
+        // Tlačídlo ZRUŠIŤ.
         add(btnZrusit, "tag cancel");
         // Akcia pre stlačenie tlačidla zrušiť.
         btnZrusit.addActionListener(new ActionListener() {
@@ -176,7 +170,6 @@ public class PridatAutoForm extends JDialog {
                 dispose();
             }
         });
-        /* ******************** AKCIE ************************ */
 
         setPreferredSize(new Dimension(500, 380));
         setResizable(false); // ZMENIŤ NA FALSE !!!             
@@ -184,7 +177,7 @@ public class PridatAutoForm extends JDialog {
         pack();
     }
 
-    // Nastavenie pre klimatizáciu.
+    // Nastavenie pre klimatizáciu. [DONE]
     private void nastavKlimatizaciuGUI() {
         add(lblKlimatizacia);
         add(comboKlimatizacia, "wrap");
@@ -194,7 +187,7 @@ public class PridatAutoForm extends JDialog {
         comboKlimatizacia.setSelectedItem(null);
     }
 
-    // Nastavenie pre farbu.
+    // Nastavenie pre farbu. [DONE]
     private void nastavFarbuGUI() {
         add(lblFarba);
         add(comboFarba);
@@ -210,7 +203,7 @@ public class PridatAutoForm extends JDialog {
         add(txtFarbaIna, "wrap");
     }
 
-    // Nastavenie pre palivo.
+    // Nastavenie pre palivo. [DONE]
     private void nastavPalivoGUI() {
         add(lblPalivo);
         add(comboPalivo, "wrap");
@@ -222,7 +215,7 @@ public class PridatAutoForm extends JDialog {
         comboPalivo.setSelectedItem(null);
     }
 
-    // Nastavenie pre prevodovku.
+    // Nastavenie pre prevodovku. [DONE]
     private void nastavPrevodovkuGUI() {
         add(lblPrevodovka);
         add(comboPrevodovka, "wrap");
@@ -232,7 +225,7 @@ public class PridatAutoForm extends JDialog {
         comboPrevodovka.setSelectedItem(null);
     }
 
-    // Nastavenie pre značku.
+    // Nastavenie pre značku. [DONE]
     private void nastavZnackuGUI() {
         add(lblZnacka);
         add(comboZnacka);
@@ -247,7 +240,7 @@ public class PridatAutoForm extends JDialog {
         add(txtZnackaIna, "wrap");
     }
 
-    // Pridá značky áut do comboBoxu
+    // Pridá značky áut do comboBoxu. [DONE]
     private void pridajZnackyAutGUI() throws FileNotFoundException {
         ArrayList<String> zoznamAut = nacitajZnackyAutGUI();
 
@@ -256,7 +249,7 @@ public class PridatAutoForm extends JDialog {
         }
     }
 
-    // Načíta značky áut z txt súboru.
+    // Načíta značky áut z txt súboru. [DONE]
     private ArrayList<String> nacitajZnackyAutGUI() {
         ArrayList<String> zoznam = new ArrayList<>();
         Scanner scanner = null;
@@ -276,7 +269,7 @@ public class PridatAutoForm extends JDialog {
         return zoznam;
     }
 
-    // Akcia pre uloženie auta.
+    // PRACUJEM ! Akcia pre uloženie auta. 
     private void btnUlozitActionPerformed(ActionEvent e) {
         Auto auto = new Auto();
         auto.setZnacka((String) comboZnacka.getSelectedItem());

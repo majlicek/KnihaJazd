@@ -49,7 +49,6 @@ public class PrihlasovaciForm extends JFrame {
 
     // Konštruktor
     public PrihlasovaciForm() throws HeadlessException {
-        // NASTAVIŤ LAYOUT !!!
         setLayout(new MigLayout("", "[fill, grow][fill, grow]", "[][][][]"));
 
         add(lblTitulka, "wrap, span 2"); // Namiesto titulky nejaké logo, resp. uvítanie.
@@ -61,21 +60,19 @@ public class PrihlasovaciForm extends JFrame {
         lblWarning.setVisible(false); // Nastaviť na TRUE, ak zadané zlé meno alebo heslo.
         lblWarning.setForeground(Color.RED);
 
-        /* ******************** AKCIE ************************ */
-        // Tlačidlo "Prihlásiť"
+        // Tlačidlo PRIHLÁSIŤ.
         add(btnPrihlasit);
         getRootPane().setDefaultButton(btnPrihlasit);
         // Akcia pre stlačenie tlačídla prihlásiť.
         btnPrihlasit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Prechod do MainWindow
                 btnPrihlasitActionPerformed(e);
                 System.out.println("Prihlasujem...");
             }
         });
 
-        // Tlačídlo "Registrovať"
+        // Tlačídlo REGISTROVAŤ.
         add(btnRegistrovat);
         // Akcia pre stlačenie tlačídla registrovať.
         btnRegistrovat.addActionListener(new ActionListener() {
@@ -89,7 +86,7 @@ public class PrihlasovaciForm extends JFrame {
 
         setPreferredSize(new Dimension(350, 150));
         setResizable(false);
-               
+
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
     }
@@ -103,7 +100,7 @@ public class PrihlasovaciForm extends JFrame {
         if (login != null) {
             dispose();
             System.out.println(login.getId());
-            MainForm mainForm = new MainForm(login);                    
+            MainForm mainForm = new MainForm(login);
             mainForm.setTitle("Kniha jázd - hlavné okno. Používateľ: " + login.getLogin().toString().toUpperCase());
             mainForm.setLocationRelativeTo(CENTER_SCREEN);
             mainForm.setVisible(true);
@@ -129,5 +126,5 @@ public class PrihlasovaciForm extends JFrame {
         prihlasovaciForm.setVisible(true);
         prihlasovaciForm.setTitle("Kniha jázd - prihlásenie");
         prihlasovaciForm.setLocationRelativeTo(CENTER_SCREEN);
-    }    
+    }
 }

@@ -80,8 +80,7 @@ public class RegistracnyForm extends JFrame {
         nastavDatumNarodeniaGUI();
         nastavKontaktInfoGUI();
 
-        /* ******************** AKCIE ************************ */
-        // Tlačidlo "Registrovať"
+        // Tlačidlo REGISTROVAŤ.
         add(btnRegistrovat, "tag ok");
         // Akcia pre stlačenie tlačidla registrovať.
         btnRegistrovat.addActionListener(new ActionListener() {
@@ -93,7 +92,7 @@ public class RegistracnyForm extends JFrame {
             }
         });
 
-        // Tlačídlo "Zrušiť"
+        // Tlačídlo ZRUŠIŤ.
         add(btnZrusit, "tag cancel");
         // Akcia pre stlačenie tlačidla zrušiť.
         btnZrusit.addActionListener(new ActionListener() {
@@ -102,7 +101,6 @@ public class RegistracnyForm extends JFrame {
                 dispose();
             }
         });
-        /* ******************** AKCIE ************************ */
 
         setPreferredSize(new Dimension(313, 310));
         setResizable(false);

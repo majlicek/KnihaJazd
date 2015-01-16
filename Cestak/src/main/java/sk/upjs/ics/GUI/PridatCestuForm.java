@@ -70,6 +70,7 @@ public class PridatCestuForm extends JDialog {
 
     private JazdaDAO jazdaDao = DaoFactory.INSTANCE.jazdaDao();
 
+    // ************************* Konštruktory *********************************
     public PridatCestuForm(Login login, Auto auto, Frame parent) {
         this(parent, true);
         this.auto = auto;
@@ -80,7 +81,7 @@ public class PridatCestuForm extends JDialog {
         this(new Login(), new Auto(), parent);
     }
 
-    // Konstruktor pre dolovanie dát do editovacieho okna.
+    // Konštruktor pre dolovanie dát do editovacieho okna. [DONE]
     public PridatCestuForm(Jazda jazda, Frame parent) {
         this(parent, true);
         this.jazda = jazda;
@@ -89,7 +90,6 @@ public class PridatCestuForm extends JDialog {
         txtOdkial.setText(jazda.getVyjazd());
         txtKam.setText(jazda.getPrijazd());
 
-        // Matej
         // Ak chceme spätne nahadzovať čas v tvare HH:MM do comboboxov, tak 
         // je ho potrebne najprv rozdeliť na hod a min.
         String[] odchod = jazda.getCas_odchod().split(":");
@@ -114,7 +114,6 @@ public class PridatCestuForm extends JDialog {
         txtPoznamka.setText(jazda.getPoznamka());
     }
 
-    // Pridany novy konstruktor, kvôli NullPointerException
     public PridatCestuForm(Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -122,8 +121,6 @@ public class PridatCestuForm extends JDialog {
 
     @SuppressWarnings("unchecked")
     private void initComponents() {
-        //public PridatCestuForm(Frame parent, boolean modal) {
-        //super(parent, modal);
         setLayout(new MigLayout("", "[fill][fill, grow][fill, grow][fill,grow][fill,grow]", "[][][][][][][][][][][nogrid]"));
 
         nastavDatumGUI();
@@ -179,14 +176,14 @@ public class PridatCestuForm extends JDialog {
         pack();
     }
 
-    // Nastaví dátum jazdy pre GUI.
+    // Nastaví dátum jazdy pre GUI. [DONE]
     private void nastavDatumGUI() {
         add(lblDatum);
         add(txtDatum, "wrap");
         txtDatum.setText("RRRR-MM-DD");
     }
 
-    // Nastaví cieľ cesty pre GUI
+    // Nastaví cieľ cesty pre GUI. [DONE]
     private void nastavCielCestyGUI() {
         add(lblCielCesty, "wrap");
         setBold(lblCielCesty);
@@ -207,13 +204,13 @@ public class PridatCestuForm extends JDialog {
         comboPrichodMinuta.setToolTipText("Minúta príchodu");
     }
 
-    // Nastaví label na BOLD
+    // Nastaví label na BOLD. [DONE]
     private void setBold(JLabel lbl) {
         Font f = lbl.getFont();
         lbl.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
     }
 
-    // Generuje hodiny a minúty do comboboxu v správnom formáte 00:00
+    // Generuje hodiny a minúty do comboboxu v správnom formáte 00:00. [DONE]
     private void generujMinutyAHodiny() {
         // Hodiny
         for (int i = 0; i < 24; i++) {
@@ -253,12 +250,13 @@ public class PridatCestuForm extends JDialog {
         comboPrichodMinuta.setSelectedItem(null);
     }
 
+    // Uloží novú jazdu / resp. aktualizovanú. [DONE]
     private void btnUlozitActionPerformed(ActionEvent e) {
-        if (jazda == null) {                       
+        if (jazda == null) {
             jazda = new Jazda();
             jazda.setVyjazd(txtOdkial.getText());
             jazda.setPrijazd(txtKam.getText());
-            jazda.setSPZ(auto.getSpz()); 
+            jazda.setSPZ(auto.getSpz());
             jazda.setPrejdeneKilometre(txtNajazdene.getText());
             jazda.setCerpaniePHM(Double.parseDouble(txtPHM.getText()));
             jazda.setDatum(txtDatum.getText());
@@ -270,7 +268,7 @@ public class PridatCestuForm extends JDialog {
             m = (String) comboPrichodHodina.getSelectedItem();
             jazda.setCas_prichod(h + ":" + m);
             jazda.setPoznamka(txtPoznamka.getText());
-            jazda.setIdPouzivatel(login.getId()); 
+            jazda.setIdPouzivatel(login.getId());
 
             jazdaDao.saveJazda(jazda);
 
@@ -288,7 +286,7 @@ public class PridatCestuForm extends JDialog {
             h = (String) comboPrichodHodina.getSelectedItem();
             m = (String) comboPrichodHodina.getSelectedItem();
             jazda.setCas_prichod(h + ":" + m);
-            jazda.setPoznamka(txtPoznamka.getText());             
+            jazda.setPoznamka(txtPoznamka.getText());
 
             jazdaDao.saveJazda(jazda);
 

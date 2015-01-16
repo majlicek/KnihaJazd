@@ -124,7 +124,7 @@ public class MainForm extends JFrame {
         add(btnOdhlasit, "tag cancel, span 1");
         // ////////////////////////////////////////////////////////////////////
 
-        // Tlačídlo NOVÁ CESTA.
+        // Tlačídlo NOVÁ CESTA. 
         btnNovaCesta.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -168,9 +168,9 @@ public class MainForm extends JFrame {
                 try {
                     btnUpravitAutoActionPerformed(e);
                 } catch (HeadlessException ex) {
-                    System.out.println("Výnimka 1.");
+                    System.out.println(ex);
                 } catch (FileNotFoundException ex) {
-                    System.out.println("Výnimka 2.");
+                    System.out.println("Súbor sa nenašiel.");
                 }
             }
         });
@@ -218,29 +218,12 @@ public class MainForm extends JFrame {
         pack();
     }
 
-    // Matej
     // Akcie tlačidla pre úpravu uloženého auta.
     private void btnUpravitAutoActionPerformed(ActionEvent e) throws HeadlessException, FileNotFoundException {
-        /*System.out.println("Znacka: " + selectedAuto.getZnacka());
-         System.out.println("Model: " + selectedAuto.getModel());
-         System.out.println("SPZ: " + selectedAuto.getSpz());
-         System.out.println("Rok: " + selectedAuto.getRok_vyr()); // vracia null
-         System.out.println("Stav tach.: " + selectedAuto.getStav_tach()); // vracia 0
-         System.out.println("S. avg: " + selectedAuto.getSpotreba_avg()); // vracia 0
-         System.out.println("S. mesto: " + selectedAuto.getSpotreba_mesto());
-         System.out.println("S. mimo: " + selectedAuto.getSpotreba_mimo());
-         System.out.println("Palivo: " + selectedAuto.getPalivo());
-         System.out.println("Prevodovka: " + selectedAuto.getPrevodovka());
-         System.out.println("Klima: " + selectedAuto.getKlima());
-         System.out.println("Farba: " + selectedAuto.getFarba());
-         System.out.println("Vykon: " + selectedAuto.getVykon());
-         System.out.println("Idp: " + selectedAuto.getIdPouzivatela()); // vracia 0*/
-
         PridatAutoForm editableAuto = new PridatAutoForm(selectedAuto, null);
         editableAuto.setLocationRelativeTo(CENTER_SCREEN);
         editableAuto.setTitle("Kniha jázd - úprava vozidla");
         editableAuto.setVisible(true);
-        //  IN PROGRESS...
 
         obnovAuta();
     }
@@ -321,9 +304,7 @@ public class MainForm extends JFrame {
 
                     // Uložená vyznačená jazda v tabuľke na ktorú aktuálne dvojklikáme.
                     Jazda vybranaJazda = (Jazda) jazdaTableModel.dajPodlaCislaRiadku(riadok);
-                    System.out.println(vybranaJazda.getVyjazd().toString() + " " + vybranaJazda.getPrijazd().toString());
-                    System.out.println("SPZ jazdy: " + vybranaJazda.getSPZ().toString());
-
+                    
                     // Otvoríme editovacie okno a predvyplníme vydolované dáta.
                     PridatCestuForm editableCesta = new PridatCestuForm(vybranaJazda, null);
                     editableCesta.setLocationRelativeTo(CENTER_SCREEN);
