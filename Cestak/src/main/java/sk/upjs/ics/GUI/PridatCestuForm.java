@@ -252,6 +252,7 @@ public class PridatCestuForm extends JDialog {
 
     // Uloží novú jazdu / resp. aktualizovanú. [DONE]
     private void btnUlozitActionPerformed(ActionEvent e) {
+        // Ak pridávame jazdu po prvýkrát.
         if (jazda == null) {
             jazda = new Jazda();
             jazda.setVyjazd(txtOdkial.getText());
@@ -274,6 +275,7 @@ public class PridatCestuForm extends JDialog {
 
             dispose();
         } else {
+            // Ak jazdu len upravujeme.
             jazda.setVyjazd(txtOdkial.getText());
             jazda.setPrijazd(txtKam.getText());
             jazda.setPrejdeneKilometre(txtNajazdene.getText());

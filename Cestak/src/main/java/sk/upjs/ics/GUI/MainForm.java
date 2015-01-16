@@ -1,7 +1,6 @@
 package sk.upjs.ics.GUI;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
-import static com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabets.table;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
@@ -12,8 +11,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -111,8 +108,7 @@ public class MainForm extends JFrame {
         panPanel2.setPreferredSize(new Dimension(700, 10));
         add(panPanel2, "wrap");
 
-        // Nastavnie JTable
-        System.out.println("Nastavujem table model 1. KRAT !\n"); // MateJ  
+        // Nastavnie JTable       
         setJTable();
 
         // Prázdny panel 3
@@ -120,11 +116,11 @@ public class MainForm extends JFrame {
         add(panPanel3, "wrap");
 
         btnVymazatCestu.setEnabled(false);
-        btnUpravitUzivatela.setEnabled(false);
+        btnUpravitUzivatela.setEnabled(true);
         add(btnOdhlasit, "tag cancel, span 1");
         // ////////////////////////////////////////////////////////////////////
 
-        // Tlačídlo NOVÁ CESTA. 
+        // Tlačídlo NOVÁ CESTA. [DONE]
         btnNovaCesta.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -132,19 +128,15 @@ public class MainForm extends JFrame {
             }
         });
 
-        // Tlačidlo VYMAZAŤ CESTU.
+        // Tlačidlo VYMAZAŤ CESTU. [DONE]
         btnVymazatCestu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int vybranyRiadok = tabJazdy.getSelectedRow();
-                int vybratyIndexVModeli = tabJazdy.convertRowIndexToModel(vybranyRiadok);
-                Jazda jazda = jazdaTableModel.dajPodlaCislaRiadku(vybratyIndexVModeli);
-                jazdaDao.vymazJazda(jazda);
-                obnovJazdy();
+                btnVymazatCestuActionPerformed(e);
             }
         });
 
-        // Tlačidlo PRIDAŤ AUTO.
+        // Tlačidlo PRIDAŤ AUTO. [DONE]
         btnPridatAuto.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -175,17 +167,15 @@ public class MainForm extends JFrame {
             }
         });
 
-        // Tlačídlo VYMAZAŤ AUTO.
+        // Tlačídlo VYMAZAŤ AUTO. [DONE]
         btnVymazatAuto.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                autoDao.vymazAuto(selectedAuto);
-                obnovAuta();
-                obnovJazdy();
+                btnVymazatAutoActionPerformed(e);
             }
         });
 
-        // Tlačidlo UPRAVIŤ PROFIL.
+        // Tlačidlo UPRAVIŤ PROFIL. 
         btnUpravitUzivatela.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -194,11 +184,10 @@ public class MainForm extends JFrame {
             }
         });
 
-        // Tlačidlo ODHLÁSIŤ.
+        // Tlačidlo ODHLÁSIŤ. [DONE]
         btnOdhlasit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Click - Odhlasujem\n");
                 btnOdhlasitActionPerformed(e);
             }
         });
@@ -211,22 +200,48 @@ public class MainForm extends JFrame {
         });
 
         // ////////////////////////////////////////////////////////////////////
-        // Dodatkové nastavenia pre main okno.
         setPreferredSize(new Dimension(700, 500));
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
     }
 
-    // Akcie tlačidla pre úpravu uloženého auta.
+    // Akcia tlačidla pre pridanie nového auta.  [DONE]
+    private void btnPridatAutoActionPerformed(ActionEvent e) {
+
+        PridatAutoForm pridatAutoForm = null;
+        pridatAutoForm = new PridatAutoForm(login, new Auto(), this);
+        pridatAutoForm.setTitle("Kniha jázd - pridanie vozidla");
+        pridatAutoForm.setLocationRelativeTo(CENTER_SCREEN);
+        pridatAutoForm.setVisible(true);
+
+        obnovAuta();
+        obnovJazdy();
+    }
+
+    // Akcie tlačidla pre úpravu uloženého auta. [DONE]
     private void btnUpravitAutoActionPerformed(ActionEvent e) throws HeadlessException, FileNotFoundException {
-        PridatAutoForm editableAuto = new PridatAutoForm(selectedAuto, null);
+
+        PridatAutoForm editableAuto = new PridatAutoForm(selectedAuto, this);
         editableAuto.setLocationRelativeTo(CENTER_SCREEN);
         editableAuto.setTitle("Kniha jázd - úprava vozidla");
         editableAuto.setVisible(true);
 
         obnovAuta();
         obnovJazdy();
+    }
+
+    // Akcia tlačidla pre vymazanie vyznačeného auta. [DONE]
+    private void btnVymazatAutoActionPerformed(ActionEvent e) {
+        Object[] options = {"Áno", "Nie"};
+        int n = JOptionPane.showOptionDialog(this, "Skutočne chcete vymazať auto: [" + selectedAuto.getSpz() + "] " + selectedAuto.getZnacka() + " " + selectedAuto.getModel(), "Vymazanie auta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
+        // Ak užívateľ vyberie "ÁNO".
+        if (n == 0) {
+            autoDao.vymazAuto(selectedAuto);
+            obnovAuta();
+            obnovJazdy();
+        }
     }
 
     // Akcia tlačidla pre pridanie novej cesty. [DONE]
@@ -240,15 +255,20 @@ public class MainForm extends JFrame {
         obnovJazdy();
     }
 
-    // Akcia tlačidla pre pridanie nového auta.  [DONE]
-    private void btnPridatAutoActionPerformed(ActionEvent e) {
-        PridatAutoForm pridatAutoForm = null;
-        pridatAutoForm = new PridatAutoForm(login, this);
-        pridatAutoForm.setTitle("Kniha jázd - pridanie vozidla");
-        pridatAutoForm.setLocationRelativeTo(CENTER_SCREEN);
-        pridatAutoForm.setVisible(true);
-        obnovAuta();
-        obnovJazdy();
+    // Akcie tlačidla pre vymazanie vyznačenej cesty. [DONE]
+    private void btnVymazatCestuActionPerformed(ActionEvent e) {
+        int vybranyRiadok = tabJazdy.getSelectedRow();
+        int vybratyIndexVModeli = tabJazdy.convertRowIndexToModel(vybranyRiadok);
+        Jazda jazda = jazdaTableModel.dajPodlaCislaRiadku(vybratyIndexVModeli);
+
+        Object[] options = {"Áno", "Nie"};
+        int n = JOptionPane.showOptionDialog(this, "Skutočne chcete vymazať vyznačenú jazdu ?", "Vymazanie jazdy", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]
+        );
+
+        if (n == 0) {
+            jazdaDao.vymazJazda(jazda);
+            obnovJazdy();
+        }
     }
 
     // Akcia tlačidla pre odhlásenie. [DONE]
@@ -271,15 +291,13 @@ public class MainForm extends JFrame {
         if (!e.getValueIsAdjusting()) {
             if (!tabJazdy.getSelectionModel().isSelectionEmpty()) {
                 btnVymazatCestu.setEnabled(true);
-                btnUpravitUzivatela.setEnabled(false);
             } else {
                 btnVymazatCestu.setEnabled(false);
-                btnUpravitUzivatela.setEnabled(false);
             }
         }
     }
 
-    // Nastavenie tabuľky - ÚPRAVA CESTY. [DONE]
+    // Všetky nastavenia tabuľky - ÚPRAVA CESTY. [DONE]
     public void setJTable() {
         tabJazdy = new JTable();
         tabJazdy.setModel(jazdaTableModel);
@@ -305,7 +323,7 @@ public class MainForm extends JFrame {
 
                     // Uložená vyznačená jazda v tabuľke na ktorú aktuálne dvojklikáme.
                     Jazda vybranaJazda = (Jazda) jazdaTableModel.dajPodlaCislaRiadku(riadok);
-                    
+
                     // Otvoríme editovacie okno a predvyplníme vydolované dáta.
                     PridatCestuForm editableCesta = new PridatCestuForm(vybranaJazda, null);
                     editableCesta.setLocationRelativeTo(CENTER_SCREEN);
@@ -313,6 +331,9 @@ public class MainForm extends JFrame {
                     editableCesta.setVisible(true);
 
                     obnovJazdy();
+                } else if (riadok == -1 && SwingUtilities.isLeftMouseButton(me)) {
+                    // V pripade, že klikneme mimo tabuľky, aktuálne vybratý riadok sa odznačí.
+                    tabJazdy.clearSelection();
                 }
             }
         });
@@ -324,11 +345,8 @@ public class MainForm extends JFrame {
 
         // Ak combobox neuchováva žiadne položky.
         if (!auto.isEmpty()) {
-            System.out.println("Načítaný zoznam aut nie je prazdny."); // Matej
-            // Na tomto mieste je potrebné, ak sa prvýkrát prihlásime 
-            // do comboboxu vložiť prvú položku z comboboxu.
-            // Inak je tu potrebné vložiť aktuálne vybranú položku. 
-            System.out.println("Nastavujem selectedAuto v comboBoxe " + auto.get(0).getSpz()); // Matej
+            System.out.println("Načítaný zoznam aut nie je prazdny."); // Matej           
+            System.out.println("SelectedAuto v comboBoxe na:" + auto.get(0).getSpz()); // Matej
 
             // TU BY BOLO DOBRE NEJAKÉ OŠETRENIE, LEBO SELECTEDAUTO JE VŽDY NASTAVENÉ ROVNAKO 
             // SPôSOBUJE TO PROBLÉMY: AK PRIDÁME NOVÉ AUTO DO ZOZNAMU, COMBOBOX SA ZMENÍ NA 
@@ -345,7 +363,7 @@ public class MainForm extends JFrame {
         // Ak combobox nie je prázdny.
         if (getAutaModel().getSize() != 0) {
             comboAuta.setRenderer(autoListCellRenderer);
-            btnUpravitAuto.setEnabled(true); 
+            btnUpravitAuto.setEnabled(true);
             btnVymazatAuto.setEnabled(true);
             btnNovaCesta.setEnabled(true);
         } else {
@@ -356,7 +374,7 @@ public class MainForm extends JFrame {
         }
 
     }
-    
+
     // Obnovenie jázd v JTable. [DONE]
     private void obnovJazdy() {
         // Ak sa v comboboxe nachádzajú nejaké autá.
@@ -364,7 +382,8 @@ public class MainForm extends JFrame {
             selectedAuto = (Auto) comboAuta.getSelectedItem(); // TOTO ZABEZPEČI, KOMPLET REFRESH
 
             jazdaTableModel.obnov(selectedAuto, login);
-            System.out.println("Rok, stav tach, avg, id: " + selectedAuto.getRok_vyr() + " " + selectedAuto.getStav_tach() + " ," + selectedAuto.getSpotreba_avg() + ", " + selectedAuto.getIdPouzivatel());
+            System.out.println("\nRok výroby: " + selectedAuto.getRok_vyr() + "\nStav tachometra: " + selectedAuto.getStav_tach() + "\nSptreba avg: " + selectedAuto.getSpotreba_avg() + "\nID používateľa: " + selectedAuto.getIdPouzivatel());
+            System.out.println("Aktuálne selected auto: " + selectedAuto.getSpz() + " " + selectedAuto.getZnacka() + " " + selectedAuto.getModel() + "\n");
             jazdaTableModel.fireTableDataChanged(); // Matej
         }
     }

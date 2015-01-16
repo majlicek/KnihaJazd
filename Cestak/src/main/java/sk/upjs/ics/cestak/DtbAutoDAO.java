@@ -32,8 +32,7 @@ public class DtbAutoDAO implements AutoDAO {
 
     @Override
     public void saveAuto(Login login, Auto auto) {
-        //System.out.println("SPZ: " + auto.getSpz() + ", ID: " + login.getId());
-        if (auto.getSpz().isEmpty()){ //??? Nehadže novopridane auto, ani nepridá auto do dbs. ???
+        if (auto.getIdPouzivatel() == 0) {
             Map into = new HashMap();
             into.put("znacka", auto.getZnacka());
             into.put("model", auto.getModel());
@@ -49,7 +48,7 @@ public class DtbAutoDAO implements AutoDAO {
             into.put("klima", auto.getKlima());
             into.put("farba", auto.getFarba());
             into.put("idPouzivatel", login.getId());
-
+            
             SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
 
             //insert.setGeneratedKeyName("idPouzivatel");
@@ -77,20 +76,20 @@ public class DtbAutoDAO implements AutoDAO {
                     + "WHERE SPZ = ?";
 
             jdbcTemplate.update(sql,
-                    auto.getZnacka(),
-                    auto.getModel(),
-                    auto.getSpz(),
-                    auto.getRok_vyr(),
-                    auto.getStav_tach(),
-                    auto.getSpotreba_avg(),
+                    auto.getZnacka(),                     
+                    auto.getModel(),  
+                    auto.getSpz(), 
+                    auto.getRok_vyr(), 
+                    auto.getStav_tach(), 
+                    auto.getSpotreba_avg(), 
                     auto.getSpotreba_mesto(),
-                    auto.getSpotreba_mimo(),
-                    auto.getPalivo(),
-                    auto.getPrevodovka(),
-                    auto.getKlima(),
-                    auto.getFarba(),
-                    auto.getVykon(),
-                    auto.getIdPouzivatel(),
+                    auto.getSpotreba_mimo(), 
+                    auto.getPalivo(), 
+                    auto.getPrevodovka(), 
+                    auto.getKlima(), 
+                    auto.getFarba(), 
+                    auto.getVykon(), 
+                    auto.getIdPouzivatel(), 
                     auto.getSpz()
             );
         }

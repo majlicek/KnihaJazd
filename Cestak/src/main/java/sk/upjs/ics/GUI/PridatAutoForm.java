@@ -89,13 +89,15 @@ public class PridatAutoForm extends JDialog {
         this(parent, true);
         this.login = login;
         this.auto = auto;
+        System.out.println("ID log.: " + login.getId() + ", auto: " + auto.getModel()
+                + ", SPZ:" + auto.getSpz() + "auto idPouz.: " + auto.getIdPouzivatel()); // edit
     }
 
-    private PridatAutoForm(Frame parent) {
+    public PridatAutoForm(Frame parent) {
         this(new Login(), new Auto(), parent);
     }
 
-    // PRACUJEM !
+    // Editovacie okno.
     public PridatAutoForm(Auto auto, Frame parent) {
         this(parent, true);
         this.auto = auto;
@@ -270,10 +272,11 @@ public class PridatAutoForm extends JDialog {
         return zoznam;
     }
 
-    // PRACUJEM ! Akcia pre uloženie auta. [DONE]
+    // Akcia pre uloženie auta. [DONE]
     private void btnUlozitActionPerformed(ActionEvent e) {
-        if (auto == null) {
-            Auto auto = new Auto();
+        // Ak pridávame auto po prvýkrát.
+        if (auto.getSpz() == null) {            
+            auto = new Auto();
             auto.setZnacka((String) comboZnacka.getSelectedItem());
             auto.setModel(txtModel.getText());
             auto.setSpz(txtECV.getText());
@@ -286,12 +289,12 @@ public class PridatAutoForm extends JDialog {
             auto.setPalivo((String) comboPalivo.getSelectedItem());
             auto.setPrevodovka((String) comboPrevodovka.getSelectedItem());
             auto.setKlima((String) comboKlimatizacia.getSelectedItem());
-            auto.setFarba((String) comboFarba.getSelectedItem());
-            //auto.setFarba(txtFarbaIna.getText());
+            auto.setFarba((String) comboFarba.getSelectedItem());            
 
             autoDao.saveAuto(login, auto);
             dispose();
         } else {
+            // Ak auto len upravujeme.
             auto.setZnacka((String) comboZnacka.getSelectedItem());
             auto.setModel(txtModel.getText());
             auto.setSpz(txtECV.getText());
@@ -304,15 +307,13 @@ public class PridatAutoForm extends JDialog {
             auto.setPalivo((String) comboPalivo.getSelectedItem());
             auto.setPrevodovka((String) comboPrevodovka.getSelectedItem());
             auto.setKlima((String) comboKlimatizacia.getSelectedItem());
-            auto.setFarba((String) comboFarba.getSelectedItem());
-            //auto.setFarba(txtFarbaIna.getText());
+            auto.setFarba((String) comboFarba.getSelectedItem());            
 
             autoDao.saveAuto(login, auto);
             dispose();
         }
 
     }
-
     // Main - PridatAutoForm
 
     public static void main(String args[]) throws UnsupportedLookAndFeelException, HeadlessException, FileNotFoundException {
