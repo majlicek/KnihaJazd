@@ -252,7 +252,7 @@ public class MainForm extends JFrame {
 
     // Akcia tlačidla pre odhlásenie. [DONE]
     private void btnOdhlasitActionPerformed(ActionEvent e) {
-        Object[] options = {"ÁNO", "NIE"};
+        Object[] options = {"Áno", "Nie"};
         int n = JOptionPane.showOptionDialog(this, "Skutočne sa chcete odhlásiť ?", "Ohlásenie", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
         // Ak užívateľ vyberie "ÁNO".
@@ -337,14 +337,14 @@ public class MainForm extends JFrame {
         return new DefaultComboBoxModel(auto.toArray());
     }
 
-    // Obnovenie áut v comboboxe.
+    // Obnovenie áut v comboboxe. [DONE]
     public void obnovAuta() {
         comboAuta.setModel(getAutaModel());
 
         // Ak combobox nie je prázdny.
         if (getAutaModel().getSize() != 0) {
             comboAuta.setRenderer(autoListCellRenderer);
-            btnUpravitAuto.setEnabled(true); // Matej
+            btnUpravitAuto.setEnabled(true); 
             btnVymazatAuto.setEnabled(true);
             btnNovaCesta.setEnabled(true);
         } else {
@@ -355,7 +355,8 @@ public class MainForm extends JFrame {
         }
 
     }
-
+    
+    // Obnovenie jázd v JTable. [DONE]
     private void obnovJazdy() {
         // Ak sa v comboboxe nachádzajú nejaké autá.
         if (getAutaModel().getSize() != 0) {

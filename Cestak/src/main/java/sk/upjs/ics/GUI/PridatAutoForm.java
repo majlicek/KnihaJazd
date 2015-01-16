@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.JButton;
@@ -98,23 +99,23 @@ public class PridatAutoForm extends JDialog {
     public PridatAutoForm(Auto auto, Frame parent) {
         this(parent, true);
         this.auto = auto;
+        DecimalFormat df = new DecimalFormat("#.##");
 
-        // DOLOVANIE DAT
-        comboZnacka.setSelectedItem(0);
+        comboZnacka.setSelectedItem(auto.getZnacka());
         txtModel.setText(auto.getModel());
         txtECV.setText(auto.getSpz());
 
         txtRokVyroby.setText(auto.getRok_vyr());
-        txtStavTachometra.setText(Double.toString(auto.getStav_tach()));
-        txtVykon.setText(Double.toString(auto.getVykon()));
-        txtSpotrebaMesto.setText(Double.toString(auto.getSpotreba_mesto()));
-        txtSpotrebaMimo.setText(Double.toString(auto.getSpotreba_mimo()));
-        txtSpotrebaKomb.setText(Double.toString(auto.getSpotreba_avg()));
+        txtStavTachometra.setText(Long.toString(auto.getStav_tach()));
+        txtVykon.setText(df.format(auto.getVykon()));
+        txtSpotrebaMesto.setText(df.format(auto.getSpotreba_mesto()));
+        txtSpotrebaMimo.setText(df.format(auto.getSpotreba_mimo()));
+        txtSpotrebaKomb.setText(df.format(auto.getSpotreba_avg()));
 
-        //comboPalivo.setSelectedIndex(auto.getZnackaCmbIdx());
-        //comboPrevodovka.setSelectedIndex(auto.getPrevodovkaCmbIdx());
-        //comboKlimatizacia.setSelectedIndex(auto.getKlimatizaciaCmbIdx());
-        //comboFarba.setSelectedIndex(auto.getFarbaCmbIdx());
+        comboPalivo.setSelectedItem(auto.getPalivo());
+        comboPrevodovka.setSelectedItem(auto.getPrevodovka());
+        comboKlimatizacia.setSelectedItem(auto.getKlima());
+        comboFarba.setSelectedItem(auto.getFarba());
     }
 
     public PridatAutoForm(Frame parent, boolean modal) {
@@ -269,26 +270,46 @@ public class PridatAutoForm extends JDialog {
         return zoznam;
     }
 
-    // PRACUJEM ! Akcia pre uloženie auta. 
+    // PRACUJEM ! Akcia pre uloženie auta. [DONE]
     private void btnUlozitActionPerformed(ActionEvent e) {
-        Auto auto = new Auto();
-        auto.setZnacka((String) comboZnacka.getSelectedItem());
-        auto.setModel(txtModel.getText());
-        auto.setSpz(txtECV.getText());
-        auto.setRok_vyr(txtRokVyroby.getText());
-        auto.setStav_tach(Integer.parseInt(txtStavTachometra.getText()));
-        auto.setVykon(Double.parseDouble(txtVykon.getText()));
-        auto.setSpotreba_mesto(Integer.parseInt(txtSpotrebaMesto.getText()));
-        auto.setSpotreba_mimo(Double.parseDouble(txtSpotrebaMimo.getText()));
-        auto.setSpotreba_avg(Double.parseDouble(txtSpotrebaKomb.getText()));
-        auto.setPalivo((String) comboPalivo.getSelectedItem());
-        auto.setPrevodovka((String) comboPrevodovka.getSelectedItem());
-        auto.setKlima((String) comboKlimatizacia.getSelectedItem());
-        auto.setFarba((String) comboFarba.getSelectedItem());
-        //auto.setFarba(txtFarbaIna.getText());
+        if (auto == null) {
+            Auto auto = new Auto();
+            auto.setZnacka((String) comboZnacka.getSelectedItem());
+            auto.setModel(txtModel.getText());
+            auto.setSpz(txtECV.getText());
+            auto.setRok_vyr(txtRokVyroby.getText());
+            auto.setStav_tach(Integer.parseInt(txtStavTachometra.getText()));
+            auto.setVykon(Double.parseDouble(txtVykon.getText()));
+            auto.setSpotreba_mesto(Integer.parseInt(txtSpotrebaMesto.getText()));
+            auto.setSpotreba_mimo(Double.parseDouble(txtSpotrebaMimo.getText()));
+            auto.setSpotreba_avg(Double.parseDouble(txtSpotrebaKomb.getText()));
+            auto.setPalivo((String) comboPalivo.getSelectedItem());
+            auto.setPrevodovka((String) comboPrevodovka.getSelectedItem());
+            auto.setKlima((String) comboKlimatizacia.getSelectedItem());
+            auto.setFarba((String) comboFarba.getSelectedItem());
+            //auto.setFarba(txtFarbaIna.getText());
 
-        autoDao.saveAuto(login, auto);
-        dispose();
+            autoDao.saveAuto(login, auto);
+            dispose();
+        } else {
+            auto.setZnacka((String) comboZnacka.getSelectedItem());
+            auto.setModel(txtModel.getText());
+            auto.setSpz(txtECV.getText());
+            auto.setRok_vyr(txtRokVyroby.getText());
+            auto.setStav_tach(Integer.parseInt(txtStavTachometra.getText()));
+            auto.setVykon(Double.parseDouble(txtVykon.getText()));
+            auto.setSpotreba_mesto(Integer.parseInt(txtSpotrebaMesto.getText()));
+            auto.setSpotreba_mimo(Double.parseDouble(txtSpotrebaMimo.getText()));
+            auto.setSpotreba_avg(Double.parseDouble(txtSpotrebaKomb.getText()));
+            auto.setPalivo((String) comboPalivo.getSelectedItem());
+            auto.setPrevodovka((String) comboPrevodovka.getSelectedItem());
+            auto.setKlima((String) comboKlimatizacia.getSelectedItem());
+            auto.setFarba((String) comboFarba.getSelectedItem());
+            //auto.setFarba(txtFarbaIna.getText());
+
+            autoDao.saveAuto(login, auto);
+            dispose();
+        }
 
     }
 
