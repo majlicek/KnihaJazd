@@ -98,11 +98,7 @@ public class PridatCestuForm extends JDialog {
         int odchodMin = Integer.parseInt(odchod[1]);
         int prichodHod = Integer.parseInt(prichod[0]);
         int prichodMin = Integer.parseInt(prichod[1]);
-        System.out.println(odchodHod);
-        System.out.println(odchodMin);
-        System.out.println(prichodHod);
-        System.out.println(prichodMin);
-
+        
         comboOdchodHodina.setSelectedIndex(odchodHod);
         comboOdchodMinuta.setSelectedIndex(odchodMin);
         comboPrichodHodina.setSelectedIndex(prichodHod);

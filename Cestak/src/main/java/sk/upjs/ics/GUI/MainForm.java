@@ -153,7 +153,7 @@ public class MainForm extends JFrame {
             }
         });
 
-        // Tlačidlo UPRAVIŤ AUTO.
+        // Tlačidlo UPRAVIŤ AUTO. [DONE]
         btnUpravitAuto.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -234,7 +234,7 @@ public class MainForm extends JFrame {
     // Akcia tlačidla pre vymazanie vyznačeného auta. [DONE]
     private void btnVymazatAutoActionPerformed(ActionEvent e) {
         Object[] options = {"Áno", "Nie"};
-        int n = JOptionPane.showOptionDialog(this, "Skutočne chcete vymazať auto: [" + selectedAuto.getSpz() + "] " + selectedAuto.getZnacka() + " " + selectedAuto.getModel(), "Vymazanie auta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+        int n = JOptionPane.showOptionDialog(this, "Skutočne chcete vymazať auto [" + selectedAuto.getSpz() + "] " + selectedAuto.getZnacka() + " " + selectedAuto.getModel(), "Vymazanie auta", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
         // Ak užívateľ vyberie "ÁNO".
         if (n == 0) {
@@ -274,7 +274,7 @@ public class MainForm extends JFrame {
     // Akcia tlačidla pre odhlásenie. [DONE]
     private void btnOdhlasitActionPerformed(ActionEvent e) {
         Object[] options = {"Áno", "Nie"};
-        int n = JOptionPane.showOptionDialog(this, "Skutočne sa chcete odhlásiť ?", "Ohlásenie", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+        int n = JOptionPane.showOptionDialog(this, "Skutočne sa chcete odhlásiť ?", "Odhlásenie používateľa '" + login.getLogin() + "'", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
         // Ak užívateľ vyberie "ÁNO".
         if (n == 0) {
@@ -314,7 +314,7 @@ public class MainForm extends JFrame {
                 JTable table = (JTable) me.getSource();
 
                 Point bod = me.getPoint();
-                System.out.println("[" + bod.getX() + ", " + bod.getY() + "]");
+                //System.out.println("[" + bod.getX() + ", " + bod.getY() + "]");
                 int riadok = table.rowAtPoint(bod);
                 System.out.println("Riadok: " + riadok);
 
@@ -345,8 +345,8 @@ public class MainForm extends JFrame {
 
         // Ak combobox neuchováva žiadne položky.
         if (!auto.isEmpty()) {
-            System.out.println("Načítaný zoznam aut nie je prazdny."); // Matej           
-            System.out.println("SelectedAuto v comboBoxe na:" + auto.get(0).getSpz()); // Matej
+            //System.out.println("Načítaný zoznam aut nie je prazdny."); // Matej           
+            System.out.println("SelectedAuto v comboBoxe:" + auto.get(0).getSpz()); // Matej
 
             // TU BY BOLO DOBRE NEJAKÉ OŠETRENIE, LEBO SELECTEDAUTO JE VŽDY NASTAVENÉ ROVNAKO 
             // SPôSOBUJE TO PROBLÉMY: AK PRIDÁME NOVÉ AUTO DO ZOZNAMU, COMBOBOX SA ZMENÍ NA 
