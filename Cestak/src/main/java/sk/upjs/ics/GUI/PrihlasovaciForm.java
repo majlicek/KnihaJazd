@@ -4,9 +4,16 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
@@ -41,17 +48,27 @@ public class PrihlasovaciForm extends JFrame {
     // Labely
     private JLabel lblLogin = new JLabel("Login:");
     private JLabel lblHeslo = new JLabel("Heslo:");
-    private JLabel lblTitulka = new JLabel("Vitajte v knihe jázd !", SwingConstants.CENTER);
     private JLabel lblWarning = new JLabel("Zlé meno alebo heslo!", SwingConstants.RIGHT);
 
     private PrihlasenieDAO prihlasenieDao = DaoFactory.INSTANCE.prihlasenieDao();
     private Login login;
+    
+    public void nacitajBanner() throws IOException {
+        try {
+            BufferedImage myPicture = ImageIO.read(new File("banner.png"));
+
+            JLabel picLabel = new JLabel(new ImageIcon(myPicture), SwingConstants.CENTER);
+            add(picLabel, "wrap, span 2");
+        } catch (FileNotFoundException e) {
+            System.out.println("Banner sa nepodarilo načítať.");
+        }
+    }
 
     // Konštruktor
-    public PrihlasovaciForm() throws HeadlessException {
+    public PrihlasovaciForm() throws IOException {
         setLayout(new MigLayout("", "[fill, grow][fill, grow]", "[][][][]"));
 
-        add(lblTitulka, "wrap, span 2"); // Namiesto titulky nejaké logo, resp. uvítanie.
+        nacitajBanner();
         add(lblLogin);
         add(txtLogin, "wrap");
         add(lblHeslo);
@@ -84,7 +101,8 @@ public class PrihlasovaciForm extends JFrame {
         });
         /* ******************** AKCIE ************************ */
 
-        setPreferredSize(new Dimension(350, 150));
+        //setPreferredSize(new Dimension(350, 150));
+        setPreferredSize(new Dimension(400, 320));
         setResizable(false);
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -119,7 +137,7 @@ public class PrihlasovaciForm extends JFrame {
     }
 
     // Main - PrihlasovaciForm
-    public static void main(String args[]) throws UnsupportedLookAndFeelException {
+    public static void main(String args[]) throws UnsupportedLookAndFeelException, IOException {
         UIManager.setLookAndFeel(new WindowsLookAndFeel());
 
         PrihlasovaciForm prihlasovaciForm = new PrihlasovaciForm();

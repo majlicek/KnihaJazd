@@ -10,7 +10,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -188,7 +191,11 @@ public class MainForm extends JFrame {
         btnOdhlasit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                btnOdhlasitActionPerformed(e);
+                try {
+                    btnOdhlasitActionPerformed(e);
+                } catch (IOException ex) {
+                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
 
@@ -272,7 +279,7 @@ public class MainForm extends JFrame {
     }
 
     // Akcia tlačidla pre odhlásenie. [DONE]
-    private void btnOdhlasitActionPerformed(ActionEvent e) {
+    private void btnOdhlasitActionPerformed(ActionEvent e) throws IOException {
         Object[] options = {"Áno", "Nie"};
         int n = JOptionPane.showOptionDialog(this, "Skutočne sa chcete odhlásiť ?", "Odhlásenie používateľa '" + login.getLogin() + "'", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
