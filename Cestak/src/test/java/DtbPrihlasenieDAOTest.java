@@ -23,7 +23,7 @@ public class DtbPrihlasenieDAOTest {
     }
 
     @Test
-    public void testPrihlasenieZadanyInyLogin() {
+    public void testZadanyInyLogin() {
         login.setLogin("robert");
 
         boolean jePrihlaseny = prihlasenieDao.verifyOnlyLogin(login);
@@ -32,7 +32,7 @@ public class DtbPrihlasenieDAOTest {
     }
 
     @Test
-    public void testPrihlasenieZadanyRovnakyLogin() {
+    public void testZadanyRovnakyLogin() {
         login.setLogin("matej");
 
         boolean jePrihlaseny = prihlasenieDao.verifyOnlyLogin(login);
@@ -42,8 +42,8 @@ public class DtbPrihlasenieDAOTest {
     
     @Test
     public void testPrihlasenieLogin() {        
-        login.setLogin("matej");
-        login.setHeslo("matej");
+        login.setLogin("admin");
+        login.setHeslo("admin");
         
         Login ocakavany = prihlasenieDao.verifyLogin(login);
       

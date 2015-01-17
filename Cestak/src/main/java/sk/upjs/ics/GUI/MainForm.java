@@ -95,7 +95,7 @@ public class MainForm extends JFrame {
     // ***********************************************************************
     public void nacitajIcon() throws IOException {
         try {
-            BufferedImage myPicture = ImageIO.read(new File("150x108.png"));
+            BufferedImage myPicture = ImageIO.read(new File("75x54.png"));
 
             JLabel picLabel = new JLabel(new ImageIcon(myPicture), SwingConstants.CENTER);
             add(picLabel);

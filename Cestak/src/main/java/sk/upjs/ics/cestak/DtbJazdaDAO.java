@@ -54,7 +54,6 @@ public class DtbJazdaDAO implements JazdaDAO {
             insert.execute(into);
         } else {
             // Ak aktualizujeme jazdu.
-
             String sql = "UPDATE Jazda\n"
                     + "SET datum = ?,\n"
                     + "vyjazd = ?,\n"
