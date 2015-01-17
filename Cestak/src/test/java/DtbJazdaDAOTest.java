@@ -68,7 +68,7 @@ public class DtbJazdaDAOTest {
 
         // Je potrebné nastaviť jazde idčko aké dostaneme v DBS poďla PK, 
         // inak vymazJazda nevie, ktorú jazdu má vymazať.
-        jazda.setIdJazda(62); // naposledy bol PK 62 -> PRAVIDELNE ITEROVAŤ ! 
+        jazda.setIdJazda(63); // naposledy bol PK 62 -> PRAVIDELNE ITEROVAŤ ! 
 
         // Vymazanie novovytvorenej jazdy zo zoznamu jázd.
         jazdaDAO.vymazJazda(jazda);
@@ -77,7 +77,7 @@ public class DtbJazdaDAOTest {
         assertEquals(pocetJazdPredUlozenim, pocetJazdPoVymazani);
     }
     
-    public void upravJazda() {
+    public void testUpravJazda() {
         List<Jazda> zoznamJazd = jazdaDAO.zoznamPodlaAut(auto, login);
         jazda = zoznamJazd.get(0);
         
