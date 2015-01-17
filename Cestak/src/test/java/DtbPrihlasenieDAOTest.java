@@ -49,5 +49,4 @@ public class DtbPrihlasenieDAOTest {
       
         assertEquals(ocakavany.getClass(), login.getClass());        
     }
-
 }

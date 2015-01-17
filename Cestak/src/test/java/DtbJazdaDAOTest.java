@@ -18,7 +18,6 @@ public class DtbJazdaDAOTest {
     
     private Login login;
     private Auto auto;
-    private Jazda jazda;
     private final AutoDAO autoDAO = DaoFactory.INSTANCE.autoDao();
     private final JazdaDAO jazdaDAO = DaoFactory.INSTANCE.jazdaDao();
 
@@ -79,7 +78,7 @@ public class DtbJazdaDAOTest {
     
     public void testUpravJazda() {
         List<Jazda> zoznamJazd = jazdaDAO.zoznamPodlaAut(auto, login);
-        jazda = zoznamJazd.get(0);
+        Jazda jazda = zoznamJazd.get(0);
         
         String povodnaOdkial = jazda.getVyjazd();
         String novaOdkial = "Prešov";
