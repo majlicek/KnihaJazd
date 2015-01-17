@@ -30,7 +30,9 @@ public enum DaoFactory {
 
     public DataSource dataSource() {
         MysqlDataSource dataSource = new MysqlDataSource();
-        dataSource.setURL("jdbc:mysql://sql4.freemysqlhosting.net:3306/sql457246?zeroDateTimeBehavior=convertToNull");
+        //dataSource.setURL("jdbc:mysql://sql4.freemysqlhosting.net:3306/sql457246?zeroDateTimeBehavior=convertToNull");
+        // Vyriešený problém s ukladaním znakov č,ř,š,ľ... namiesto '?' do databázy.
+        dataSource.setURL("jdbc:mysql://sql4.freemysqlhosting.net:3306/sql457246?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull");
         dataSource.setUser("sql457246");
         dataSource.setPassword("nV1*qI2%");
 
