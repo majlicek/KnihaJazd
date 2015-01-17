@@ -3,19 +3,25 @@ package sk.upjs.ics.GUI;
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -26,6 +32,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListCellRenderer;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -40,6 +47,8 @@ import sk.upjs.ics.cestak.Jazda;
 import sk.upjs.ics.cestak.JazdaDAO;
 import sk.upjs.ics.cestak.JazdaTableModel;
 import sk.upjs.ics.cestak.Login;
+import sk.upjs.ics.cestak.Pouzivatel;
+import sk.upjs.ics.cestak.PrihlasenieDAO;
 
 /**
  * MainForm
@@ -72,27 +81,41 @@ public class MainForm extends JFrame {
     private JPanel panPanel = new JPanel();
     private JPanel panPanel2 = new JPanel();
     private JPanel panPanel3 = new JPanel();
+    private JPanel vacsiComboBox = new JPanel();
 
     private Login login;
     private Auto selectedAuto;
 
     private AutoDAO autoDao = DaoFactory.INSTANCE.autoDao();
     private JazdaDAO jazdaDao = DaoFactory.INSTANCE.jazdaDao();
+
     private ListCellRenderer autoListCellRenderer = new AutoListCellRenderer();
     private JazdaTableModel jazdaTableModel = new JazdaTableModel();
 
     // ***********************************************************************
-    public MainForm(Login login) {
+    public void nacitajIcon() throws IOException {
+        try {
+            BufferedImage myPicture = ImageIO.read(new File("150x108.png"));
+
+            JLabel picLabel = new JLabel(new ImageIcon(myPicture), SwingConstants.CENTER);
+            add(picLabel);
+        } catch (FileNotFoundException e) {
+            System.out.println("Banner sa nepodarilo načítať.");
+        }
+    }
+
+    public MainForm(Login login) throws IOException {
         this();
         this.login = login;
         obnovAuta();
         obnovJazdy();
     }
 
-    public MainForm() {
+    public MainForm() throws IOException {
         setLayout(new MigLayout("", "[fill, grow][fill][fill][fill][fill][fill]", "[][][][][][][nogrid]"));
         // Vrchny panel s tlacidlami
         add(btnNovaCesta);
+        btnNovaCesta.setFont(new Font(null, Font.BOLD, 11));
         add(btnVymazatCestu);
         add(btnPridatAuto);
         add(btnUpravitAuto);
@@ -104,9 +127,13 @@ public class MainForm extends JFrame {
         add(panPanel, "wrap");
 
         // Label a combo
-        add(lblJazdy);
-        add(comboAuta, "wrap, span 5");
+        //add(lblJazdy);
+        nacitajIcon();
+        
+        comboAuta.setFont(new Font("Dialog", Font.BOLD, 15));
+        add(vacsiComboBox.add(comboAuta), "grow, wrap, span 5");
 
+        //add(comboAuta, "wrap, span 5");
         // Prazdny panel 2
         panPanel2.setPreferredSize(new Dimension(700, 10));
         add(panPanel2, "wrap");
@@ -127,7 +154,7 @@ public class MainForm extends JFrame {
         btnNovaCesta.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                btnPridatJazduActionPerformed(e);
+                btnNovaCestaActionPerformed(e);
             }
         });
 
@@ -182,8 +209,7 @@ public class MainForm extends JFrame {
         btnUpravitUzivatela.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // otvorí RegistracnyForm s vydolovanými dátami z databázy
-                // ZATIAĽ NEROBÍ NIČ
+                btnUpravitUzivatelaActionPerformed(e);
             }
         });
 
@@ -252,7 +278,7 @@ public class MainForm extends JFrame {
     }
 
     // Akcia tlačidla pre pridanie novej cesty. [DONE]
-    private void btnPridatJazduActionPerformed(ActionEvent e) {
+    private void btnNovaCestaActionPerformed(ActionEvent e) {
         PridatCestuForm pridatCestuForm = null;
         pridatCestuForm = new PridatCestuForm(login, selectedAuto, this);
         pridatCestuForm.setTitle("Kniha jázd - pridanie nového záznamu");
@@ -276,6 +302,15 @@ public class MainForm extends JFrame {
             jazdaDao.vymazJazda(jazda);
             obnovJazdy();
         }
+    }
+
+    private void btnUpravitUzivatelaActionPerformed(ActionEvent e) {
+        RegistracnyForm editableLogin = new RegistracnyForm();
+        // IN PROGRESS..
+
+        editableLogin.setLocationRelativeTo(CENTER_SCREEN);
+        editableLogin.setTitle("Kniha jázd - úprava profilu");
+        editableLogin.setVisible(true);
     }
 
     // Akcia tlačidla pre odhlásenie. [DONE]
@@ -349,7 +384,8 @@ public class MainForm extends JFrame {
     // Uchováva info o aktuálne vyzerajúcom comboboxe. [DONE]
     private ComboBoxModel getAutaModel() {
         List<Auto> auto = autoDao.zoznamPodlaPouzivatela(login);
-
+        ((JLabel)comboAuta.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+        
         // Ak combobox neuchováva žiadne položky.
         if (!auto.isEmpty()) {
             //System.out.println("Načítaný zoznam aut nie je prazdny."); // Matej           
@@ -396,7 +432,7 @@ public class MainForm extends JFrame {
     }
 
     // Main - MainForm
-    public static void main(String args[]) throws UnsupportedLookAndFeelException {
+    public static void main(String args[]) throws UnsupportedLookAndFeelException, IOException {
         UIManager.setLookAndFeel(new WindowsLookAndFeel());
 
         MainForm mainForm = new MainForm();

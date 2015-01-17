@@ -12,6 +12,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -26,6 +28,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import net.miginfocom.swing.MigLayout;
 import sk.upjs.ics.cestak.DaoFactory;
 import sk.upjs.ics.cestak.Login;
+import sk.upjs.ics.cestak.Pouzivatel;
 import sk.upjs.ics.cestak.PrihlasenieDAO;
 
 /**
@@ -52,7 +55,8 @@ public class PrihlasovaciForm extends JFrame {
 
     private PrihlasenieDAO prihlasenieDao = DaoFactory.INSTANCE.prihlasenieDao();
     private Login login;
-    
+    private Pouzivatel pouzivatel; // matej
+
     public void nacitajBanner() throws IOException {
         try {
             BufferedImage myPicture = ImageIO.read(new File("banner.png"));
@@ -84,7 +88,11 @@ public class PrihlasovaciForm extends JFrame {
         btnPrihlasit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                btnPrihlasitActionPerformed(e);
+                try {
+                    btnPrihlasitActionPerformed(e);
+                } catch (IOException ex) {
+                    Logger.getLogger(PrihlasovaciForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 System.out.println("Prihlasujem...");
             }
         });
@@ -110,7 +118,7 @@ public class PrihlasovaciForm extends JFrame {
     }
 
     // Akcia pre prihlásenie.
-    private void btnPrihlasitActionPerformed(ActionEvent event) {
+    private void btnPrihlasitActionPerformed(ActionEvent event) throws IOException {
         login = new Login();
         login.setLogin(txtLogin.getText());
         login.setHeslo(String.valueOf(txtHeslo.getPassword()));
@@ -130,6 +138,7 @@ public class PrihlasovaciForm extends JFrame {
     // Akcia pre registrovanie.
     private void btnRegistrovatActionPerformed(ActionEvent event) {
         RegistracnyForm registrujPouzivatela;
+        //registrujPouzivatela = new RegistracnyForm();
         registrujPouzivatela = new RegistracnyForm();
         registrujPouzivatela.setTitle("Kniha jázd - registrácia užívateľa");
         registrujPouzivatela.setLocationRelativeTo(CENTER_SCREEN);

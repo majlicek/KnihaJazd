@@ -3,6 +3,7 @@ package sk.upjs.ics.GUI;
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -71,8 +72,7 @@ public class RegistracnyForm extends JFrame {
     private Pouzivatel pouzivatel;
     private Login login;
 
-    // Konštruktor
-    public RegistracnyForm() throws HeadlessException {
+    public RegistracnyForm() {
         setLayout(new MigLayout("", "[fill, grow][fill,grow][][]", "[][][][][][][nogrid][][][][nogrid]"));
 
         nastavPrihlasovacieUdajeGUI();
@@ -217,7 +217,6 @@ public class RegistracnyForm extends JFrame {
         pouzivatel.setAdresa(txtAdresa.getText());
         pouzivatel.setPohlavie((String) comboPohlavie.getSelectedItem());
 
-        // Matej
         // Namiesto StringBuildera a append použité Date, Calendar, DateFormat
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Calendar calendar = Calendar.getInstance();
