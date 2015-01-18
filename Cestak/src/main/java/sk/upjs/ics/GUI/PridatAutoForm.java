@@ -258,7 +258,7 @@ public class PridatAutoForm extends JDialog {
         Scanner scanner = null;
 
         try {
-            scanner = new Scanner(new File("znackyAut.txt"));
+            scanner = new Scanner(new File("znackyAut.txt"), "UTF-8");
             while (scanner.hasNextLine()) {
                 zoznam.add(scanner.nextLine());
             }
@@ -275,7 +275,7 @@ public class PridatAutoForm extends JDialog {
     // Akcia pre uloženie auta. [DONE]
     private void btnUlozitActionPerformed(ActionEvent e) {
         // Ak pridávame auto po prvýkrát.
-        if (auto.getSpz() == null) {            
+        if (auto.getSpz() == null) {
             auto = new Auto();
             auto.setZnacka((String) comboZnacka.getSelectedItem());
             auto.setModel(txtModel.getText());
@@ -289,7 +289,7 @@ public class PridatAutoForm extends JDialog {
             auto.setPalivo((String) comboPalivo.getSelectedItem());
             auto.setPrevodovka((String) comboPrevodovka.getSelectedItem());
             auto.setKlima((String) comboKlimatizacia.getSelectedItem());
-            auto.setFarba((String) comboFarba.getSelectedItem());            
+            auto.setFarba((String) comboFarba.getSelectedItem());
 
             autoDao.saveAuto(login, auto);
             dispose();
@@ -307,7 +307,7 @@ public class PridatAutoForm extends JDialog {
             auto.setPalivo((String) comboPalivo.getSelectedItem());
             auto.setPrevodovka((String) comboPrevodovka.getSelectedItem());
             auto.setKlima((String) comboKlimatizacia.getSelectedItem());
-            auto.setFarba((String) comboFarba.getSelectedItem());            
+            auto.setFarba((String) comboFarba.getSelectedItem());
 
             autoDao.saveAuto(login, auto);
             dispose();

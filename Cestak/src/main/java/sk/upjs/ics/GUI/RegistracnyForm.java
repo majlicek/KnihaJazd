@@ -77,7 +77,7 @@ public class RegistracnyForm extends JDialog { // namiesto JFrame / matej
     public RegistracnyForm(Login login, Frame parent) {
         this(parent, true);
         this.login = login;
-
+        
         Pouzivatel pouzivatel = new Pouzivatel();
         // pokracovanie
         txtLogin.setText(login.getLogin());

@@ -26,7 +26,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 import net.miginfocom.swing.MigLayout;
 import sk.upjs.ics.cestak.DaoFactory;
 import sk.upjs.ics.cestak.Login;
-import sk.upjs.ics.cestak.Pouzivatel;
 import sk.upjs.ics.cestak.PrihlasenieDAO;
 
 /**
@@ -53,7 +52,6 @@ public class PrihlasovaciForm extends JFrame {
 
     private PrihlasenieDAO prihlasenieDao = DaoFactory.INSTANCE.prihlasenieDao();
     private Login login;
-    private Pouzivatel pouzivatel; // matej
 
     public void nacitajBanner() throws IOException {
         try {
