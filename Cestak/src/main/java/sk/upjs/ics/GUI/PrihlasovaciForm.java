@@ -4,8 +4,6 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -137,9 +135,7 @@ public class PrihlasovaciForm extends JFrame {
 
     // Akcia pre registrovanie.
     private void btnRegistrovatActionPerformed(ActionEvent event) {
-        RegistracnyForm registrujPouzivatela;
-        //registrujPouzivatela = new RegistracnyForm();
-        registrujPouzivatela = new RegistracnyForm();
+        RegistracnyForm registrujPouzivatela = new RegistracnyForm(this, true);
         registrujPouzivatela.setTitle("Kniha jázd - registrácia užívateľa");
         registrujPouzivatela.setLocationRelativeTo(CENTER_SCREEN);
         registrujPouzivatela.setVisible(true);

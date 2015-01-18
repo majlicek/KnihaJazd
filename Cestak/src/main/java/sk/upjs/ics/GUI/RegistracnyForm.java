@@ -4,7 +4,6 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
-import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
@@ -12,7 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -24,6 +22,7 @@ import sk.upjs.ics.cestak.Login;
 import sk.upjs.ics.cestak.Pouzivatel;
 import sk.upjs.ics.cestak.PrihlasenieDAO;
 import java.util.Date; // Matej
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 /**
@@ -31,7 +30,7 @@ import javax.swing.JOptionPane;
  *
  * @author Matej Perejda
  */
-public class RegistracnyForm extends JFrame {
+public class RegistracnyForm extends JDialog { // namiesto JFrame / matej
 
     private static final Component CENTER_SCREEN = null;
 
@@ -72,9 +71,44 @@ public class RegistracnyForm extends JFrame {
     private Pouzivatel pouzivatel;
     private Login login;
 
-    public RegistracnyForm() {
-        setLayout(new MigLayout("", "[fill, grow][fill,grow][][]", "[][][][][][][nogrid][][][][nogrid]"));
+    // *********************************************************************//
+    // PRIDAT ĎALŠIE KONŠTRUKTORY, ABY ÚPRAVA UŽÍVATEĽA BEŽALA TAK AKO MÁ !!!
+    // Konštruktor slúžiaci na editovanie profilu užívateľa.
+    public RegistracnyForm(Login login, Frame parent) {
+        this(parent, true);
+        this.login = login;
 
+        Pouzivatel pouzivatel = new Pouzivatel();
+        // pokracovanie
+        txtLogin.setText(login.getLogin());
+        txtLogin.setEditable(false);
+
+        txtHeslo.setText(login.getHeslo());
+        txtHeslo.setEditable(false);
+
+        txtHeslo2.setText(login.getHeslo());
+        txtHeslo2.setEditable(false);
+
+        txtMeno.setText(pouzivatel.getMeno());
+        txtPriezvisko.setText(pouzivatel.getPriezvisko());
+        comboPohlavie.setSelectedItem(pouzivatel.getPohlavie());
+        // datum narodenia
+        txtAdresa.setText(pouzivatel.getAdresa());
+        txtEmail.setText(pouzivatel.getEmail());
+        txtTel.setText(pouzivatel.getTel());
+    }
+
+    public RegistracnyForm(Frame parent, boolean modal) {
+        super(parent, modal);
+        initComponents();
+    }
+
+    @SuppressWarnings("unchecked")
+    private void initComponents() {
+        //public RegistracnyForm(Frame parent, boolean modal) { // public RegistracnyForm()  / matej
+        //super(parent, modal); // Matej
+
+        setLayout(new MigLayout("", "[fill, grow][fill,grow][][]", "[][][][][][][nogrid][][][][nogrid]"));
         nastavPrihlasovacieUdajeGUI();
         nastavOsobneUdajeGUI();
         nastavDatumNarodeniaGUI();
@@ -229,8 +263,7 @@ public class RegistracnyForm extends JFrame {
         calendar.set(Calendar.MONTH, mesiac - 1); // Mesiace sú číslované od 0..11
         calendar.set(Calendar.DAY_OF_MONTH, den);
 
-        Date date = new Date();
-        date = calendar.getTime();
+        Date date = calendar.getTime();
         String datum = dateFormat.format(date);
 
         pouzivatel.setDatum(datum);
@@ -279,7 +312,7 @@ public class RegistracnyForm extends JFrame {
     public static void main(String args[]) throws UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel(new WindowsLookAndFeel());
 
-        RegistracnyForm registracnyForm = new RegistracnyForm();
+        RegistracnyForm registracnyForm = new RegistracnyForm(new javax.swing.JFrame(), true); // Matej
         registracnyForm.setVisible(true);
         registracnyForm.setTitle("Kniha jázd - registrácia užívateľa");
         registracnyForm.setLocationRelativeTo(CENTER_SCREEN);

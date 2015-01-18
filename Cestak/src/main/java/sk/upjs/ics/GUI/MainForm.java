@@ -20,7 +20,6 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -48,7 +47,6 @@ import sk.upjs.ics.cestak.JazdaDAO;
 import sk.upjs.ics.cestak.JazdaTableModel;
 import sk.upjs.ics.cestak.Login;
 import sk.upjs.ics.cestak.Pouzivatel;
-import sk.upjs.ics.cestak.PrihlasenieDAO;
 
 /**
  * MainForm
@@ -129,7 +127,7 @@ public class MainForm extends JFrame {
         // Label a combo
         //add(lblJazdy);
         nacitajIcon();
-        
+
         comboAuta.setFont(new Font("Dialog", Font.BOLD, 15));
         add(vacsiComboBox.add(comboAuta), "grow, wrap, span 5");
 
@@ -279,8 +277,7 @@ public class MainForm extends JFrame {
 
     // Akcia tlačidla pre pridanie novej cesty. [DONE]
     private void btnNovaCestaActionPerformed(ActionEvent e) {
-        PridatCestuForm pridatCestuForm = null;
-        pridatCestuForm = new PridatCestuForm(login, selectedAuto, this);
+        PridatCestuForm pridatCestuForm = new PridatCestuForm(login, selectedAuto, this);
         pridatCestuForm.setTitle("Kniha jázd - pridanie nového záznamu");
         pridatCestuForm.setLocationRelativeTo(CENTER_SCREEN);
 
@@ -305,7 +302,7 @@ public class MainForm extends JFrame {
     }
 
     private void btnUpravitUzivatelaActionPerformed(ActionEvent e) {
-        RegistracnyForm editableLogin = new RegistracnyForm();
+        RegistracnyForm editableLogin = new RegistracnyForm(login, this); // matej
         // IN PROGRESS..
 
         editableLogin.setLocationRelativeTo(CENTER_SCREEN);
@@ -384,8 +381,8 @@ public class MainForm extends JFrame {
     // Uchováva info o aktuálne vyzerajúcom comboboxe. [DONE]
     private ComboBoxModel getAutaModel() {
         List<Auto> auto = autoDao.zoznamPodlaPouzivatela(login);
-        ((JLabel)comboAuta.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-        
+        ((JLabel) comboAuta.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+
         // Ak combobox neuchováva žiadne položky.
         if (!auto.isEmpty()) {
             //System.out.println("Načítaný zoznam aut nie je prazdny."); // Matej           
