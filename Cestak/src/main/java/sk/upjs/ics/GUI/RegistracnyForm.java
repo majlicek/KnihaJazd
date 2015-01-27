@@ -96,7 +96,7 @@ public class RegistracnyForm extends JDialog { // namiesto JFrame / matej
         txtPriezvisko.setText(pouzivatel2.getPriezvisko());
         comboPohlavie.setSelectedItem(pouzivatel2.getPohlavie());
 
-        /*String datumNarodenia = pouzivatel2.getDatum(); // vracia null
+        String datumNarodenia = pouzivatel2.getDatum(); // vracia null
         System.out.println("D.N.: " + datumNarodenia);
 
         String[] datumRozdeleny = datumNarodenia.split("-", -1);
@@ -109,7 +109,7 @@ public class RegistracnyForm extends JDialog { // namiesto JFrame / matej
         
         comboRok.setSelectedItem(datumRok);
         comboMesiac.setSelectedItem(datumMesiac);
-        comboDen.setSelectedItem(datumDen);*/
+        comboDen.setSelectedItem(datumDen);
 
         txtAdresa.setText(pouzivatel2.getAdresa());
         txtEmail.setText(pouzivatel2.getEmail());
