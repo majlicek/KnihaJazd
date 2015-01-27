@@ -41,7 +41,7 @@ public class DtbPrihlasenieDAO implements PrihlasenieDAO {
         into.put("meno", pouzivatel.getMeno());
         into.put("priezvisko", pouzivatel.getPriezvisko());
         into.put("pohlavie", pouzivatel.getPohlavie());
-        into.put("datum_narodenia", pouzivatel.getDatum());
+        into.put("datum", pouzivatel.getDatum());
         into.put("adresa", pouzivatel.getAdresa());
         into.put("email", pouzivatel.getEmail());
         into.put("tel", pouzivatel.getTel());
@@ -95,7 +95,7 @@ public class DtbPrihlasenieDAO implements PrihlasenieDAO {
         novy.setMeno(zoznam.get(0).getMeno());
         novy.setPriezvisko(zoznam.get(0).getPriezvisko());
         novy.setPohlavie(zoznam.get(0).getPohlavie());
-        novy.setDatum(zoznam.get(0).getDatum()); // vracia null, preco ???       
+        novy.setDatum(zoznam.get(0).getDatum());      
         novy.setAdresa(zoznam.get(0).getAdresa());
         novy.setEmail(zoznam.get(0).getEmail());
         novy.setTel(zoznam.get(0).getTel());
