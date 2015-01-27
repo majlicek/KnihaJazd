@@ -59,5 +59,5 @@ public enum DaoFactory {
         }
         return this.jazdaDao;
     }
-
+    
 }

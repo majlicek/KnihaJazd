@@ -23,6 +23,9 @@ import sk.upjs.ics.cestak.Pouzivatel;
 import sk.upjs.ics.cestak.PrihlasenieDAO;
 import java.util.Date; // Matej
 import javax.swing.JDialog;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 /**
@@ -77,9 +80,9 @@ public class RegistracnyForm extends JDialog { // namiesto JFrame / matej
     public RegistracnyForm(Login login, Frame parent) {
         this(parent, true);
         this.login = login;
-        
-        Pouzivatel pouzivatel = new Pouzivatel();
-        // pokracovanie
+
+        Pouzivatel pouzivatel2 = prihlasenieDao.getPouzivatelInfo(login);
+
         txtLogin.setText(login.getLogin());
         txtLogin.setEditable(false);
 
@@ -89,13 +92,28 @@ public class RegistracnyForm extends JDialog { // namiesto JFrame / matej
         txtHeslo2.setText(login.getHeslo());
         txtHeslo2.setEditable(false);
 
-        txtMeno.setText(pouzivatel.getMeno());
-        txtPriezvisko.setText(pouzivatel.getPriezvisko());
-        comboPohlavie.setSelectedItem(pouzivatel.getPohlavie());
-        // datum narodenia
-        txtAdresa.setText(pouzivatel.getAdresa());
-        txtEmail.setText(pouzivatel.getEmail());
-        txtTel.setText(pouzivatel.getTel());
+        txtMeno.setText(pouzivatel2.getMeno());
+        txtPriezvisko.setText(pouzivatel2.getPriezvisko());
+        comboPohlavie.setSelectedItem(pouzivatel2.getPohlavie());
+
+        /*String datumNarodenia = pouzivatel2.getDatum(); // vracia null
+        System.out.println("D.N.: " + datumNarodenia);
+
+        String[] datumRozdeleny = datumNarodenia.split("-", -1);
+        String datumRok = datumRozdeleny[0];
+        //System.out.println("Rok: " + datumRok);
+        String datumMesiac = datumRozdeleny[1];
+        //System.out.println("Mesiac: " + datumMesiac);
+        String datumDen = datumRozdeleny[2];
+        //System.out.println("Den: " + datumDen);
+        
+        comboRok.setSelectedItem(datumRok);
+        comboMesiac.setSelectedItem(datumMesiac);
+        comboDen.setSelectedItem(datumDen);*/
+
+        txtAdresa.setText(pouzivatel2.getAdresa());
+        txtEmail.setText(pouzivatel2.getEmail());
+        txtTel.setText(pouzivatel2.getTel());
     }
 
     public RegistracnyForm(Frame parent, boolean modal) {

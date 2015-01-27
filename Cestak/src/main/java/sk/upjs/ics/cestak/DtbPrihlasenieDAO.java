@@ -1,6 +1,7 @@
 package sk.upjs.ics.cestak;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -30,6 +31,9 @@ public class DtbPrihlasenieDAO implements PrihlasenieDAO {
 
     private BeanPropertyRowMapper<Login> mapovac
             = new BeanPropertyRowMapper<>(Login.class);
+
+    private BeanPropertyRowMapper<Pouzivatel> mapovac2
+            = new BeanPropertyRowMapper<>(Pouzivatel.class);
 
     @Override
     public Pouzivatel savePouzivatela(Pouzivatel pouzivatel) {
@@ -78,5 +82,24 @@ public class DtbPrihlasenieDAO implements PrihlasenieDAO {
         } catch (EmptyResultDataAccessException e) {
             return false;
         }
+    }
+
+    @Override
+    public Pouzivatel getPouzivatelInfo(Login login) {
+        Pouzivatel novy = new Pouzivatel();
+
+        String sql = "SELECT * FROM Pouzivatel WHERE idPouzivatel = ?";
+        List<Pouzivatel> zoznam = jdbcTemplate.query(sql, mapovac2, login.getId());
+
+        novy.setId(login.getId());
+        novy.setMeno(zoznam.get(0).getMeno());
+        novy.setPriezvisko(zoznam.get(0).getPriezvisko());
+        novy.setPohlavie(zoznam.get(0).getPohlavie());
+        novy.setDatum(zoznam.get(0).getDatum()); // vracia null, preco ???       
+        novy.setAdresa(zoznam.get(0).getAdresa());
+        novy.setEmail(zoznam.get(0).getEmail());
+        novy.setTel(zoznam.get(0).getTel());
+
+        return novy;
     }
 }
