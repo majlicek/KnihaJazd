@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -22,11 +21,8 @@ import sk.upjs.ics.cestak.DaoFactory;
 import sk.upjs.ics.cestak.Login;
 import sk.upjs.ics.cestak.Pouzivatel;
 import sk.upjs.ics.cestak.PrihlasenieDAO;
-import java.util.Date; // Matej
+import java.util.Date;
 import javax.swing.JDialog;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 /**
@@ -34,7 +30,7 @@ import javax.swing.JOptionPane;
  *
  * @author Matej Perejda
  */
-public class RegistracnyForm extends JDialog { // namiesto JFrame / matej
+public class RegistracnyForm extends JDialog {
 
     private static final Component CENTER_SCREEN = null;
 
@@ -76,7 +72,6 @@ public class RegistracnyForm extends JDialog { // namiesto JFrame / matej
     private Login login;
 
     // *********************************************************************//
-    // PRIDAT ĎALŠIE KONŠTRUKTORY, ABY ÚPRAVA UŽÍVATEĽA BEŽALA TAK AKO MÁ !!!
     // Konštruktor slúžiaci na editovanie profilu užívateľa.
     public RegistracnyForm(Login login, Frame parent) {
         this(parent, true);
@@ -97,12 +92,13 @@ public class RegistracnyForm extends JDialog { // namiesto JFrame / matej
         txtPriezvisko.setText(pouzivatel2.getPriezvisko());
         comboPohlavie.setSelectedItem(pouzivatel2.getPohlavie());
 
+        // Rozdelenie dátumu narodenia po vydolovaní z SQL podľa '-'
         String datumNarodenia = pouzivatel2.getDatum();
-        String[] datumRozdeleny = datumNarodenia.split("-");        
+        String[] datumRozdeleny = datumNarodenia.split("-");
 
         int datumRok = Integer.parseInt(datumRozdeleny[0]);
         int datumMesiac = Integer.parseInt(datumRozdeleny[1]);
-        int datumDen = Integer.parseInt(datumRozdeleny[2]);       
+        int datumDen = Integer.parseInt(datumRozdeleny[2]);
 
         comboRok.setSelectedItem(datumRok);
         comboMesiac.setSelectedItem(datumMesiac);
@@ -120,9 +116,6 @@ public class RegistracnyForm extends JDialog { // namiesto JFrame / matej
 
     @SuppressWarnings("unchecked")
     private void initComponents() {
-        //public RegistracnyForm(Frame parent, boolean modal) { // public RegistracnyForm()  / matej
-        //super(parent, modal); // Matej
-
         setLayout(new MigLayout("", "[fill, grow][fill,grow][][]", "[][][][][][][nogrid][][][][nogrid]"));
         nastavPrihlasovacieUdajeGUI();
         nastavOsobneUdajeGUI();
@@ -135,7 +128,6 @@ public class RegistracnyForm extends JDialog { // namiesto JFrame / matej
         btnRegistrovat.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Zaregistrovať
                 btnRegistrovatActionPerformed(e);
                 System.out.println("Registrujem...");
             }
@@ -220,86 +212,251 @@ public class RegistracnyForm extends JDialog { // namiesto JFrame / matej
         txtHeslo2.setToolTipText("Zopakujte heslo");
     }
 
-    // Akcia pre registráciu.
+    // Akcia pre registráciu - Povodna verzia bez UPDATE
+    /*private void btnRegistrovatActionPerformed2(ActionEvent e) {
+     if (txtLogin.getText().isEmpty()) {
+     JOptionPane.showMessageDialog(this, "Zadajte login (povinný údaj)!", "Login", JOptionPane.ERROR_MESSAGE);
+     return;
+     } else if (txtHeslo.getPassword().length == 0) {
+     JOptionPane.showMessageDialog(this, "Zadajte heslo (povinný údaj)!", "Heslo", JOptionPane.ERROR_MESSAGE);
+     return;
+     } else if (txtHeslo2.getPassword().length == 0) {
+     JOptionPane.showMessageDialog(this, "Zapakujte heslo (povinný údaj)!", "Heslo", JOptionPane.ERROR_MESSAGE);
+     return;
+     } else if (txtMeno.getText().isEmpty()) {
+     JOptionPane.showMessageDialog(this, "Zadajte meno (povinný údaj)!", "Meno", JOptionPane.ERROR_MESSAGE);
+     return;
+     } else if (txtPriezvisko.getText().isEmpty()) {
+     JOptionPane.showMessageDialog(this, "Zadajte priezvisko (povinný údaj)!", "Priezvisko", JOptionPane.ERROR_MESSAGE);
+     return;
+     } else if (comboPohlavie.getSelectedItem() == null) {
+     JOptionPane.showMessageDialog(this, "Zadajte pohlavie (povinný údaj)!", "Pohlavie", JOptionPane.ERROR_MESSAGE);
+     return;
+     } else if (comboDen.getSelectedItem() == null || comboMesiac.getSelectedItem() == null || comboRok.getSelectedItem() == null) {
+     JOptionPane.showMessageDialog(this, "Zadajte dátum narodenia (povinný údaj)!", "Dát.narodenia", JOptionPane.ERROR_MESSAGE);
+     return;
+     } else if (txtAdresa.getText().isEmpty()) {
+     JOptionPane.showMessageDialog(this, "Zadajte adresu (povinný údaj)!", "Adresa", JOptionPane.ERROR_MESSAGE);
+     return;
+     } else if (txtEmail.getText().isEmpty()) {
+     JOptionPane.showMessageDialog(this, "Zadajte e-mail (povinný údaj)!", "E-mail", JOptionPane.ERROR_MESSAGE);
+     return;
+     } else if (txtTel.getText().isEmpty()) {
+     JOptionPane.showMessageDialog(this, "Zadajte tel.číslo (povinný údaj)!", "Tel.číslo", JOptionPane.ERROR_MESSAGE);
+     return;
+     }
+
+     // Ak sa heslá pri registrácii nezhodujú.
+     if (!String.valueOf(txtHeslo2.getPassword()).equals(String.valueOf(txtHeslo.getPassword()))) {
+     JOptionPane.showMessageDialog(this, "Zadané heslá sa nezhodujú!", "Upozornenie", JOptionPane.ERROR_MESSAGE);
+     return;
+     }
+
+     pouzivatel = new Pouzivatel();
+     pouzivatel.setMeno(txtMeno.getText());
+     pouzivatel.setPriezvisko(txtPriezvisko.getText());
+     pouzivatel.setAdresa(txtAdresa.getText());
+     pouzivatel.setPohlavie((String) comboPohlavie.getSelectedItem());
+
+     // Namiesto StringBuildera a append použité Date, Calendar, DateFormat
+     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+     Calendar calendar = Calendar.getInstance();
+
+     int rok = Integer.parseInt(comboRok.getSelectedItem().toString());
+     int mesiac = Integer.parseInt(comboMesiac.getSelectedItem().toString());
+     int den = Integer.parseInt(comboDen.getSelectedItem().toString());
+
+     calendar.set(Calendar.YEAR, rok);
+     calendar.set(Calendar.MONTH, mesiac - 1); // Mesiace sú číslované od 0..11
+     calendar.set(Calendar.DAY_OF_MONTH, den);
+
+     Date date = calendar.getTime();
+     String datum = dateFormat.format(date);
+
+     pouzivatel.setDatum(datum);
+     pouzivatel.setEmail(txtEmail.getText());
+     pouzivatel.setTel(txtTel.getText());
+
+     login = new Login();
+     login.setLogin(txtLogin.getText());
+     login.setHeslo(String.valueOf(txtHeslo2.getPassword()));
+
+     // Ošetrenie, ak je login už obsadený.
+     if (prihlasenieDao.verifyOnlyLogin(login)) {
+     JOptionPane.showMessageDialog(this, "Login '" + login.getLogin().toString() + "' je už obsadený!", "Upozornenie", JOptionPane.ERROR_MESSAGE);
+     return;
+     }
+
+     prihlasenieDao.savePouzivatela(pouzivatel);
+     login.setId(pouzivatel.getId());
+     prihlasenieDao.saveLogin(login);
+     JOptionPane.showMessageDialog(this, "Registrácia prebehla úspešne. Teraz sa môžete prihlásiť.", "Úspešná registrácia", JOptionPane.INFORMATION_MESSAGE);
+     dispose();
+     }*/
+    
+    // Akcia pre registráciu - Nová verzia s UPDATE
     private void btnRegistrovatActionPerformed(ActionEvent e) {
-        if (txtLogin.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Zadajte login (povinný údaj)!", "Login", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (txtHeslo.getPassword().length == 0) {
-            JOptionPane.showMessageDialog(this, "Zadajte heslo (povinný údaj)!", "Heslo", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (txtHeslo2.getPassword().length == 0) {
-            JOptionPane.showMessageDialog(this, "Zapakujte heslo (povinný údaj)!", "Heslo", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (txtMeno.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Zadajte meno (povinný údaj)!", "Meno", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (txtPriezvisko.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Zadajte priezvisko (povinný údaj)!", "Priezvisko", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (comboPohlavie.getSelectedItem() == null) {
-            JOptionPane.showMessageDialog(this, "Zadajte pohlavie (povinný údaj)!", "Pohlavie", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (comboDen.getSelectedItem() == null || comboMesiac.getSelectedItem() == null || comboRok.getSelectedItem() == null) {
-            JOptionPane.showMessageDialog(this, "Zadajte dátum narodenia (povinný údaj)!", "Dát.narodenia", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (txtAdresa.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Zadajte adresu (povinný údaj)!", "Adresa", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (txtEmail.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Zadajte e-mail (povinný údaj)!", "E-mail", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (txtTel.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Zadajte tel.číslo (povinný údaj)!", "Tel.číslo", JOptionPane.ERROR_MESSAGE);
-            return;
+        if (login == null) {
+            if (txtLogin.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Zadajte login (povinný údaj)!", "Login", JOptionPane.ERROR_MESSAGE);
+                return;
+            } else if (txtHeslo.getPassword().length == 0) {
+                JOptionPane.showMessageDialog(this, "Zadajte heslo (povinný údaj)!", "Heslo", JOptionPane.ERROR_MESSAGE);
+                return;
+            } else if (txtHeslo2.getPassword().length == 0) {
+                JOptionPane.showMessageDialog(this, "Zapakujte heslo (povinný údaj)!", "Heslo", JOptionPane.ERROR_MESSAGE);
+                return;
+            } else if (txtMeno.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Zadajte meno (povinný údaj)!", "Meno", JOptionPane.ERROR_MESSAGE);
+                return;
+            } else if (txtPriezvisko.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Zadajte priezvisko (povinný údaj)!", "Priezvisko", JOptionPane.ERROR_MESSAGE);
+                return;
+            } else if (comboPohlavie.getSelectedItem() == null) {
+                JOptionPane.showMessageDialog(this, "Zadajte pohlavie (povinný údaj)!", "Pohlavie", JOptionPane.ERROR_MESSAGE);
+                return;
+            } else if (comboDen.getSelectedItem() == null || comboMesiac.getSelectedItem() == null || comboRok.getSelectedItem() == null) {
+                JOptionPane.showMessageDialog(this, "Zadajte dátum narodenia (povinný údaj)!", "Dát.narodenia", JOptionPane.ERROR_MESSAGE);
+                return;
+            } else if (txtAdresa.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Zadajte adresu (povinný údaj)!", "Adresa", JOptionPane.ERROR_MESSAGE);
+                return;
+            } else if (txtEmail.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Zadajte e-mail (povinný údaj)!", "E-mail", JOptionPane.ERROR_MESSAGE);
+                return;
+            } else if (txtTel.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Zadajte tel.číslo (povinný údaj)!", "Tel.číslo", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Ak sa heslá pri registrácii nezhodujú.
+            if (!String.valueOf(txtHeslo2.getPassword()).equals(String.valueOf(txtHeslo.getPassword()))) {
+                JOptionPane.showMessageDialog(this, "Zadané heslá sa nezhodujú!", "Upozornenie", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            pouzivatel = new Pouzivatel();
+            pouzivatel.setMeno(txtMeno.getText());
+            pouzivatel.setPriezvisko(txtPriezvisko.getText());
+            pouzivatel.setAdresa(txtAdresa.getText());
+            pouzivatel.setPohlavie((String) comboPohlavie.getSelectedItem());
+
+            // Namiesto StringBuildera a append použité Date, Calendar, DateFormat
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Calendar calendar = Calendar.getInstance();
+
+            int rok = Integer.parseInt(comboRok.getSelectedItem().toString());
+            int mesiac = Integer.parseInt(comboMesiac.getSelectedItem().toString());
+            int den = Integer.parseInt(comboDen.getSelectedItem().toString());
+
+            calendar.set(Calendar.YEAR, rok);
+            calendar.set(Calendar.MONTH, mesiac - 1); // Mesiace sú číslované od 0..11
+            calendar.set(Calendar.DAY_OF_MONTH, den);
+
+            Date date = calendar.getTime();
+            String datum = dateFormat.format(date);
+
+            pouzivatel.setDatum(datum);
+            pouzivatel.setEmail(txtEmail.getText());
+            pouzivatel.setTel(txtTel.getText());
+
+            login = new Login();
+            login.setLogin(txtLogin.getText());
+            login.setHeslo(String.valueOf(txtHeslo2.getPassword()));
+
+            // Ošetrenie, ak je login už obsadený.
+            if (prihlasenieDao.verifyOnlyLogin(login)) {
+                JOptionPane.showMessageDialog(this, "Login '" + login.getLogin().toString() + "' je už obsadený!", "Upozornenie", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            prihlasenieDao.savePouzivatela(pouzivatel);
+            login.setId(pouzivatel.getId());
+            prihlasenieDao.saveLogin(login);
+            JOptionPane.showMessageDialog(this, "Registrácia prebehla úspešne. Teraz sa môžete prihlásiť.", "Úspešná registrácia", JOptionPane.INFORMATION_MESSAGE);
+            dispose();
+        } else {
+            pouzivatel = prihlasenieDao.getPouzivatelInfo(login);
+
+            if (txtLogin.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Zadajte login (povinný údaj)!", "Login", JOptionPane.ERROR_MESSAGE);
+                return;
+            } else if (txtHeslo.getPassword().length == 0) {
+                JOptionPane.showMessageDialog(this, "Zadajte heslo (povinný údaj)!", "Heslo", JOptionPane.ERROR_MESSAGE);
+                return;
+            } else if (txtHeslo2.getPassword().length == 0) {
+                JOptionPane.showMessageDialog(this, "Zapakujte heslo (povinný údaj)!", "Heslo", JOptionPane.ERROR_MESSAGE);
+                return;
+            } else if (txtMeno.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Zadajte meno (povinný údaj)!", "Meno", JOptionPane.ERROR_MESSAGE);
+                return;
+            } else if (txtPriezvisko.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Zadajte priezvisko (povinný údaj)!", "Priezvisko", JOptionPane.ERROR_MESSAGE);
+                return;
+            } else if (comboPohlavie.getSelectedItem() == null) {
+                JOptionPane.showMessageDialog(this, "Zadajte pohlavie (povinný údaj)!", "Pohlavie", JOptionPane.ERROR_MESSAGE);
+                return;
+            } else if (comboDen.getSelectedItem() == null || comboMesiac.getSelectedItem() == null || comboRok.getSelectedItem() == null) {
+                JOptionPane.showMessageDialog(this, "Zadajte dátum narodenia (povinný údaj)!", "Dát.narodenia", JOptionPane.ERROR_MESSAGE);
+                return;
+            } else if (txtAdresa.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Zadajte adresu (povinný údaj)!", "Adresa", JOptionPane.ERROR_MESSAGE);
+                return;
+            } else if (txtEmail.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Zadajte e-mail (povinný údaj)!", "E-mail", JOptionPane.ERROR_MESSAGE);
+                return;
+            } else if (txtTel.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Zadajte tel.číslo (povinný údaj)!", "Tel.číslo", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Ak sa heslá pri registrácii nezhodujú.
+            if (!String.valueOf(txtHeslo2.getPassword()).equals(String.valueOf(txtHeslo.getPassword()))) {
+                JOptionPane.showMessageDialog(this, "Zadané heslá sa nezhodujú!", "Upozornenie", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Update
+            pouzivatel.setMeno(txtMeno.getText());
+            pouzivatel.setPriezvisko(txtPriezvisko.getText());
+            pouzivatel.setAdresa(txtAdresa.getText());
+            pouzivatel.setPohlavie((String) comboPohlavie.getSelectedItem());
+
+            // Namiesto StringBuildera a append použité Date, Calendar, DateFormat
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Calendar calendar = Calendar.getInstance();
+
+            int rok = Integer.parseInt(comboRok.getSelectedItem().toString());
+            int mesiac = Integer.parseInt(comboMesiac.getSelectedItem().toString());
+            int den = Integer.parseInt(comboDen.getSelectedItem().toString());
+
+            calendar.set(Calendar.YEAR, rok);
+            calendar.set(Calendar.MONTH, mesiac - 1); // Mesiace sú číslované od 0..11
+            calendar.set(Calendar.DAY_OF_MONTH, den);
+
+            Date date = calendar.getTime();
+            String datum = dateFormat.format(date);
+
+            pouzivatel.setDatum(datum);
+            pouzivatel.setEmail(txtEmail.getText());
+            pouzivatel.setTel(txtTel.getText());
+
+            // Odkomentovat, ak chceme upravit aj heslo.
+            // Doplnit aj update.
+            /*login.setLogin(txtLogin.getText());
+             login.setHeslo(String.valueOf(txtHeslo2.getPassword()));
+
+             // Ošetrenie, ak je login už obsadený.
+             if (prihlasenieDao.verifyOnlyLogin(login)) {
+             JOptionPane.showMessageDialog(this, "Login '" + login.getLogin().toString() + "' je už obsadený!", "Upozornenie", JOptionPane.ERROR_MESSAGE);
+             return;
+             }*/
+            prihlasenieDao.savePouzivatela(pouzivatel);
+            login.setId(pouzivatel.getId());
+
+            JOptionPane.showMessageDialog(this, "Profil bol úspešne aktualizovaný.", "Aktualizácia profilu", JOptionPane.INFORMATION_MESSAGE);
+            dispose();
         }
-
-        // Ak sa heslá pri registrácii nezhodujú.
-        if (!String.valueOf(txtHeslo2.getPassword()).equals(String.valueOf(txtHeslo.getPassword()))) {
-            JOptionPane.showMessageDialog(this, "Zadané heslá sa nezhodujú!", "Upozornenie", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        pouzivatel = new Pouzivatel();
-        pouzivatel.setMeno(txtMeno.getText());
-        pouzivatel.setPriezvisko(txtPriezvisko.getText());
-        pouzivatel.setAdresa(txtAdresa.getText());
-        pouzivatel.setPohlavie((String) comboPohlavie.getSelectedItem());
-
-        // Namiesto StringBuildera a append použité Date, Calendar, DateFormat
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar calendar = Calendar.getInstance();
-
-        int rok = Integer.parseInt(comboRok.getSelectedItem().toString());
-        int mesiac = Integer.parseInt(comboMesiac.getSelectedItem().toString());
-        int den = Integer.parseInt(comboDen.getSelectedItem().toString());
-
-        calendar.set(Calendar.YEAR, rok);
-        calendar.set(Calendar.MONTH, mesiac - 1); // Mesiace sú číslované od 0..11
-        calendar.set(Calendar.DAY_OF_MONTH, den);
-
-        Date date = calendar.getTime();
-        String datum = dateFormat.format(date);
-
-        pouzivatel.setDatum(datum);
-        pouzivatel.setEmail(txtEmail.getText());
-        pouzivatel.setTel(txtTel.getText());
-
-        login = new Login();
-        login.setLogin(txtLogin.getText());
-        login.setHeslo(String.valueOf(txtHeslo2.getPassword()));
-
-        // Ošetrenie, ak je login už obsadený.
-        if (prihlasenieDao.verifyOnlyLogin(login)) {
-            JOptionPane.showMessageDialog(this, "Login '" + login.getLogin().toString() + "' je už obsadený!", "Upozornenie", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        prihlasenieDao.savePouzivatela(pouzivatel);
-        login.setId(pouzivatel.getId());
-        prihlasenieDao.saveLogin(login);
-        JOptionPane.showMessageDialog(this, "Registrácia prebehla úspešne. Teraz sa môžete prihlásiť.", "Úspešná registrácia", JOptionPane.INFORMATION_MESSAGE);
-        dispose();
     }
 
     // Generuje dni pre dátum narodenia.
