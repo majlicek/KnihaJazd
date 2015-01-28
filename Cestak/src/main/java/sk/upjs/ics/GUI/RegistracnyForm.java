@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -96,17 +97,13 @@ public class RegistracnyForm extends JDialog { // namiesto JFrame / matej
         txtPriezvisko.setText(pouzivatel2.getPriezvisko());
         comboPohlavie.setSelectedItem(pouzivatel2.getPohlavie());
 
-        String datumNarodenia = pouzivatel2.getDatum(); // vracia null
-        System.out.println("D.N.: " + datumNarodenia);
+        String datumNarodenia = pouzivatel2.getDatum();
+        String[] datumRozdeleny = datumNarodenia.split("-");        
 
-        String[] datumRozdeleny = datumNarodenia.split("-", -1);
-        String datumRok = datumRozdeleny[0];
-        //System.out.println("Rok: " + datumRok);
-        String datumMesiac = datumRozdeleny[1];
-        //System.out.println("Mesiac: " + datumMesiac);
-        String datumDen = datumRozdeleny[2];
-        //System.out.println("Den: " + datumDen);
-        
+        int datumRok = Integer.parseInt(datumRozdeleny[0]);
+        int datumMesiac = Integer.parseInt(datumRozdeleny[1]);
+        int datumDen = Integer.parseInt(datumRozdeleny[2]);       
+
         comboRok.setSelectedItem(datumRok);
         comboMesiac.setSelectedItem(datumMesiac);
         comboDen.setSelectedItem(datumDen);
