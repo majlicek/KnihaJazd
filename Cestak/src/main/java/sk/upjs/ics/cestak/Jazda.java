@@ -31,6 +31,8 @@ public class Jazda {
     private String datum;
     
     private String poznamka;
+    
+    private Auto auto;
 
     public int getIdJazda() {
         return idJazda;
@@ -158,5 +160,19 @@ public class Jazda {
      */
     public void setPoznamka(String poznamka) {
         this.poznamka = poznamka;
+    }
+
+    /**
+     * @return the auto
+     */
+    public Auto getAuto() {
+        return auto;
+    }
+
+    /**
+     * @param auto the auto to set
+     */
+    public void setAuto(Auto auto) {
+        this.auto = auto;
     }
 }

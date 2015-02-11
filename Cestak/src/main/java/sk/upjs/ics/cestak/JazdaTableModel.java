@@ -3,7 +3,6 @@ package sk.upjs.ics.cestak;
 import java.util.List;
 import java.util.LinkedList;
 import javax.swing.table.AbstractTableModel;
-import sun.awt.SunToolkit;
 
 /**
  *
@@ -77,8 +76,8 @@ public class JazdaTableModel extends AbstractTableModel {
 
     // Obnoví zoznam aút v JTable.
     public void obnov(Auto auto, Login login) {
-        this.jazda = jazda;
+//        this.jazda = jazda;
         jazda = jazdaDao.zoznamPodlaAut(auto, login);
     }
-
+    
 }

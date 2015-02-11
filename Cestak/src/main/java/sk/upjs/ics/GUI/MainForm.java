@@ -68,6 +68,7 @@ public class MainForm extends JFrame {
     private JButton btnVymazatAuto = new JButton("Vymazať auto");
     private JButton btnUpravitUzivatela = new JButton("Upraviť profil");
     private JButton btnOdhlasit = new JButton("Odhlásiť");
+    private JButton btnGrafy = new JButton("Grafy");
 
     // Comboboxy
     private JComboBox comboAuta = new JComboBox();
@@ -149,9 +150,18 @@ public class MainForm extends JFrame {
 
         btnVymazatCestu.setEnabled(false);
         btnUpravitUzivatela.setEnabled(true);
-        add(btnOdhlasit, "tag cancel, span 1");
+        add(btnGrafy);
+        add(btnOdhlasit, "tag cancel, span 2");
         // ////////////////////////////////////////////////////////////////////
 
+        btnGrafy.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnGrafyFormular(e);
+            }
+        });
+        
         // Tlačídlo NOVÁ CESTA. [DONE]
         btnNovaCesta.addActionListener(new ActionListener() {
             @Override
@@ -241,6 +251,12 @@ public class MainForm extends JFrame {
         pack();
     }
 
+    // Akcia na tlacidla pre grafy
+     private void btnGrafyFormular(ActionEvent e) {
+         GrafyForm grafy = new GrafyForm(this, login);
+         grafy.setVisible(true);
+    }
+    
     // Akcia tlačidla pre pridanie nového auta.  [DONE]
     private void btnPridatAutoActionPerformed(ActionEvent e) {
 

@@ -20,13 +20,31 @@ public class DtbJazdaDAO implements JazdaDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private BeanPropertyRowMapper<Jazda> mapovac
+    private BeanPropertyRowMapper<Jazda> mapovac1
             = new BeanPropertyRowMapper<>(Jazda.class);
+    private JazdaRowMapper jazdaRowMapper = new JazdaRowMapper();
 
     @Override
     public List<Jazda> zoznamPodlaAut(Auto auto, Login login) {
-        String sql = "SELECT * FROM Jazda WHERE idPouzivatel = ? AND SPZ = ?";
-        List<Jazda> s = jdbcTemplate.query(sql, mapovac, login.getId(), auto.getSpz());
+        String sql = "SELECT * FROM Jazda WHERE idPouzivatel = ? AND SPZ = ? ORDER BY datum";
+        List<Jazda> s = jdbcTemplate.query(sql, mapovac1, login.getId(), auto.getSpz());
+
+        return s;
+    }
+
+    @Override
+    public List<Jazda> zoznamJazdPouzivatela(Login login) {
+        String sql = "SELECT "
+                + "    Jazda.idPouzivatel AS IdPouzivatela,\n"
+                + "    Jazda.prejdeneKilometre AS PrejdeneKilometre,\n"
+                + "    Jazda.datum AS Datum,\n"
+                + "    Auto.spotreba_avg AS Spotreba,\n"
+                + "    Auto.spotreba_mesto AS VMeste,\n"
+                + "    Auto.spotreba_mimo AS MimoMesta\n"
+                + " FROM Jazda "
+                + "JOIN Auto ON Jazda.idPouzivatel = Auto.idPouzivatel "
+                + "WHERE Jazda.idPouzivatel = ? ORDER BY Jazda.datum";
+        List<Jazda> s = jdbcTemplate.query(sql, jazdaRowMapper, login.getId());
 
         return s;
     }
