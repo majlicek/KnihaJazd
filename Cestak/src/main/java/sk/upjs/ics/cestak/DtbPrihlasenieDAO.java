@@ -35,25 +35,70 @@ public class DtbPrihlasenieDAO implements PrihlasenieDAO {
     private BeanPropertyRowMapper<Pouzivatel> mapovac2
             = new BeanPropertyRowMapper<>(Pouzivatel.class);
 
+    /*@Override
+     public Pouzivatel savePouzivatela(Pouzivatel pouzivatel) {
+     Map<String, Object> into = new HashMap<String, Object>();
+     into.put("meno", pouzivatel.getMeno());
+     into.put("priezvisko", pouzivatel.getPriezvisko());
+     into.put("pohlavie", pouzivatel.getPohlavie());
+     into.put("datum", pouzivatel.getDatum());
+     into.put("adresa", pouzivatel.getAdresa());
+     into.put("email", pouzivatel.getEmail());
+     into.put("tel", pouzivatel.getTel());
+
+     SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
+
+     insert.setGeneratedKeyName("idPouzivatel");
+
+     insert.setTableName("Pouzivatel");
+     Number id = insert.executeAndReturnKey(into);
+     pouzivatel.setId(id.intValue());
+     return pouzivatel;
+     }*/
     @Override
     public Pouzivatel savePouzivatela(Pouzivatel pouzivatel) {
-        Map<String, Object> into = new HashMap<String, Object>();
-        into.put("meno", pouzivatel.getMeno());
-        into.put("priezvisko", pouzivatel.getPriezvisko());
-        into.put("pohlavie", pouzivatel.getPohlavie());
-        into.put("datum", pouzivatel.getDatum());
-        into.put("adresa", pouzivatel.getAdresa());
-        into.put("email", pouzivatel.getEmail());
-        into.put("tel", pouzivatel.getTel());
+        if (pouzivatel.getId() == 0) {
+            Map<String, Object> into = new HashMap<String, Object>();
+            into.put("meno", pouzivatel.getMeno());
+            into.put("priezvisko", pouzivatel.getPriezvisko());
+            into.put("pohlavie", pouzivatel.getPohlavie());
+            into.put("datum", pouzivatel.getDatum());
+            into.put("adresa", pouzivatel.getAdresa());
+            into.put("email", pouzivatel.getEmail());
+            into.put("tel", pouzivatel.getTel());
 
-        SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
+            SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
 
-        insert.setGeneratedKeyName("idPouzivatel");
+            insert.setGeneratedKeyName("idPouzivatel");
 
-        insert.setTableName("Pouzivatel");
-        Number id = insert.executeAndReturnKey(into);
-        pouzivatel.setId(id.intValue());
-        return pouzivatel;
+            insert.setTableName("Pouzivatel");
+            Number id = insert.executeAndReturnKey(into);
+            pouzivatel.setId(id.intValue());
+            return pouzivatel;
+        } else {
+            // update
+            String sql = "UPDATE Pouzivatel\n"
+                    + "SET meno = ?,\n"
+                    + "priezvisko = ?,\n"
+                    + "pohlavie = ?,\n"
+                    + "datum = ?,\n"
+                    + "adresa = ?,\n"
+                    + "email = ?,\n"
+                    + "tel = ?\n"
+                    + "WHERE idPouzivatel = ?";
+
+            jdbcTemplate.update(sql,
+                    pouzivatel.getMeno(),
+                    pouzivatel.getPriezvisko(),
+                    pouzivatel.getPohlavie(),
+                    pouzivatel.getDatum(),
+                    pouzivatel.getAdresa(),
+                    pouzivatel.getEmail(),
+                    pouzivatel.getTel(),
+                    pouzivatel.getId()
+            );
+            return pouzivatel;
+        }
     }
 
     @Override
@@ -95,7 +140,7 @@ public class DtbPrihlasenieDAO implements PrihlasenieDAO {
         novy.setMeno(zoznam.get(0).getMeno());
         novy.setPriezvisko(zoznam.get(0).getPriezvisko());
         novy.setPohlavie(zoznam.get(0).getPohlavie());
-        novy.setDatum(zoznam.get(0).getDatum());      
+        novy.setDatum(zoznam.get(0).getDatum());
         novy.setAdresa(zoznam.get(0).getAdresa());
         novy.setEmail(zoznam.get(0).getEmail());
         novy.setTel(zoznam.get(0).getTel());

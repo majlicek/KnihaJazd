@@ -105,6 +105,8 @@ public class PrihlasovaciForm extends JFrame {
         });
         /* ******************** AKCIE ************************ */
 
+        ImageIcon img = new ImageIcon("75x54.png");
+        setIconImage(img.getImage());
         //setPreferredSize(new Dimension(350, 150));
         setPreferredSize(new Dimension(400, 320));
         setResizable(false);

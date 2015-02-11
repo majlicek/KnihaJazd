@@ -26,9 +26,6 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -49,7 +46,6 @@ import sk.upjs.ics.cestak.Jazda;
 import sk.upjs.ics.cestak.JazdaDAO;
 import sk.upjs.ics.cestak.JazdaTableModel;
 import sk.upjs.ics.cestak.Login;
-import sk.upjs.ics.cestak.Pouzivatel;
 
 /**
  * MainForm
@@ -245,6 +241,9 @@ public class MainForm extends JFrame {
         });
 
         // ////////////////////////////////////////////////////////////////////
+        ImageIcon img = new ImageIcon("75x54.png");
+        setIconImage(img.getImage());
+        
         setPreferredSize(new Dimension(700, 500));
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -362,6 +361,7 @@ public class MainForm extends JFrame {
         tabJazdy.setModel(jazdaTableModel);
         tabJazdy.setPreferredScrollableViewportSize(new Dimension(700, 320));
         tabJazdy.setFillsViewportHeight(true);
+        tabJazdy.setAutoCreateRowSorter(true);
         add(tabJazdy, "wrap, span 6");
 
         JScrollPane scrollPane = new JScrollPane(tabJazdy);
