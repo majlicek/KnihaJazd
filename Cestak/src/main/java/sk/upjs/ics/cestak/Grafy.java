@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sk.upjs.ics.cestak;
 
 import java.util.List;
@@ -19,7 +14,7 @@ import org.jfree.data.xy.XYDataset;
  * @author Majlo
  */
 public class Grafy {
-
+    
     private List<Jazda> jazdy;
     private int druhSpotreby;
     private JazdaDAO jazdaDao = DaoFactory.INSTANCE.jazdaDao();
@@ -30,20 +25,22 @@ public class Grafy {
         XYDataset ds = createDataset();
         JFreeChart chart
                 = ChartFactory.createXYLineChart("Graf spotreby",
-                        "Pocet jazd", "Spotreba", ds, PlotOrientation.VERTICAL, true, true,
+                        "Počet jázd", "Spotreba", ds, PlotOrientation.VERTICAL, true, true,
                         false);
         ChartPanel cp = new ChartPanel(chart);
         
         JFrame frame = new JFrame("Spotreba");
         frame.setSize(600, 400);
+        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
         frame.getContentPane().add(cp);
+        
     }
 
     public XYDataset createDataset() {
         DefaultXYDataset ds = new DefaultXYDataset();
-        String[] vypis = {"Priemerna Spotreba", "Mimo mesta", "V meste"};
+        String[] vypis = {"Priemerná spotreba", "Mimo mesta", "V meste"};
         double[][] data = new double[2][jazdy.size()];
         for (int i = 0; i < jazdy.size(); i++) {
             data[0][i] = i + 1;

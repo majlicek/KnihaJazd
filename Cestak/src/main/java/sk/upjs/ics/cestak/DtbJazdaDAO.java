@@ -43,6 +43,7 @@ public class DtbJazdaDAO implements JazdaDAO {
                 + "    Auto.spotreba_mimo AS MimoMesta\n"
                 + " FROM Jazda "
                 + "JOIN Auto ON Jazda.idPouzivatel = Auto.idPouzivatel "
+                + "AND Jazda.SPZ = Auto.SPZ "
                 + "WHERE Jazda.idPouzivatel = ? ORDER BY Jazda.datum";
         List<Jazda> s = jdbcTemplate.query(sql, jazdaRowMapper, login.getId());
 

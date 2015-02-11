@@ -14,7 +14,6 @@ import sk.upjs.ics.cestak.Login;
  */
 public class GrafyForm extends javax.swing.JFrame {
 
-    
     private Login login;
     private MainForm parent;
     /**
@@ -53,6 +52,7 @@ public class GrafyForm extends javax.swing.JFrame {
         rbtnVMeste = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Grafy spotreby");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -61,7 +61,7 @@ public class GrafyForm extends javax.swing.JFrame {
 
         jLabel1.setText("Graf spotreby");
 
-        btnZobraz.setText("Zobraz");
+        btnZobraz.setText("Zobraziť");
         btnZobraz.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnZobrazActionPerformed(evt);
@@ -75,7 +75,7 @@ public class GrafyForm extends javax.swing.JFrame {
             }
         });
 
-        rbtnPriemerna.setText("Priemerna");
+        rbtnPriemerna.setText("Priemerná");
 
         rbtnMimoMesta.setText("Mimo mesta");
 
@@ -90,16 +90,18 @@ public class GrafyForm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnZobraz)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnExit)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(rbtnPriemerna)
-                        .addGap(18, 18, 18)
-                        .addComponent(rbtnMimoMesta)
-                        .addGap(18, 18, 18)
-                        .addComponent(rbtnVMeste))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(btnZobraz)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnExit))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(rbtnPriemerna)
+                                .addGap(12, 12, 12)
+                                .addComponent(rbtnMimoMesta)
+                                .addGap(18, 18, 18)
+                                .addComponent(rbtnVMeste)))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -123,6 +125,7 @@ public class GrafyForm extends javax.swing.JFrame {
         rbtngSpotreba.add(rbtnVMeste);
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnZobrazActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZobrazActionPerformed
@@ -170,11 +173,12 @@ public class GrafyForm extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(GrafyForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new GrafyForm().setVisible(true);
+               
             }
         });
     }
