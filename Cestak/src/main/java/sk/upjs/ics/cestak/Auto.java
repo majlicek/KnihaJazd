@@ -14,13 +14,13 @@ public class Auto {
             
     private String rok_vyr;
             
-    private String stav_tach;
+    private long stav_tach;
             
-    private String spotreba_avg;
+    private double spotreba_avg;
 
-    private String spotreba_mesto;
+    private double spotreba_mesto;
             
-    private String spotreba_mimo;    
+    private double spotreba_mimo;    
             
     private String palivo;        
             
@@ -29,6 +29,10 @@ public class Auto {
     private String klima;
     
     private String farba;
+    
+    private double vykon;
+    
+    private long idPouzivatela;
 
     /**
      * @return the znacka
@@ -89,56 +93,56 @@ public class Auto {
     /**
      * @return the stav_tach
      */
-    public String getStav_tach() {
+    public long getStav_tach() {
         return stav_tach;
     }
 
     /**
      * @param stav_tach the stav_tach to set
      */
-    public void setStav_tach(String stav_tach) {
+    public void setStav_tach(long stav_tach) {
         this.stav_tach = stav_tach;
     }
 
     /**
      * @return the spotreba_avg
      */
-    public String getSpotreba_avg() {
+    public double getSpotreba_avg() {
         return spotreba_avg;
     }
 
     /**
      * @param spotreba_avg the spotreba_avg to set
      */
-    public void setSpotreba_avg(String spotreba_avg) {
+    public void setSpotreba_avg(double spotreba_avg) {
         this.spotreba_avg = spotreba_avg;
     }
 
     /**
      * @return the spotreba_mesto
      */
-    public String getSpotreba_mesto() {
+    public double getSpotreba_mesto() {
         return spotreba_mesto;
     }
 
     /**
      * @param spotreba_mesto the spotreba_mesto to set
      */
-    public void setSpotreba_mesto(String spotreba_mesto) {
+    public void setSpotreba_mesto(double spotreba_mesto) {
         this.spotreba_mesto = spotreba_mesto;
     }
 
     /**
      * @return the spotreba_mimo
      */
-    public String getSpotreba_mimo() {
+    public double getSpotreba_mimo() {
         return spotreba_mimo;
     }
 
     /**
      * @param spotreba_mimo the spotreba_mimo to set
      */
-    public void setSpotreba_mimo(String spotreba_mimo) {
+    public void setSpotreba_mimo(double spotreba_mimo) {
         this.spotreba_mimo = spotreba_mimo;
     }
 
@@ -196,5 +200,33 @@ public class Auto {
      */
     public void setFarba(String farba) {
         this.farba = farba;
+    }
+
+    /**
+     * @return the vykon
+     */
+    public double getVykon() {
+        return vykon;
+    }
+
+    /**
+     * @param vykon the vykon to set
+     */
+    public void setVykon(double vykon) {
+        this.vykon = vykon;
+    }
+
+    /**
+     * @return the idPouzivatela
+     */
+    public long getIdPouzivatela() {
+        return idPouzivatela;
+    }
+
+    /**
+     * @param idPouzivatela the idPouzivatela to set
+     */
+    public void setIdPouzivatela(long idPouzivatela) {
+        this.idPouzivatela = idPouzivatela;
     }
 }

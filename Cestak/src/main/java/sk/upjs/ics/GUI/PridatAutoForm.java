@@ -1,8 +1,9 @@
-package GUI;
+package sk.upjs.ics.GUI;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JLabel;
@@ -19,13 +21,17 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import net.miginfocom.swing.MigLayout;
+import sk.upjs.ics.cestak.Auto;
+import sk.upjs.ics.cestak.AutoDAO;
+import sk.upjs.ics.cestak.DaoFactory;
+import sk.upjs.ics.cestak.Login;
 
 /**
  * PridatAuto okno. Beta verzia
  *
  * @author Matej Perejda
  */
-public class PridatAutoForm extends JFrame {
+public class PridatAutoForm extends JDialog {
 
     private static final Component CENTER_SCREEN = null;
 
@@ -69,7 +75,27 @@ public class PridatAutoForm extends JFrame {
     private JComboBox comboFarba = new JComboBox();
     private JComboBox comboKlimatizacia = new JComboBox();
 
-    public PridatAutoForm() throws HeadlessException, FileNotFoundException {
+    private Login login;    
+    private AutoDAO autoDao = DaoFactory.INSTANCE.autoDao();
+
+//    public PridatAutoForm(Login login) throws HeadlessException, FileNotFoundException {
+//        this();
+//        this.login = login;
+//    }
+    
+    public PridatAutoForm(Login login, Frame parent) throws HeadlessException, FileNotFoundException{
+        this(parent, true);
+        this.login = login;
+        
+    }
+    
+    private PridatAutoForm(Frame parent) throws HeadlessException, FileNotFoundException{
+        this(new Login(), parent);
+    }
+
+
+    private PridatAutoForm(Frame parent, boolean modal) throws HeadlessException, FileNotFoundException {
+        super(parent, modal);
         setLayout(new MigLayout("", "[fill, grow][fill, grow][fill, grow][fill, grow]", "[][][][][][][][][][][][][][nogrid]"));
 
         nastavZnackuGUI();
@@ -103,7 +129,7 @@ public class PridatAutoForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Zaregistrovať
-                // btnUlozitActionPerformed(e);
+                btnUlozitActionPerformed(e);
                 System.out.println("Ukladam...");
             }
         });
@@ -121,7 +147,7 @@ public class PridatAutoForm extends JFrame {
 
         setPreferredSize(new Dimension(500, 380));
         setResizable(false); // ZMENIŤ NA FALSE !!!
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         pack();
     }
 
@@ -206,15 +232,32 @@ public class PridatAutoForm extends JFrame {
     }
 
     // Akcia pre uloženie auta.
-    private void btnUlozitActionPerformed(ActionEvent e) {
-        // kód
+    private void btnUlozitActionPerformed(ActionEvent e) {      
+        Auto auto = new Auto();
+        auto.setZnacka((String) comboZnacka.getSelectedItem());
+        auto.setModel(txtModel.getText());
+        auto.setSpz(txtECV.getText());
+        auto.setRok_vyr(txtRokVyroby.getText());
+        auto.setStav_tach(Integer.parseInt(txtStavTachometra.getText()));
+        auto.setVykon(Double.parseDouble(txtVykon.getText()));
+        auto.setSpotreba_mesto(Integer.parseInt(txtSpotrebaMesto.getText()));
+        auto.setSpotreba_mimo(Double.parseDouble(txtSpotrebaMimo.getText()));
+        auto.setSpotreba_avg(Double.parseDouble(txtSpotrebaKomb.getText()));
+        auto.setPalivo((String) comboPalivo.getSelectedItem());
+        auto.setPrevodovka((String) comboPrevodovka.getSelectedItem());
+        auto.setKlima((String) comboKlimatizacia.getSelectedItem());
+        auto.setFarba((String) comboFarba.getSelectedItem());
+        //auto.setFarba(txtFarbaIna.getText());
+        
+        autoDao.saveAuto(login, auto);
+        dispose();
     }
 
     // Main - PridatAutoForm
     public static void main(String args[]) throws UnsupportedLookAndFeelException, HeadlessException, FileNotFoundException {
         UIManager.setLookAndFeel(new WindowsLookAndFeel());
 
-        PridatAutoForm pridatAutoForm = new PridatAutoForm();
+        PridatAutoForm pridatAutoForm = new PridatAutoForm(new javax.swing.JFrame(), true);
         pridatAutoForm.setVisible(true);
         pridatAutoForm.setTitle("Kniha jázd - pridanie vozidla");
         pridatAutoForm.setLocationRelativeTo(CENTER_SCREEN);
